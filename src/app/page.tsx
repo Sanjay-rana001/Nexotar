@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
@@ -175,10 +175,18 @@ export default function Page() {
   const [mounted, setMounted] = useState(false);
   
   const processRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: processScroll } = useScroll({
+  const { scrollYProgress } = useScroll({
     target: processRef,
-    offset: ["start 90%", "end 40%"]
+    offset: ["start 80%", "end 20%"]
   });
+  
+  // Apply a buttery smooth physics spring so the water fills lazily and never jerks
+  const processScroll = useSpring(scrollYProgress, {
+    stiffness: 40,
+    damping: 20,
+    restDelta: 0.001
+  });
+  
   const processLineWidth = useTransform(processScroll, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
