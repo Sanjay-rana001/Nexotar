@@ -90,6 +90,64 @@ function ThemeToggle() {
   );
 }
 
+function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll: any }) {
+  const gradients = [
+    "from-blue-500 to-cyan-400",
+    "from-cyan-400 to-indigo-500",
+    "from-indigo-500 to-purple-500",
+    "from-purple-500 to-fuchsia-500",
+    "from-fuchsia-500 to-pink-500"
+  ];
+  const glow = [
+    "shadow-[0_0_30px_rgba(59,130,246,0.3)]",
+    "shadow-[0_0_30px_rgba(34,211,238,0.3)]",
+    "shadow-[0_0_30px_rgba(99,102,241,0.3)]",
+    "shadow-[0_0_30px_rgba(168,85,247,0.3)]",
+    "shadow-[0_0_30px_rgba(217,70,239,0.3)]"
+  ];
+  
+  const start = i * 0.18;
+  const end = start + 0.2;
+  const fillHeight = useTransform(processScroll, [start, end], ["0%", "100%"]);
+  const textColor = useTransform(processScroll, [start + 0.1, end], ["var(--color-on-surface)", "#ffffff"]);
+  const shadowOpacity = useTransform(processScroll, [start, end], [0, 1]);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: i * 0.15 }}
+      className="relative group"
+    >
+      <motion.div
+        style={{ opacity: shadowOpacity }}
+        className={`absolute w-14 h-14 rounded-full z-0 ${glow[i] || glow[0]}`}
+      />
+      <div className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl mb-6 relative z-10 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 overflow-hidden shadow-inner">
+        {/* Water Fill Background */}
+        <motion.div 
+          style={{ height: fillHeight }}
+          className={`absolute bottom-0 left-0 w-full bg-gradient-to-t ${gradients[i] || gradients[0]} z-0`}
+        >
+          {/* Subtle wave highlight at the top of the water */}
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-white/40" />
+        </motion.div>
+        
+        {/* Number text */}
+        <motion.span 
+          style={{ color: textColor }}
+          className="relative z-10 drop-shadow-sm font-display tracking-tight"
+        >
+          {s.n}
+        </motion.span>
+      </div>
+      <h4 className="font-headline-md text-headline-md mb-2 relative z-10">{s.title}</h4>
+      <p className="text-[var(--color-on-surface-variant)] text-body-md relative z-10">{s.body}</p>
+    </motion.div>
+  );
+}
+
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
@@ -245,34 +303,9 @@ export default function Page() {
             />
             
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
-              {STEPS.map((s, i) => {
-                const gradients = [
-                  "from-blue-500 to-cyan-400 shadow-[0_0_30px_rgba(59,130,246,0.3)]",
-                  "from-cyan-400 to-indigo-500 shadow-[0_0_30px_rgba(34,211,238,0.3)]",
-                  "from-indigo-500 to-purple-500 shadow-[0_0_30px_rgba(99,102,241,0.3)]",
-                  "from-purple-500 to-fuchsia-500 shadow-[0_0_30px_rgba(168,85,247,0.3)]",
-                  "from-fuchsia-500 to-pink-500 shadow-[0_0_30px_rgba(217,70,239,0.3)]"
-                ];
-                
-                return (
-                <motion.div 
-                  key={s.n} 
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.5, delay: i * 0.15 }}
-                  className="relative"
-                >
-                  <div
-                    className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl mb-6 relative z-10 text-white bg-gradient-to-br ${gradients[i] || gradients[0]}`}
-                  >
-                    {s.n}
-                  </div>
-                  <h4 className="font-headline-md text-headline-md mb-2">{s.title}</h4>
-                  <p className="text-[var(--color-on-surface-variant)] text-body-md">{s.body}</p>
-                </motion.div>
-                );
-              })}
+              {STEPS.map((s, i) => (
+                <StepBubble key={s.n} s={s} i={i} processScroll={processScroll} />
+              ))}
             </div>
           </div>
         </div>
