@@ -132,6 +132,28 @@ function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll:
         >
           {/* Subtle wave highlight at the top of the water */}
           <div className="absolute top-0 left-0 w-full h-[2px] bg-white/40" />
+          
+          {/* Floating water bubbles */}
+          <motion.div 
+            animate={{ y: [0, -50], opacity: [0, 0.8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.2, ease: "easeIn", delay: 0.1 }}
+            className="absolute -bottom-2 left-[20%] w-1.5 h-1.5 bg-white rounded-full"
+          />
+          <motion.div 
+            animate={{ y: [0, -50], opacity: [0, 0.6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: "easeIn", delay: 0.5 }}
+            className="absolute -bottom-2 left-[50%] w-2 h-2 bg-white rounded-full"
+          />
+          <motion.div 
+            animate={{ y: [0, -40], opacity: [0, 0.9, 0] }}
+            transition={{ repeat: Infinity, duration: 1.4, ease: "easeIn", delay: 0.8 }}
+            className="absolute -bottom-2 left-[75%] w-1 h-1 bg-white rounded-full"
+          />
+          <motion.div 
+            animate={{ y: [0, -60], opacity: [0, 0.5, 0] }}
+            transition={{ repeat: Infinity, duration: 2.2, ease: "easeIn", delay: 0.3 }}
+            className="absolute -bottom-2 left-[35%] w-2.5 h-2.5 bg-white rounded-full"
+          />
         </motion.div>
         
         {/* Number text */}
