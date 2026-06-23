@@ -175,22 +175,23 @@ export default function Page() {
   const [mounted, setMounted] = useState(false);
   
   const processRef = useRef<HTMLElement>(null);
+  
+  // The optimal window: Starts as soon as it appears, finishes when the bottom of the section is at the middle of the screen.
+  // This gives the maximum possible smooth scrolling distance while ensuring the timeline is still fully visible.
   const { scrollYProgress } = useScroll({
     target: processRef,
-    offset: ["start 95%", "start 15%"]
+    offset: ["start 85%", "end 50%"]
   });
   
-  // Apply a buttery smooth physics spring so the water fills lazily and never jerks
+  // Perfectly tuned liquid physics: feels weighty but responsive
   const processScroll = useSpring(scrollYProgress, {
-    stiffness: 60,
+    stiffness: 50,
     damping: 20,
     restDelta: 0.001
   });
   
-  // Create an ease-out effect: fast at the beginning (0 -> 1 -> 2), then slow down
-  const easedScroll = useTransform(processScroll, [0, 0.3, 0.6, 1], [0, 0.5, 0.8, 1]);
-  
-  const processLineWidth = useTransform(easedScroll, [0, 1], ["0%", "100%"]);
+  // 1:1 linear mapping so the water strictly obeys the scroll wheel position
+  const processLineWidth = useTransform(processScroll, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     setMounted(true);
@@ -337,7 +338,7 @@ export default function Page() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
               {STEPS.map((s, i) => (
-                <StepBubble key={s.n} s={s} i={i} processScroll={easedScroll} />
+                <StepBubble key={s.n} s={s} i={i} processScroll={processScroll} />
               ))}
             </div>
           </div>
