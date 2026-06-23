@@ -177,7 +177,7 @@ export default function Page() {
   const processRef = useRef<HTMLElement>(null);
   const { scrollYProgress: processScroll } = useScroll({
     target: processRef,
-    offset: ["start center", "end center"]
+    offset: ["start 80%", "start 20%"]
   });
   const processLineWidth = useTransform(processScroll, [0, 1], ["0%", "100%"]);
 
