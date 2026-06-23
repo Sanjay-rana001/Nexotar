@@ -247,7 +247,7 @@ export default function Page() {
             className="flex flex-col justify-center"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full w-fit mb-8">
-              <Icon name="auto_awesome" className="text-[var(--color-primary-container)] !text-[16px]" />
+              <Icon name="developer_mode" className="text-[var(--color-primary-container)] !text-[16px]" />
               <span className="text-label-sm text-[var(--color-on-surface-variant)]">The Future of Digital Excellence</span>
             </div>
             <h1 className="font-display-lg text-display-lg mb-6 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent pb-2">
