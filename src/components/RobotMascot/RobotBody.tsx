@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { useMascotStore } from "@/store/mascotStore";
 import { RobotFace } from "./RobotFace";
 
-export function RobotBody() {
+export function RobotBody({ isDark }: { isDark: boolean }) {
   const { emotion, action, targetPosition } = useMascotStore();
   
   const rootRef = useRef<THREE.Group>(null);
@@ -18,16 +18,20 @@ export function RobotBody() {
   const chestCoreRef = useRef<THREE.Mesh>(null);
 
   const bodyMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: "#ffffff", roughness: 0.15, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.1
-  }), []);
+    color: isDark ? "#ffffff" : "#ffe4e8", // Cute pastel pink body
+    roughness: 0.15, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.1
+  }), [isDark]);
   
   const jointMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#111111", roughness: 0.2, metalness: 0.8 // Glossy dark joints
-  }), []);
+    color: isDark ? "#111111" : "#ffb6c1", // Soft pink joints
+    roughness: 0.2, metalness: 0.8 // Glossy dark joints
+  }), [isDark]);
 
   const coreMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#00e5ff", emissive: "#00e5ff", emissiveIntensity: 2, toneMapped: false
-  }), []);
+    color: isDark ? "#00e5ff" : "#ff007f", // Hot pink core in light mode
+    emissive: isDark ? "#00e5ff" : "#ff007f", 
+    emissiveIntensity: 2, toneMapped: false
+  }), [isDark]);
 
   const starMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: "#ffd700", emissive: "#ffaa00", emissiveIntensity: 1.5, toneMapped: false
@@ -81,12 +85,12 @@ export function RobotBody() {
     const pointerOffsetY = THREE.MathUtils.clamp(state.pointer.y - worldPos.y, -1.5, 1.5);
 
     // Direct cursor tracking (much wider head movements, perfectly aligned with his body)
-    const targetHeadRotY = (pointerOffsetX * Math.PI) / 3; // Wider 60 degree sweep left/right
-    const targetHeadRotX = -(pointerOffsetY * Math.PI) / 4 + Math.sin(t) * 0.05; // Wider 45 degree pitch up/down
+    const targetHeadRotY = (pointerOffsetX * Math.PI) / 6; // Reduced sweep
+    const targetHeadRotX = -(pointerOffsetY * Math.PI) / 8 + Math.sin(t) * 0.05; // Reduced pitch
 
     let headRotX = targetHeadRotX;
     let headRotY = targetHeadRotY;
-    let headRotZ = -(pointerOffsetX * Math.PI) / 12; // Adorable tilt based on relative offset
+    let headRotZ = -(pointerOffsetX * Math.PI) / 32; // Reduced tilt
     
     let leftArmRotZ = -0.2 + Math.sin(t * 2) * 0.1;
     let rightArmRotZ = 0.2 + Math.sin(t * 2 + Math.PI) * 0.1;
@@ -95,6 +99,8 @@ export function RobotBody() {
     
     let leftLegPosY = Math.sin(t * 2 + Math.PI / 2) * 0.05;
     let rightLegPosY = Math.sin(t * 2 + Math.PI * 1.5) * 0.05;
+    let leftLegRotX = 0;
+    let rightLegRotX = 0;
     
     let rootPosY = Math.sin(t * 1.5) * 0.05;
     let rootRotX = 0;
@@ -107,8 +113,9 @@ export function RobotBody() {
     }
 
     if (emotion === 'dizzy') {
-      headRotZ = Math.sin(t * 5) * 0.3;
-      headRotX = Math.cos(t * 5) * 0.3;
+      headRotZ = Math.sin(t * 10) * 0.3;
+      headRotX = Math.cos(t * 10) * 0.3;
+      headRotY = headRef.current.rotation.y + 0.4; // Continuous relative spin
       leftArmRotZ = -0.8 + Math.sin(t * 10) * 0.2;
       rightArmRotZ = 0.8 + Math.cos(t * 10) * 0.2;
     }
@@ -120,8 +127,10 @@ export function RobotBody() {
       leftLegPosY = 0.2; rightLegPosY = 0.2;
       leftArmRotZ = -0.4; rightArmRotZ = 0.4;
     } else if (action === 'fall') {
-      rootRotX = -Math.PI / 2;
+      rootRotX = -Math.PI / 2.2;
       rootPosY = -0.8; headRotX = -0.2;
+      leftLegRotX = Math.sin(t * 10) * 0.2; // Twitching legs
+      rightLegRotX = Math.cos(t * 10) * 0.2;
     } else if (action === 'jump') {
       rootPosY = Math.abs(Math.sin(t * 8)) * 1.5;
       leftArmRotZ = -2.5; rightArmRotZ = 2.5;
@@ -130,6 +139,34 @@ export function RobotBody() {
       leftArmRotZ = -3 + Math.sin(t * 20) * 0.5;
       rightArmRotZ = 3 + Math.cos(t * 20) * 0.5;
       headRotY = t * 5;
+    } else if (action === 'handsOnChest') {
+      rootPosY = Math.abs(Math.sin(t * 6)) * 0.15; // Bounce
+      leftArmRotZ = -1.2; leftArmRotX = -0.8;
+      rightArmRotZ = 1.2; rightArmRotX = -0.8;
+    } else if (action === 'handsOnBelly') {
+      rootRotX = -0.2 + Math.sin(t * 15) * 0.05; // Lean back laughing
+      rootRotZ = Math.sin(t * 20) * 0.08; // Shake side to side
+      rootPosY = Math.sin(t * 20) * 0.05; // Bounce up and down
+      leftArmRotZ = -0.5; leftArmRotX = -0.5;
+      rightArmRotZ = 0.5; rightArmRotX = -0.5;
+      headRotX = -0.3 + Math.sin(t * 15) * 0.1; // Throw head back
+    } else if (action === 'crossArms') {
+      rootRotX = 0.15; // Lean forward aggressively
+      rootRotZ = Math.sin(t * 35) * 0.04; // Shake violently with rage
+      rootPosY = Math.sin(t * 20) * 0.02; // Heavy breathing tension
+      leftArmRotZ = -1.2; leftArmRotX = -1.0; // Tighter arm cross
+      rightArmRotZ = 1.2; rightArmRotX = -1.0;
+      headRotX = 0.3 + Math.sin(t * 35) * 0.02; // Head down and vibrating
+    } else if (action === 'sitUp') {
+      rootPosY = -0.6;
+      rootRotX = -0.1; // Slight lean back
+      leftLegRotX = -Math.PI / 2; rightLegRotX = -Math.PI / 2; // Legs straight out
+    } else if (action === 'rubHead') {
+      rootPosY = -0.6;
+      rootRotX = -0.1;
+      leftLegRotX = -Math.PI / 2; rightLegRotX = -Math.PI / 2;
+      rightArmRotZ = 2.5; rightArmRotX = -0.2; // Hand to head
+      headRotZ = 0.2; // Tilt head into hand
     }
 
     headRef.current.rotation.set(
@@ -144,7 +181,9 @@ export function RobotBody() {
     rightArmRef.current.rotation.x = THREE.MathUtils.lerp(rightArmRef.current.rotation.x, rightArmRotX, 0.1);
 
     leftLegRef.current.position.y = THREE.MathUtils.lerp(leftLegRef.current.position.y, leftLegPosY, 0.1);
+    leftLegRef.current.rotation.x = THREE.MathUtils.lerp(leftLegRef.current.rotation.x, leftLegRotX, 0.1);
     rightLegRef.current.position.y = THREE.MathUtils.lerp(rightLegRef.current.position.y, rightLegPosY, 0.1);
+    rightLegRef.current.rotation.x = THREE.MathUtils.lerp(rightLegRef.current.rotation.x, rightLegRotX, 0.1);
 
     rootRef.current.position.y = THREE.MathUtils.lerp(rootRef.current.position.y, rootPosY, 0.1);
     rootRef.current.rotation.x = THREE.MathUtils.lerp(rootRef.current.rotation.x, rootRotX, 0.1);
@@ -193,7 +232,7 @@ export function RobotBody() {
         </group>
 
         {/* Visor & Face */}
-        <RobotFace />
+        <RobotFace isDark={isDark} />
       </group>
 
       {/* Body Core */}

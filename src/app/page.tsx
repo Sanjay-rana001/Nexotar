@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
@@ -26,6 +26,7 @@ const STEPS = [
   { n: 2, title: "Design", body: "Interactive prototypes and high-fidelity interfaces that prioritize user flow and brand identity." },
   { n: 3, title: "Development", body: "Iterative sprints building clean, documented code using a modern, scalable tech stack." },
   { n: 4, title: "Launch", body: "Rigorous QA testing, deployment automation, and continuous monitoring for success." },
+  { n: 5, title: "Maintenance", body: "Continuous support, performance optimization, and seamless feature scaling to ensure long-term platform health." },
 ];
 
 const TESTIMONIALS = [
@@ -92,6 +93,13 @@ function ThemeToggle() {
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
+  
+  const processRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: processScroll } = useScroll({
+    target: processRef,
+    offset: ["start center", "end center"]
+  });
+  const processLineWidth = useTransform(processScroll, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     setMounted(true);
@@ -101,7 +109,7 @@ export default function Page() {
     <div className="relative overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
       {mounted && <RobotMascot />}
-      <header className="fixed top-0 inset-x-0 z-50">
+      <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/60 dark:bg-black/60 border-b border-black/5 dark:border-white/5 transition-colors">
         <div className="max-w-container-max mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
           <a href="#home" className="flex items-center gap-2">
             <span className="w-7 h-7 rounded-md bg-[var(--color-primary-container)] grid place-items-center text-[var(--color-on-primary-container)] font-bold">N</span>
@@ -220,16 +228,33 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="process" className="py-24 relative">
+      <section id="process" className="py-24 relative" ref={processRef}>
         <div className="max-w-container-max mx-auto px-6 md:px-8">
           <div className="mb-16 max-w-2xl">
             <h2 className="font-display-lg text-display-md mb-4">Our Method</h2>
             <p className="text-body-lg text-[var(--color-on-surface-variant)]">A proven framework for delivering excellence from concept to production.</p>
           </div>
           <div className="relative">
-            <div className="absolute top-7 left-0 w-full h-px bg-black/5 dark:bg-white/5 hidden lg:block" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-              {STEPS.map((s, i) => (
+            {/* Empty background track */}
+            <div className="absolute top-7 left-0 w-full h-[2px] bg-black/5 dark:bg-white/5 hidden lg:block" />
+            
+            {/* Animated filling gradient track */}
+            <motion.div 
+              style={{ width: processLineWidth }}
+              className="absolute top-7 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hidden lg:block opacity-80" 
+            />
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
+              {STEPS.map((s, i) => {
+                const gradients = [
+                  "from-blue-500 to-cyan-400 shadow-[0_0_30px_rgba(59,130,246,0.3)]",
+                  "from-cyan-400 to-indigo-500 shadow-[0_0_30px_rgba(34,211,238,0.3)]",
+                  "from-indigo-500 to-purple-500 shadow-[0_0_30px_rgba(99,102,241,0.3)]",
+                  "from-purple-500 to-fuchsia-500 shadow-[0_0_30px_rgba(168,85,247,0.3)]",
+                  "from-fuchsia-500 to-pink-500 shadow-[0_0_30px_rgba(217,70,239,0.3)]"
+                ];
+                
+                return (
                 <motion.div 
                   key={s.n} 
                   initial={{ opacity: 0, x: -20 }}
@@ -239,18 +264,15 @@ export default function Page() {
                   className="relative"
                 >
                   <div
-                    className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl mb-6 relative z-10 ${
-                      s.n === 1
-                        ? "bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] shadow-[0_0_40px_rgba(0,112,243,0.35)]"
-                        : "bg-[var(--color-surface-container)] border border-black/10 dark:border-white/10"
-                    }`}
+                    className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl mb-6 relative z-10 text-white bg-gradient-to-br ${gradients[i] || gradients[0]}`}
                   >
                     {s.n}
                   </div>
                   <h4 className="font-headline-md text-headline-md mb-2">{s.title}</h4>
                   <p className="text-[var(--color-on-surface-variant)] text-body-md">{s.body}</p>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

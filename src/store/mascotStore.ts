@@ -10,7 +10,10 @@ export type MascotEmotion =
   | 'excited' 
   | 'dizzy' 
   | 'angry' 
-  | 'sleeping';
+  | 'sleeping'
+  | 'eager'
+  | 'love'
+  | 'curious';
 
 export type MascotAction = 
   | 'none' 
@@ -22,7 +25,12 @@ export type MascotAction =
   | 'fall' 
   | 'recover' 
   | 'search' 
-  | 'think';
+  | 'think'
+  | 'handsOnChest'
+  | 'handsOnBelly'
+  | 'crossArms'
+  | 'sitUp'
+  | 'rubHead';
 
 interface MascotState {
   emotion: MascotEmotion;

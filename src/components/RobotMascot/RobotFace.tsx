@@ -4,7 +4,7 @@ import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import { useMascotStore } from "@/store/mascotStore";
 
-export function RobotFace() {
+export function RobotFace({ isDark }: { isDark: boolean }) {
   const { emotion, targetPosition } = useMascotStore();
   const { viewport } = useThree();
   
@@ -26,10 +26,22 @@ export function RobotFace() {
 
   const worldPos = useMemo(() => new THREE.Vector3(), []);
   const time = useRef(0);
+  const targetScreenColor = useMemo(() => new THREE.Color(), []);
+  const targetEyeColor = useMemo(() => new THREE.Color(), []);
 
   useFrame((state, delta) => {
     time.current += delta;
     const t = time.current;
+    
+    if (emotion === 'angry') {
+      targetScreenColor.set(isDark ? "#880000" : "#ffccd5"); // Dark red or light pink-red
+      targetEyeColor.set("#ff0000"); // Bright glowing red eyes
+    } else {
+      targetScreenColor.set(isDark ? "#050505" : "#2d0a1f"); // Dark plum screen in light mode for contrast
+      targetEyeColor.set(isDark ? "#0088ff" : "#ff3399"); // Bright bubblegum pink eyes in light mode
+    }
+    screenMaterial.color.lerp(targetScreenColor, 0.1);
+    eyeMaterial.color.lerp(targetEyeColor, 0.1);
 
     if (!leftEyeRef.current || !rightEyeRef.current) return;
 
@@ -57,6 +69,18 @@ export function RobotFace() {
           leftEyeScaleY = 0.1; rightEyeScaleY = 0.1;
         }
         break;
+      case 'eager':
+        leftEyeScaleY = 1.3; rightEyeScaleY = 1.3;
+        leftEyeScaleX = 1.1; rightEyeScaleX = 1.1;
+        leftEyeBaseY = 0.12; rightEyeBaseY = 0.12;
+        leftEyeRotZ = 0; rightEyeRotZ = 0;
+        break;
+      case 'curious':
+        leftEyeScaleY = 1.2; rightEyeScaleY = 0.7;
+        leftEyeScaleX = 1; rightEyeScaleX = 1;
+        leftEyeBaseY = 0.1; rightEyeBaseY = 0.05;
+        leftEyeRotZ = -0.1; rightEyeRotZ = -0.1;
+        break;
       case 'happy':
       case 'excited':
         leftEyeScaleY = 0.4; rightEyeScaleY = 0.4;
@@ -65,10 +89,10 @@ export function RobotFace() {
         leftEyeRotZ = 0.2; rightEyeRotZ = -0.2; // cute angled eyes
         break;
       case 'laugh':
-        leftEyeScaleY = 0.1; rightEyeScaleY = 0.1;
-        leftEyeScaleX = 1.5; rightEyeScaleX = 1.5;
-        leftEyeBaseY = 0.05; rightEyeBaseY = 0.05;
-        leftEyeRotZ = 0.3; rightEyeRotZ = -0.3;
+        leftEyeScaleY = 0.2; rightEyeScaleY = 0.2;
+        leftEyeScaleX = 1.8; rightEyeScaleX = 1.8;
+        leftEyeBaseY = 0.1; rightEyeBaseY = 0.1;
+        leftEyeRotZ = 0.5; rightEyeRotZ = -0.5; // Huge ^^ squint
         break;
       case 'sad':
         leftEyeScaleY = 0.6; rightEyeScaleY = 0.6;
@@ -76,8 +100,11 @@ export function RobotFace() {
         leftEyeRotZ = -0.2; rightEyeRotZ = 0.2;
         break;
       case 'angry':
-        leftEyeScaleY = 0.4; rightEyeScaleY = 0.4;
-        leftEyeRotZ = 0.3; rightEyeRotZ = -0.3;
+        leftEyeScaleY = 0.15; rightEyeScaleY = 0.15;
+        leftEyeScaleX = 1.6; rightEyeScaleX = 1.6;
+        leftEyeBaseX = -0.15; rightEyeBaseX = 0.15; // Closer together (furrowed)
+        leftEyeBaseY = 0.0; rightEyeBaseY = 0.0;
+        leftEyeRotZ = 0.6; rightEyeRotZ = -0.6; // Extreme angry slant
         break;
       case 'thinking':
         leftEyeScaleY = 1; rightEyeScaleY = 0.5;
@@ -93,8 +120,8 @@ export function RobotFace() {
     }
 
     // Direct cursor tracking for eyes - strictly clamped to stay inside the physical screen!
-    const maxEyeOffsetX = 0.16; // Exact distance to the edge of the screen
-    const maxEyeOffsetY = 0.12; 
+    const maxEyeOffsetX = 0.12; // Reduced to prevent edge clipping
+    const maxEyeOffsetY = 0.10; 
     
     // Use high multipliers for sensitivity, but strict bounds for clamping
     // Increased to 0.6 so eyes dart towards cursor aggressively
@@ -125,16 +152,40 @@ export function RobotFace() {
       <RoundedBox args={[0.95, 0.55, 0.15]} radius={0.05} smoothness={4} material={screenMaterial} position={[0, 0, 0.45]} />
       
       {/* Eyes (Perfectly flush against the glass surface) */}
-      <group ref={leftEyeRef} position={[-0.25, 0.05, 0.526]}>
+      <group ref={leftEyeRef} position={[-0.25, 0.05, 0.526]} visible={emotion !== 'love'}>
         <mesh material={eyeMaterial}>
           <RoundedBox args={[0.12, 0.2, 0.001]} radius={0.06} smoothness={4} />
         </mesh>
       </group>
-      <group ref={rightEyeRef} position={[0.25, 0.05, 0.526]}>
+      <group ref={rightEyeRef} position={[0.25, 0.05, 0.526]} visible={emotion !== 'love'}>
         <mesh material={eyeMaterial}>
           <RoundedBox args={[0.12, 0.2, 0.001]} radius={0.06} smoothness={4} />
         </mesh>
       </group>
+
+      {/* Love Hearts */}
+      {emotion === 'love' && (
+        <group position={[0, 0.05, 0.526]}>
+          {/* Left Heart */}
+          <group position={[-0.25, 0, 0]} scale={0.8}>
+            <mesh position={[-0.04, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
+              <RoundedBox args={[0.1, 0.16, 0.01]} radius={0.05} material={new THREE.MeshBasicMaterial({ color: "#ff0055", toneMapped: false })} />
+            </mesh>
+            <mesh position={[0.04, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+              <RoundedBox args={[0.1, 0.16, 0.01]} radius={0.05} material={new THREE.MeshBasicMaterial({ color: "#ff0055", toneMapped: false })} />
+            </mesh>
+          </group>
+          {/* Right Heart */}
+          <group position={[0.25, 0, 0]} scale={0.8}>
+            <mesh position={[-0.04, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
+              <RoundedBox args={[0.1, 0.16, 0.01]} radius={0.05} material={new THREE.MeshBasicMaterial({ color: "#ff0055", toneMapped: false })} />
+            </mesh>
+            <mesh position={[0.04, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+              <RoundedBox args={[0.1, 0.16, 0.01]} radius={0.05} material={new THREE.MeshBasicMaterial({ color: "#ff0055", toneMapped: false })} />
+            </mesh>
+          </group>
+        </group>
+      )}
     </group>
   );
 }
