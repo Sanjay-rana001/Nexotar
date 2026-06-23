@@ -177,12 +177,12 @@ export default function Page() {
   const processRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: processRef,
-    offset: ["start 80%", "end 20%"]
+    offset: ["start 95%", "start 15%"]
   });
   
   // Apply a buttery smooth physics spring so the water fills lazily and never jerks
   const processScroll = useSpring(scrollYProgress, {
-    stiffness: 40,
+    stiffness: 60,
     damping: 20,
     restDelta: 0.001
   });
