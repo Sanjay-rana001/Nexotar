@@ -167,13 +167,14 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
     }
 
     if (isSmoking.current && smokeGroupRef.current) {
+      const smokeGroup = smokeGroupRef.current;
       smokeTime.current += delta;
       const st = smokeTime.current;
       
       if (st < 0.4) { // Fast smoke puff
-        smokeGroupRef.current.children.forEach((child, i) => {
+        smokeGroup.children.forEach((child, i) => {
           const mesh = child as THREE.Mesh;
-          const angle = (i / smokeGroupRef.current.children.length) * Math.PI * 2;
+          const angle = (i / smokeGroup.children.length) * Math.PI * 2;
           const speed = 4; // Faster explosion
           mesh.position.x = Math.cos(angle) * (0.2 + st * speed);
           mesh.position.y = Math.sin(angle) * (0.1 + st * speed * 0.5);
@@ -183,7 +184,7 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
         });
       } else {
         isSmoking.current = false;
-        smokeGroupRef.current.children.forEach(child => child.scale.setScalar(0));
+        smokeGroup.children.forEach(child => child.scale.setScalar(0));
       }
     }
   });
