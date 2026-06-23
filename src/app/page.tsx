@@ -30,10 +30,10 @@ const STEPS = [
 ];
 
 const TESTIMONIALS = [
-  { name: "Marcus Thorne", role: "CTO, Veridian Systems", quote: "Nexotar transformed our legacy infrastructure into a high-performing SaaS engine. Their technical depth is unparalleled in the agency space." },
-  { name: "Sarah Jenkins", role: "Founder, Aura Design", quote: "The attention to detail and design sensibility Nexotar brings is exactly what we needed to launch our luxury platform. Pure excellence." },
-  { name: "David Chen", role: "Product Lead, NexaCloud", quote: "Speed, reliability, and innovation. They didn't just build our app; they helped us redefine our business strategy." },
-  { name: "Elena Voss", role: "VP Eng, Northwind", quote: "A rare combination of taste and engineering rigor. Every milestone shipped on time and exceeded the brief." },
+  { name: "Aarav Sharma", role: "CTO, Veridian Systems", quote: "Nexotar transformed our legacy infrastructure into a high-performing SaaS engine. Their technical depth is unparalleled in the agency space." },
+  { name: "Priya Patel", role: "Founder, Aura Design", quote: "The attention to detail and design sensibility Nexotar brings is exactly what we needed to launch our luxury platform. Pure excellence." },
+  { name: "Rohan Desai", role: "Product Lead, NexaCloud", quote: "Speed, reliability, and innovation. They didn't just build our app; they helped us redefine our business strategy." },
+  { name: "Ananya Singh", role: "VP Eng, Northwind", quote: "A rare combination of taste and engineering rigor. Every milestone shipped on time and exceeded the brief." },
 ];
 
 const FAQS = [
@@ -345,56 +345,95 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="projects" className="py-24 bg-[var(--color-surface-dim)]">
-        <div className="max-w-container-max mx-auto px-6 md:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+      <section id="projects" className="py-32 bg-[var(--color-surface)] relative overflow-hidden">
+        {/* Subtle premium background glows */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="max-w-container-max mx-auto px-6 md:px-8 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="max-w-xl">
-              <h2 className="font-display-lg text-display-md mb-4">Selected Works</h2>
-              <p className="text-body-lg text-[var(--color-on-surface-variant)]">Exploring the boundary between aesthetics and utility.</p>
+              <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Selected Works</h2>
+              <p className="text-body-lg text-[var(--color-on-surface-variant)]">Exploring the boundary between aesthetics and utility. Crafted with precision.</p>
             </div>
-            <a href="#" className="text-[var(--color-primary-container)] font-semibold flex items-center gap-2 group">
+            <a href="#" className="text-[var(--color-primary-container)] font-semibold flex items-center gap-2 group border-b border-transparent hover:border-[var(--color-primary-container)] transition-colors pb-1">
               View All Case Studies
-              <Icon name="north_east" className="group-hover:translate-x-1 transition-transform" />
+              <span className="w-8 h-8 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
             </a>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {[
               {
-                title: "Vortex Finance",
-                tags: ["FinTech", "2024"],
-                body: "Building a decentralized asset management platform for institutional investors.",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRmAtElIBLjUMDl-ekXfv2XVXh9gfilpjAI0qCFm3o2SqEPKAbZ14G-SlzXi2YrLi0QwUeTkTsnY99psn8WyagRizRX9Hpor6zcn8Nrs_Tx3fwrqeprsbgPqq6N_7gARrKegfcXrb3oeYKNZTC5yYAL6AR5DDz0XS2SWIc_WxMVlJ7l9UqO0CjCHnACpmq-zmY2_zdJozfOFjnK3xkbEHPyPvoj1zemmWjO8_1ZYfWVope_ebFfcNrWJqm9BKAojdGrAFQyTdyrAs",
+                title: "FreshMart NZ",
+                tags: ["E-Commerce", "2024"],
+                body: "A modern, responsive online grocery store platform.",
+                img: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800",
+                url: "https://grocery-store-a57l.vercel.app/"
               },
               {
-                title: "Lumina AI",
-                tags: ["AI / SaaS", "2023"],
-                body: "Advanced supply chain optimization utilizing machine learning and predictive modelling.",
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA7L5evydiMU_D0MecawwHSX17K6Lnv2qAd_gSFcnz-pdVixz5Oo3M0eO4v1yhTxzZ3kmL9jkNDWqVEjvHla9LmIfxMPZSZGApngKrshsb2TDhU423-lwtFFO4rAeVzqM1_hU1_wCozn66QC5fuZjfkKitYGlskKglMfFvofQSknApbASp-I7YPbzeFONjCpInL08FixlfPs8obvl5gxA3JpAnBGPWlWMeBln-uX8LnK1P86qNOVVfNu2QWj6CX_vperc6EHMy9wfY",
+                title: "Dietitian Suruchi",
+                tags: ["Health", "2023"],
+                body: "A comprehensive digital booking platform for a clinical dietitian.",
+                img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=800",
+                url: "https://sanjay-rana001.github.io/Dietetian_Suruchi_website/"
+              },
+              {
+                title: "Nexus CRM",
+                tags: ["Enterprise", "2023"],
+                body: "A next-generation customer relationship management interface.",
+                img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+                url: "https://stripe.com/"
+              },
+              {
+                title: "Aura System",
+                tags: ["Design", "2024"],
+                body: "A scalable, component-driven design system for modern web apps.",
+                img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800",
+                url: "https://linear.app/"
               },
             ].map((p, i) => (
-              <motion.div 
+              <motion.a 
+                href={p.url}
+                target={p.url !== "#" ? "_blank" : undefined}
+                rel={p.url !== "#" ? "noopener noreferrer" : undefined}
                 key={p.title} 
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: i * 0.2 }}
-                whileHover={{ scale: 1.02 }}
-                className="group cursor-pointer overflow-hidden rounded-xl border border-black/5 dark:border-white/5 bg-[var(--color-surface-container-low)]"
+                transition={{ duration: 0.8, delay: i * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className="group block relative rounded-3xl p-3 sm:p-4 bg-gradient-to-b from-black/5 to-transparent dark:from-white/5 dark:to-transparent border border-black/5 dark:border-white/10 hover:border-black/10 dark:hover:border-white/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.05)]"
               >
-                <div className="h-80 overflow-hidden relative">
-                  <img src={p.img} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-surface-dim)]/90 to-transparent" />
+                {/* Premium MacOS Browser Window Mockup */}
+                <div className="relative rounded-2xl overflow-hidden bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 mb-5 shadow-inner">
+                  {/* Browser Top Bar */}
+                  <div className="h-8 w-full bg-black/5 dark:bg-white/5 backdrop-blur-md flex items-center px-3 gap-1.5 border-b border-black/5 dark:border-white/5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400/80"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/80"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-400/80"></div>
+                  </div>
+                  {/* Image Container */}
+                  <div className="h-40 sm:h-48 overflow-hidden relative bg-[var(--color-surface)]">
+                    <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 ease-out" />
+                  </div>
                 </div>
-                <div className="p-10">
-                  <div className="flex gap-3 mb-6">
+                
+                <div className="px-2 pb-2">
+                  <div className="flex flex-wrap gap-1.5 mb-4">
                     {p.tags.map((t) => (
-                      <span key={t} className="text-label-sm px-4 py-1 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-full">{t}</span>
+                      <span key={t} className="text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 bg-[var(--color-surface-container)] text-[var(--color-on-surface-variant)] rounded-full border border-black/5 dark:border-white/5">{t}</span>
                     ))}
                   </div>
-                  <h3 className="font-headline-md text-headline-md mb-2">{p.title}</h3>
-                  <p className="text-[var(--color-on-surface-variant)] text-body-md">{p.body}</p>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <h3 className="font-display text-lg font-semibold tracking-tight group-hover:text-[var(--color-primary-container)] transition-colors line-clamp-1">{p.title}</h3>
+                    <div className="w-7 h-7 flex-shrink-0 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </div>
+                  </div>
+                  <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed line-clamp-2">{p.body}</p>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </div>
