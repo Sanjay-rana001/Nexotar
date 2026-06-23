@@ -221,78 +221,65 @@ export default function Page() {
             </a>
           </div>
         </div>
-      </header>      <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-[var(--color-surface)]">
-        {/* Subtle, eye-catchy dotted background pattern */}
-        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--color-on-surface) 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
+      </header>
+
+      <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <div className="absolute inset-0 grid-bg pointer-events-none opacity-40" />
         
-        <div className="max-w-container-max mx-auto px-6 md:px-8 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
-          
+        {/* Floating Animated Icons */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[20%] left-[10%] opacity-[0.15]">
+            <Icon name="code_blocks" className="text-6xl text-[var(--color-primary-container)]" />
+          </motion.div>
+          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[8%] opacity-[0.15]">
+            <Icon name="rocket_launch" className="text-7xl text-[var(--color-secondary-fixed-dim)]" />
+          </motion.div>
+          <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[30%] right-[45%] opacity-[0.15]">
+            <Icon name="memory" className="text-5xl text-[var(--color-primary-container)]" />
+          </motion.div>
+        </div>
+
+        <div className="max-w-container-max mx-auto px-6 md:px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col justify-center max-w-xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col justify-center"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] rounded-full mb-6 w-fit font-medium text-sm border border-[var(--color-primary-container)]/20">
-              <Icon name="bolt" className="!text-[16px]" />
-              Supercharging your ideas
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full w-fit mb-8">
+              <Icon name="developer_mode" className="text-[var(--color-primary-container)] !text-[16px]" />
+              <span className="text-label-sm text-[var(--color-on-surface-variant)]">The Future of Digital Excellence</span>
             </div>
-            
-            <h1 className="font-display text-5xl lg:text-6xl leading-[1.1] tracking-tight mb-6 text-[var(--color-on-surface)] font-bold">
-              Build brilliant software, <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary-container)] to-[var(--color-secondary-fixed-dim)]">faster than ever.</span>
+            <h1 className="font-display-lg text-display-lg mb-6 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent pb-2">
+              Building Modern Digital Experiences That Scale
             </h1>
-            
-            <p className="text-lg text-[var(--color-on-surface-variant)] mb-8 leading-relaxed">
-              We are a passionate team of engineers and designers using AI to craft authentic, beautiful digital experiences. No fluff, just results you can see and feel.
+            <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-lg mb-10">
+              We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
-            
-            <div className="flex flex-wrap items-center gap-4">
-              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[var(--color-on-surface)] text-[var(--color-surface)] font-medium px-6 py-3.5 rounded-xl hover:scale-105 transition-transform duration-300 shadow-lg">
-                Get Started
+            <div className="flex flex-wrap gap-4">
+              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#1ebd5a] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-1">
+                <WhatsAppIcon className="w-5 h-5" /> Let's Chat
               </a>
-              <a href="#projects" className="inline-flex items-center justify-center gap-2 bg-[var(--color-surface-container)] text-[var(--color-on-surface)] font-medium px-6 py-3.5 rounded-xl hover:bg-[var(--color-surface-container-high)] transition-colors border border-black/5 dark:border-white/5">
-                View Projects
-              </a>
+              <button className="border border-black/10 dark:border-white/10 glass font-semibold px-8 py-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center gap-2">
+                View Portfolio <Icon name="arrow_forward" className="!text-[18px]" />
+              </button>
             </div>
           </motion.div>
-          
           <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="relative lg:h-[500px] flex items-center justify-center lg:justify-end mt-10 lg:mt-0"
+            initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="hidden md:flex items-center justify-end"
           >
-            {/* Eye-catching layered graphic complementing the AI/Software theme */}
-            <div className="relative w-full max-w-lg aspect-[4/3] sm:aspect-video lg:aspect-[4/3]">
-              {/* Decorative glows */}
-              <div className="absolute top-0 -right-12 w-64 h-64 bg-[var(--color-secondary-fixed-dim)]/20 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 -left-12 w-64 h-64 bg-[var(--color-primary-container)]/20 rounded-full blur-3xl" />
-              
-              {/* Floating Dashboard Card */}
-              <div className="absolute inset-0 bg-[var(--color-surface-container)] rounded-2xl border border-black/5 dark:border-white/10 shadow-2xl overflow-hidden transform transition-transform hover:scale-[1.02] duration-500 flex flex-col">
-                <div className="h-10 bg-black/5 dark:bg-white/5 border-b border-black/5 dark:border-white/5 flex items-center px-4 gap-2 flex-shrink-0">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                </div>
-                <div className="flex-1 bg-[var(--color-surface)] relative overflow-hidden">
-                   <img src="/dashboard_mockup.png" alt="Dashboard" className="absolute top-0 left-0 w-full h-auto object-cover opacity-90" />
-                </div>
-              </div>
-              
-              {/* Floating code badge */}
-              <div className="absolute -bottom-6 -left-6 bg-[var(--color-surface)] border border-black/10 dark:border-white/10 shadow-xl rounded-xl p-4 flex items-center gap-4 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="w-10 h-10 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center text-[var(--color-primary-container)]">
-                  <Icon name="code" />
-                </div>
-                <div>
-                  <div className="text-sm font-bold text-[var(--color-on-surface)]">Clean Code</div>
-                  <div className="text-xs text-[var(--color-on-surface-variant)]">React & Next.js</div>
-                </div>
-              </div>
+            <div className="relative w-full max-w-[600px] perspective-mockup">
+              <img
+                alt="Nexotar dashboard mockup"
+                className="rounded-xl border border-black/10 dark:border-white/10 w-full shadow-2xl"
+                src="/dashboard_mockup.png"
+              />
+              <div className="absolute -inset-10 bg-[var(--color-primary-container)]/10 blur-[120px] rounded-full -z-10" />
             </div>
           </motion.div>
-          
         </div>
       </section>
 
