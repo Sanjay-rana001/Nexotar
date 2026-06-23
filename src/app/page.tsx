@@ -187,7 +187,10 @@ export default function Page() {
     restDelta: 0.001
   });
   
-  const processLineWidth = useTransform(processScroll, [0, 1], ["0%", "100%"]);
+  // Create an ease-out effect: fast at the beginning (0 -> 1 -> 2), then slow down
+  const easedScroll = useTransform(processScroll, [0, 0.3, 0.6, 1], [0, 0.5, 0.8, 1]);
+  
+  const processLineWidth = useTransform(easedScroll, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     setMounted(true);
@@ -334,7 +337,7 @@ export default function Page() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
               {STEPS.map((s, i) => (
-                <StepBubble key={s.n} s={s} i={i} processScroll={processScroll} />
+                <StepBubble key={s.n} s={s} i={i} processScroll={easedScroll} />
               ))}
             </div>
           </div>
