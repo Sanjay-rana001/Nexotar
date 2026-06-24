@@ -12,8 +12,10 @@ export function useRobotMovement() {
     const isBusy = emotion === 'dizzy' || emotion === 'sleeping' || action === 'sit' || action === 'fall';
 
     // Dynamically calculate the safe X position so he NEVER goes off screen
-    // viewport.width / 2 is the exact edge of the screen. Subtract 0.5 to keep him comfortably inside while pushing him closer to the edges.
-    const safeX = Math.max(0, (viewport.width / 2) - 0.5);
+    // On mobile, remove padding completely to push him to the absolute edge
+    const isMobile = viewport.width < 5;
+    const padding = isMobile ? 0 : 0.5;
+    const safeX = Math.max(0, (viewport.width / 2) - padding);
 
     const SAFE_ZONES = [
       { progress: 0.0, position: new THREE.Vector3(safeX, 1.5, 0), emotion: 'excited' }, // Hero Top Right

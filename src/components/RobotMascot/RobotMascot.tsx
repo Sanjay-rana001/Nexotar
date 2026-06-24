@@ -61,8 +61,8 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
       
       mouseVelocity.current = THREE.MathUtils.lerp(mouseVelocity.current, speed, 0.2);
       
-      // Threshold for fast movement
-      if (mouseVelocity.current > 0.015) {
+      // Threshold for fast movement (lowered so it triggers more easily)
+      if (mouseVelocity.current > 0.007) {
         dizzyTriggered.current = true;
         setEmotion('dizzy');
         setAction('fall');

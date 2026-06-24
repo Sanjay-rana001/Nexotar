@@ -5,6 +5,41 @@ import * as THREE from "three";
 import { useMascotStore } from "@/store/mascotStore";
 import { RobotFace } from "./RobotFace";
 
+const DizzyStars = ({ emotion, starGeometry, starMaterial }: { emotion: string, starGeometry: THREE.ExtrudeGeometry, starMaterial: THREE.MeshStandardMaterial }) => {
+  const starsRef = useRef<THREE.Group>(null);
+  const starRefs = useRef<(THREE.Mesh | null)[]>([]);
+  
+  useFrame((state) => {
+    if (starsRef.current && emotion === 'dizzy') {
+      starsRef.current.rotation.y = state.clock.elapsedTime * 2.5; // Smooth orbit speed
+      starsRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 4) * 0.1; // Slight wobble
+      
+      // Spin each star locally so they aren't flat!
+      starRefs.current.forEach((star) => {
+        if (star) {
+          star.rotation.y = state.clock.elapsedTime * 4;
+        }
+      });
+    }
+  });
+
+  if (emotion !== 'dizzy') return null;
+
+  return (
+    <group ref={starsRef} position={[0, 0.7, 0]}>
+      {[0, 1, 2].map((i) => (
+        <mesh 
+          key={i} 
+          ref={(el) => { starRefs.current[i] = el; }}
+          geometry={starGeometry} 
+          material={starMaterial} 
+          position={[Math.cos((i * Math.PI * 2) / 3) * 0.9, 0, Math.sin((i * Math.PI * 2) / 3) * 0.9]}
+        />
+      ))}
+    </group>
+  );
+};
+
 export function RobotBody({ isDark }: { isDark: boolean }) {
   const { emotion, action, targetPosition } = useMascotStore();
   
@@ -150,11 +185,12 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
       }
 
       if (emotion === 'dizzy') {
-        headRotZ = Math.sin(t * 10) * 0.3;
-        headRotX = Math.cos(t * 10) * 0.3;
-        headRotY = headRef.current.rotation.y + 0.4; // Continuous relative spin
-        leftArmRotZ = -0.8 + Math.sin(t * 10) * 0.2;
-        rightArmRotZ = 0.8 + Math.cos(t * 10) * 0.2;
+        // Slower, smoother dizzy wobble (t * 5 instead of t * 10)
+        headRotZ = Math.sin(t * 5) * 0.3;
+        headRotX = Math.cos(t * 5) * 0.3;
+        headRotY = Math.sin(t * 3) * 0.5; // Gentle wobble left and right instead of full Exorcist spin
+        leftArmRotZ = -0.8 + Math.sin(t * 5) * 0.2;
+        rightArmRotZ = 0.8 + Math.cos(t * 5) * 0.2;
       }
 
       if (action === 'wave') {
@@ -164,10 +200,10 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
         leftLegPosY = 0.2; rightLegPosY = 0.2;
         leftArmRotZ = -0.4; rightArmRotZ = 0.4;
       } else if (action === 'fall') {
-        rootRotX = -Math.PI / 2.2;
-        rootPosY = -0.8; headRotX = -0.2;
-        leftLegRotX = Math.sin(t * 10) * 0.2; // Twitching legs
-        rightLegRotX = Math.cos(t * 10) * 0.2;
+        rootRotX = 0.2; // Gentle slump forward instead of flipping on back
+        rootPosY = -0.6; // Fall a little down vertically
+        leftLegRotX = 0.2; // Legs dangle
+        rightLegRotX = 0.2;
       } else if (action === 'jump') {
         rootPosY = Math.abs(Math.sin(t * 8)) * 1.5;
         leftArmRotZ = -2.5; rightArmRotZ = 2.5;
@@ -276,6 +312,9 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
       <group ref={headRef} position={[0, 0.7, 0]}>
         {/* Wide Pill Head */}
         <RoundedBox args={[1.2, 0.9, 1.0]} radius={0.4} smoothness={8} material={bodyMaterial} />
+        
+        {/* Dizzy Stars! */}
+        <DizzyStars emotion={emotion} starGeometry={starGeometry} starMaterial={starMaterial} />
         
         {/* Earmuffs */}
         <mesh position={[-0.6, 0, 0]} rotation={[0, 0, Math.PI / 2]} material={bodyMaterial}>
