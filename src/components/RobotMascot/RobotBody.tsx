@@ -208,7 +208,7 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
       
       // SUPERMAN FLIGHT OVERRIDE
       // Smoothly blend the final rotations towards the Superman pose based on flight speed!
-      if (action !== 'dizzy' && action !== 'fall' && action !== 'sit') {
+      if (emotion !== 'dizzy' && action !== 'fall' && action !== 'sit') {
         rootRotX = THREE.MathUtils.lerp(rootRotX, 1.57, flightFactor); // Positive 1.57 pitches head forward!
         
         // Classic Superman pose: One arm forward, one arm tucked!
