@@ -3,14 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const RobotMascot = dynamic(() => import("@/components/RobotMascot/RobotMascot").then((mod) => mod.RobotMascot), {
-  ssr: false,
-});
-const HeroGlobe = dynamic(() => import("@/components/HeroGlobe").then((mod) => mod.HeroGlobe), {
-  ssr: false,
-});
+import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
+import { HeroGlobe } from "@/components/HeroGlobe";
 
 const NAV = [
   { label: "Services", href: "#services" },
