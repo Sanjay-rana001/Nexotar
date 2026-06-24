@@ -2,13 +2,14 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Check, Zap, Shield, Users, Sparkles } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
 
 const NAV = [
   { label: "Services", href: "#services" },
   { label: "Process", href: "#process" },
   { label: "Work", href: "#projects" },
+  { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -173,24 +174,21 @@ function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll:
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   
   const processRef = useRef<HTMLElement>(null);
   
-  // The optimal window: Starts as soon as it appears, finishes when the bottom of the section is at the middle of the screen.
-  // This gives the maximum possible smooth scrolling distance while ensuring the timeline is still fully visible.
   const { scrollYProgress } = useScroll({
     target: processRef,
     offset: ["start 85%", "end 50%"]
   });
   
-  // Perfectly tuned liquid physics: feels weighty but responsive
   const processScroll = useSpring(scrollYProgress, {
     stiffness: 50,
     damping: 20,
     restDelta: 0.001
   });
   
-  // 1:1 linear mapping so the water strictly obeys the scroll wheel position
   const processLineWidth = useTransform(processScroll, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
@@ -223,19 +221,45 @@ export default function Page() {
         </div>
       </header>
 
+      {/* HERO SECTION WITH VIDEO BACKGROUND */}
       <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 grid-bg pointer-events-none opacity-40" />
-        
-        {/* Floating Animated Icons */}
+        {/* Video Background - Full coverage */}
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={`w-full h-full object-cover transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoadedData={() => setIsVideoLoaded(true)}
+          >
+            <source src="/video/hero_vid.mp4" type="video/mp4" />
+            {/* Fallback gradient if video doesn't load */}
+            <div className="w-full h-full bg-gradient-to-br from-blue-900/80 to-purple-900/80" />
+          </video>
+          
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/50 dark:bg-black/70 mix-blend-multiply" />
+          
+          {/* Gradient overlay for smooth edges */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        </div>
+
+        {/* Floating Animated Icons - Subtle on video */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[20%] left-[10%] opacity-[0.15]">
-            <Icon name="code_blocks" className="text-6xl text-[var(--color-primary-container)]" />
+          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[20%] left-[10%] opacity-[0.08]">
+            <Icon name="code_blocks" className="text-6xl text-white" />
           </motion.div>
-          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[8%] opacity-[0.15]">
-            <Icon name="rocket_launch" className="text-7xl text-[var(--color-secondary-fixed-dim)]" />
+          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[8%] opacity-[0.08]">
+            <Icon name="rocket_launch" className="text-7xl text-white" />
           </motion.div>
-          <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[30%] right-[45%] opacity-[0.15]">
-            <Icon name="memory" className="text-5xl text-[var(--color-primary-container)]" />
+          <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[30%] right-[45%] opacity-[0.08]">
+            <Icon name="memory" className="text-5xl text-white" />
+          </motion.div>
+          <motion.div animate={{ y: [0, 35, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 9, ease: "easeInOut" }} className="absolute bottom-[35%] right-[15%] opacity-[0.06]">
+            <Icon name="hub" className="text-7xl text-white" />
           </motion.div>
         </div>
 
@@ -246,21 +270,21 @@ export default function Page() {
             transition={{ duration: 0.8 }}
             className="flex flex-col justify-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full w-fit mb-8">
-              <Icon name="developer_mode" className="text-[var(--color-primary-container)] !text-[16px]" />
-              <span className="text-label-sm text-[var(--color-on-surface-variant)]">The Future of Digital Excellence</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full w-fit mb-8">
+              <Icon name="developer_mode" className="text-white !text-[16px]" />
+              <span className="text-label-sm text-white/90">The Future of Digital Excellence</span>
             </div>
-            <h1 className="font-display-lg text-display-lg mb-6 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent pb-2">
+            <h1 className="font-display-lg text-display-lg mb-6 text-white drop-shadow-2xl pb-2">
               Building Modern Digital Experiences That Scale
             </h1>
-            <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-lg mb-10">
+            <p className="text-body-lg text-white/90 max-w-lg mb-10 drop-shadow-lg">
               We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#1ebd5a] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-1">
                 <WhatsAppIcon className="w-5 h-5" /> Let's Chat
               </a>
-              <button className="border border-black/10 dark:border-white/10 glass font-semibold px-8 py-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center gap-2">
+              <button className="border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">
                 View Portfolio <Icon name="arrow_forward" className="!text-[18px]" />
               </button>
             </div>
@@ -272,12 +296,21 @@ export default function Page() {
             className="hidden md:flex items-center justify-end"
           >
             <div className="relative w-full max-w-[600px] perspective-mockup">
-              <img
-                alt="Nexotar dashboard mockup"
-                className="rounded-xl border border-black/10 dark:border-white/10 w-full shadow-2xl"
-                src="/dashboard_mockup.png"
-              />
-              <div className="absolute -inset-10 bg-[var(--color-primary-container)]/10 blur-[120px] rounded-full -z-10" />
+              <div className="rounded-xl border border-white/20 bg-white/5 backdrop-blur-sm p-6 shadow-2xl">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
+                  <div className="flex-1 text-center text-white/60 text-sm">nexotar.ai/dashboard</div>
+                </div>
+                <div className="h-64 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                  <div className="text-center text-white/80">
+                    <Icon name="analytics" className="text-5xl mb-3" />
+                    <p className="text-sm">Live Analytics Dashboard</p>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -inset-10 bg-white/5 blur-[120px] rounded-full -z-10" />
             </div>
           </motion.div>
         </div>
@@ -327,15 +360,11 @@ export default function Page() {
             <p className="text-body-lg text-[var(--color-on-surface-variant)]">A proven framework for delivering excellence from concept to production.</p>
           </div>
           <div className="relative">
-            {/* Empty background track */}
             <div className="absolute top-7 left-0 w-full h-[2px] bg-black/5 dark:bg-white/5 hidden lg:block" />
-            
-            {/* Animated filling gradient track */}
             <motion.div 
               style={{ width: processLineWidth }}
               className="absolute top-7 left-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hidden lg:block opacity-80" 
             />
-            
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
               {STEPS.map((s, i) => (
                 <StepBubble key={s.n} s={s} i={i} processScroll={processScroll} />
@@ -346,7 +375,6 @@ export default function Page() {
       </section>
 
       <section id="projects" className="py-32 bg-[var(--color-surface)] relative overflow-hidden">
-        {/* Subtle premium background glows */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
         
@@ -405,15 +433,12 @@ export default function Page() {
                 transition={{ duration: 0.8, delay: i * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="group block relative rounded-3xl p-3 sm:p-4 bg-gradient-to-b from-black/5 to-transparent dark:from-white/5 dark:to-transparent border border-black/5 dark:border-white/10 hover:border-black/10 dark:hover:border-white/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.05)]"
               >
-                {/* Premium MacOS Browser Window Mockup */}
                 <div className="relative rounded-2xl overflow-hidden bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 mb-5 shadow-inner">
-                  {/* Browser Top Bar */}
                   <div className="h-8 w-full bg-black/5 dark:bg-white/5 backdrop-blur-md flex items-center px-3 gap-1.5 border-b border-black/5 dark:border-white/5">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400/80"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/80"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-green-400/80"></div>
                   </div>
-                  {/* Image Container */}
                   <div className="h-40 sm:h-48 overflow-hidden relative bg-[var(--color-surface)]">
                     <img src={p.img} alt={p.title} className="w-full h-full object-cover object-top group-hover:scale-105 group-hover:opacity-90 transition-all duration-700 ease-out" />
                   </div>
@@ -438,6 +463,189 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {/* PRICING SECTION */}
+      <section id="pricing" className="py-24 relative">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/3 w-96 h-96 bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-500/5 rounded-full blur-[150px] pointer-events-none" />
+        </div>
+
+        <div className="max-w-container-max mx-auto px-6 md:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6"
+            >
+              <Sparkles className="w-4 h-4 text-[var(--color-primary-container)]" />
+              <span className="text-label-sm text-[var(--color-on-surface-variant)]">Transparent Pricing</span>
+            </motion.div>
+            <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent">
+              Choose Your Plan
+            </h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)]">
+              Flexible pricing designed to grow with you. All plans include our core expertise and support.
+            </p>
+          </div>
+
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--color-primary-container)]/10 border border-[var(--color-primary-container)]/20 text-[var(--color-primary-container)] text-sm font-semibold tracking-wide shadow-lg shadow-[var(--color-primary-container)]/10">
+              <span className="text-base">💰</span>
+              <span>Prices are negotiable</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Starter",
+                price: "₹5,999",
+                description: "Perfect for early-stage startups and MVPs.",
+                features: [
+                  "Landing page or MVP development",
+                  "Up to 5 pages / screens",
+                  "Basic SEO optimization",
+                  "1 round of design revisions",
+                  "1 week of post-launch support",
+                  "Deployment & hosting setup",
+                  "Free Domain (.com, .in, .org)",
+                  "Free Hosting (1 year)",
+                ],
+                buttonText: "Get Started",
+                buttonVariant: "outline",
+                icon: Zap,
+                popular: false,
+              },
+              {
+                name: "Pro",
+                price: "₹15,999",
+                description: "For growing businesses needing full-featured products.",
+                features: [
+                  "Full-stack web application",
+                  "Up to 15 pages / screens",
+                  "Advanced SEO & performance",
+                  "3 rounds of design revisions",
+                  "1 month of post-launch support",
+                  "Custom API integrations",
+                  "Database design & optimization",
+                  "Admin dashboard",
+                  "Free Domain (.com, .in, .org)",
+                  "Free Hosting (2 years)",
+                ],
+                buttonText: "Start Project",
+                buttonVariant: "solid",
+                icon: Shield,
+                popular: true,
+              },
+              {
+                name: "Business",
+                price: "₹30,999",
+                description: "Enterprise-grade solutions with dedicated support.",
+                features: [
+                  "Complex multi-tenant SaaS",
+                  "Unlimited pages / screens",
+                  "AI & ML integrations",
+                  "Unlimited design revisions",
+                  "Ongoing maintenance & support",
+                  "Custom CI/CD pipeline",
+                  "Security & compliance audit",
+                  "Dedicated project manager",
+                  "24/7 priority support",
+                  "Free Domain (.com, .in, .org)",
+                  "Free Hosting (3 years)",
+                ],
+                buttonText: "Contact Sales",
+                buttonVariant: "outline",
+                icon: Users,
+                popular: false,
+              },
+            ].map((plan, i) => (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ y: -8 }}
+                className={`
+                  relative rounded-2xl p-8 backdrop-blur-sm
+                  border border-black/5 dark:border-white/5
+                  bg-white/40 dark:bg-black/40
+                  shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
+                  transition-all duration-300
+                  ${plan.popular ? 'ring-2 ring-[var(--color-primary-container)] shadow-[0_8px_40px_rgba(0,112,243,0.15)]' : ''}
+                  hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(255,255,255,0.04)]
+                `}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-xs font-semibold tracking-wide">
+                    Most Popular
+                  </div>
+                )}
+
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                    <plan.icon className="w-5 h-5 text-[var(--color-primary-container)]" />
+                  </div>
+                  <h3 className="font-display text-xl font-semibold">{plan.name}</h3>
+                </div>
+
+                <div className="mb-2">
+                  <span className="font-display text-4xl font-bold tracking-tight">{plan.price}</span>
+                  {plan.price !== "Custom" && (
+                    <span className="text-[var(--color-on-surface-variant)] text-sm ml-1">/ project</span>
+                  )}
+                </div>
+                <p className="text-[var(--color-on-surface-variant)] text-sm mb-6">{plan.description}</p>
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature) => {
+                    const isFreeFeature = feature.includes("Free Domain") || feature.includes("Free Hosting");
+                    return (
+                      <li key={feature} className="flex items-start gap-3 text-sm">
+                        {isFreeFeature ? (
+                          <span className="text-[var(--color-primary-container)] flex-shrink-0 mt-0.5">✦</span>
+                        ) : (
+                          <Check className="w-4 h-4 text-[var(--color-primary-container)] flex-shrink-0 mt-0.5" />
+                        )}
+                        <span className={isFreeFeature ? "text-[var(--color-primary-container)] font-medium" : "text-[var(--color-on-surface)]"}>
+                          {feature}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <a
+                  href="https://wa.me/1234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`
+                    w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all
+                    ${plan.buttonVariant === 'solid'
+                      ? 'bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] hover:opacity-90 hover:shadow-[0_0_30px_rgba(0,112,243,0.3)]'
+                      : 'border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-[var(--color-on-surface)]'
+                    }
+                  `}
+                >
+                  {plan.buttonText}
+                </a>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-sm text-[var(--color-on-surface-variant)]">
+              All projects include a free consultation and discovery phase.
+              <br />
+              <span className="text-xs opacity-60">Custom quotes available for larger initiatives.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+      {/* END PRICING SECTION */}
 
       <section className="py-24 bg-[var(--color-surface-container-lowest)] border-y border-black/5 dark:border-white/5">
         <div className="max-w-container-max mx-auto px-6 md:px-8">
