@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Check, Zap, Shield, Users, Sparkles } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
+import { HeroGlobe } from "@/components/HeroGlobe";
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -59,8 +60,18 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (!mounted) return <div className="w-10 h-10" />;
 
@@ -69,7 +80,13 @@ function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="w-10 h-10 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[var(--color-on-surface)] hover:scale-110 transition-transform relative overflow-hidden"
+      className={`w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-sm hover:scale-110 transition-transform relative overflow-hidden hover:bg-white/20 border ${
+        isScrolled && !isDark
+          ? 'border-black/20 bg-black/10 text-black hover:bg-black/20'
+          : isScrolled && isDark
+          ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+          : 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+      }`}
     >
       <motion.div
         initial={false}
@@ -175,6 +192,9 @@ export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   
   const processRef = useRef<HTMLElement>(null);
   
@@ -193,53 +213,122 @@ export default function Page() {
 
   useEffect(() => {
     setMounted(true);
+    
+    // Try to play video with error handling
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.log("Video autoplay failed:", error);
+        setVideoError(true);
+      });
+    }
+
+    // Handle scroll for header
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Handle video load error
+  const handleVideoError = () => {
+    console.error("Video failed to load");
+    setVideoError(true);
+  };
 
   return (
     <div className="relative overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
       {mounted && <RobotMascot />}
-      <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/60 dark:bg-black/60 border-b border-black/5 dark:border-white/5 transition-colors">
+      
+      {/* TRANSPARENT HEADER - Changes based on scroll */}
+      <header 
+        className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-white/80 dark:bg-black/80 border-b border-black/10 dark:border-white/10' 
+            : 'bg-transparent border-b border-white/10'
+        }`}
+      >
         <div className="max-w-container-max mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
           <a href="#home" className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-md bg-[var(--color-primary-container)] grid place-items-center text-[var(--color-on-primary-container)] font-bold">N</span>
-            <span className="font-display text-xl tracking-tight">Nexotar</span>
+            <span className={`w-7 h-7 rounded-md backdrop-blur-sm border grid place-items-center font-bold transition-all duration-300 ${
+              isScrolled 
+                ? 'bg-black/5 dark:bg-white/20 border-black/20 dark:border-white/30 text-black dark:text-white' 
+                : 'bg-white/20 border-white/30 text-white'
+            }`}>
+              N
+            </span>
+            <span className={`font-display text-xl tracking-tight drop-shadow-lg transition-all duration-300 ${
+              isScrolled 
+                ? 'text-black dark:text-white' 
+                : 'text-white'
+            }`}>
+              Nexotar
+            </span>
           </a>
           <nav className="hidden md:flex items-center gap-8">
             {NAV.map((n) => (
-              <a key={n.href} href={n.href} className="text-sm text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition-colors">
+              <a 
+                key={n.href} 
+                href={n.href} 
+                className={`text-sm transition-all duration-300 drop-shadow-md ${
+                  isScrolled 
+                    ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
+                    : 'text-white/80 hover:text-white'
+                }`}
+              >
                 {n.label}
               </a>
             ))}
           </nav>
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#25D366]/30 bg-[#25D366]/10 text-[#25D366] text-sm hover:bg-[#25D366] hover:text-white transition-all shadow-[0_0_15px_rgba(37,211,102,0.2)] hover:shadow-[0_0_25px_rgba(37,211,102,0.5)]">
+            <a 
+              href="https://wa.me/1234567890" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={`hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm transition-all shadow-lg ${
+                isScrolled 
+                  ? 'border-[#25D366]/30 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white border' 
+                  : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20'
+              }`}
+            >
               <WhatsAppIcon className="w-4 h-4" /> Book a call
             </a>
           </div>
         </div>
       </header>
 
-      {/* HERO SECTION WITH VIDEO BACKGROUND */}
+      {/* HERO SECTION WITH VIDEO BACKGROUND AND HERO GLOBE */}
       <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
         {/* Video Background - Full coverage */}
         <div className="absolute inset-0 w-full h-full">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className={`w-full h-full object-cover transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
-            onLoadedData={() => setIsVideoLoaded(true)}
-          >
-            <source src="/video/hero_vid.mp4" type="video/mp4" />
-            {/* Fallback gradient if video doesn't load */}
-            <div className="w-full h-full bg-gradient-to-br from-blue-900/80 to-purple-900/80" />
-          </video>
+          {!videoError ? (
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className={`w-full h-full object-cover transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+              onLoadedData={() => {
+                console.log("Video loaded successfully");
+                setIsVideoLoaded(true);
+              }}
+              onError={handleVideoError}
+            >
+              <source src="/video/hero_vid.mp4" type="video/mp4" />
+              <source src="/video/hero_vid.webm" type="video/webm" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            /* Fallback gradient background if video fails */
+            <div className="w-full h-full bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900" />
+          )}
           
           {/* Dark overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/50 dark:bg-black/70 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-black/60 dark:bg-black/60 mix-blend-multiply" />
           
           {/* Gradient overlay for smooth edges */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
@@ -247,19 +336,16 @@ export default function Page() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         </div>
 
-        {/* Floating Animated Icons - Subtle on video */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[20%] left-[10%] opacity-[0.08]">
+        {/* Floating Animated Icons - Left Side */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block z-0">
+          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[14%] left-[6%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
             <Icon name="code_blocks" className="text-6xl text-white" />
           </motion.div>
-          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[8%] opacity-[0.08]">
+          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[10%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
             <Icon name="rocket_launch" className="text-7xl text-white" />
           </motion.div>
-          <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[30%] right-[45%] opacity-[0.08]">
-            <Icon name="memory" className="text-5xl text-white" />
-          </motion.div>
-          <motion.div animate={{ y: [0, 35, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 9, ease: "easeInOut" }} className="absolute bottom-[35%] right-[15%] opacity-[0.06]">
-            <Icon name="hub" className="text-7xl text-white" />
+          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[50%] left-[5%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+            <Icon name="terminal" className="text-5xl text-white" />
           </motion.div>
         </div>
 
@@ -289,28 +375,44 @@ export default function Page() {
               </button>
             </div>
           </motion.div>
+          
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="hidden md:flex items-center justify-end"
           >
-            <div className="relative w-full max-w-[600px] perspective-mockup">
-              <div className="rounded-xl border border-white/20 bg-white/5 backdrop-blur-sm p-6 shadow-2xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
-                  <div className="flex-1 text-center text-white/60 text-sm">nexotar.ai/dashboard</div>
-                </div>
-                <div className="h-64 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
-                  <div className="text-center text-white/80">
-                    <Icon name="analytics" className="text-5xl mb-3" />
-                    <p className="text-sm">Live Analytics Dashboard</p>
-                  </div>
-                </div>
+            <div className="relative w-full max-w-[600px] h-[400px] md:h-[600px]">
+              {/* Orbiting Service Icons */}
+              <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
+                <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Icon name="web" className="text-6xl text-white" />
+                </motion.div>
+                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[40%] -left-[5%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Icon name="psychology" className="text-5xl text-white" />
+                </motion.div>
+                <motion.div animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }} className="absolute bottom-[5%] left-[18%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Icon name="deployed_code" className="text-6xl text-white" />
+                </motion.div>
+                <motion.div animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-[0%] right-[18%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Icon name="shopping_bag" className="text-5xl text-white" />
+                </motion.div>
+                <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 7.5, ease: "easeInOut" }} className="absolute top-[45%] -right-[5%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Icon name="design_services" className="text-6xl text-white" />
+                </motion.div>
+                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 7.2, ease: "easeInOut" }} className="absolute bottom-[5%] right-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                  <Icon name="storage" className="text-7xl text-white" />
+                </motion.div>
               </div>
-              <div className="absolute -inset-10 bg-white/5 blur-[120px] rounded-full -z-10" />
+              
+              {/* Dark Globe Container */}
+              <div className="relative z-0 w-full h-full">
+                <div className="w-full h-full rounded-full bg-black/20 backdrop-blur-sm border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.3)]">
+                  <HeroGlobe />
+                </div>
+                {/* Dark overlay for the globe to ensure it's dark in both themes */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none mix-blend-multiply" />
+              </div>
             </div>
           </motion.div>
         </div>

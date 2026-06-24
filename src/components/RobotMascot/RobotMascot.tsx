@@ -28,7 +28,7 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
   const lastCloudTriggerTime = useRef(0);
 
   // Responsive scale: 0.35 on desktop, 0.25 on smaller screens
-  const responsiveScale = viewport.width < 6 ? 0.25 : 0.35;
+  const responsiveScale = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.25 : 0.35;
 
   // Hook handles setting targetPosition based on scroll safe zones
   useRobotMovement();
@@ -36,12 +36,14 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
   // Smoothly move the robot globally towards targetPosition
   useFrame((state) => {
     if (!mascotRef.current) return;
-    mascotRef.current.position.lerp(targetPosition, 0.05);
+    // Increased speed by double (0.055 to 0.11)
+    mascotRef.current.position.lerp(targetPosition, 0.11);
     
-    // Face the direction of movement, or face the user when idle
+    // Face the exact direction of movement, or face the user when idle
     if (Math.abs(targetPosition.x - mascotRef.current.position.x) > 0.1) {
-      const targetRotation = targetPosition.x > mascotRef.current.position.x ? Math.PI / 6 : -Math.PI / 6;
-      mascotRef.current.rotation.y = THREE.MathUtils.lerp(mascotRef.current.rotation.y, targetRotation, 0.1);
+      // Turn completely sideways (90 degrees / Math.PI / 2) to point exactly at the destination!
+      const targetRotation = targetPosition.x > mascotRef.current.position.x ? Math.PI / 2 : -Math.PI / 2;
+      mascotRef.current.rotation.y = THREE.MathUtils.lerp(mascotRef.current.rotation.y, targetRotation, 0.4);
     } else {
       // Counteract perspective distortion by angling the body towards the camera [0,0,5]
       // If the robot is on the right (+x), it should rotate left (-y).
@@ -59,8 +61,8 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
       
       mouseVelocity.current = THREE.MathUtils.lerp(mouseVelocity.current, speed, 0.2);
       
-      // Threshold for fast movement
-      if (mouseVelocity.current > 0.015) {
+      // Threshold for fast movement (lowered so it triggers more easily)
+      if (mouseVelocity.current > 0.007) {
         dizzyTriggered.current = true;
         setEmotion('dizzy');
         setAction('fall');
@@ -314,7 +316,14 @@ export function RobotMascot() {
         <directionalLight position={[5, 10, 5]} intensity={2} />
         <directionalLight position={[-5, 5, -5]} intensity={1.5} color="#00e5ff" /> 
         
-        <Environment preset="city" />
+        {/* Synthetic local environment. Zero downloads, instant metallic reflections! */}
+        <Environment resolution={256}>
+          <group rotation={[-Math.PI / 2, 0, 0]}>
+            <directionalLight position={[0, 10, 0]} intensity={4} color="white" />
+            <directionalLight position={[-10, 0, 10]} intensity={2} color="#00e5ff" />
+            <directionalLight position={[10, 0, 10]} intensity={2} color="#ff007f" />
+          </group>
+        </Environment>
         
         <RobotLogic isDark={isDark} />
       </Canvas>
