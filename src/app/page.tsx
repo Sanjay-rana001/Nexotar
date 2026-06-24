@@ -278,22 +278,22 @@ export default function Page() {
             <div className="relative w-full max-w-[600px] h-[400px] md:h-[600px]">
               {/* Orbiting Service Icons */}
               <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
-                <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[10%] left-[15%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[5%] left-[10%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
                   <Icon name="web" className="text-6xl text-[var(--color-on-surface)]" />
                 </motion.div>
-                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[40%] left-[2%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[40%] -left-[5%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
                   <Icon name="psychology" className="text-5xl text-[var(--color-on-surface)]" />
                 </motion.div>
-                <motion.div animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }} className="absolute bottom-[10%] left-[22%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                <motion.div animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }} className="absolute bottom-[5%] left-[18%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
                   <Icon name="deployed_code" className="text-6xl text-[var(--color-on-surface)]" />
                 </motion.div>
-                <motion.div animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-[5%] right-[22%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                <motion.div animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-[0%] right-[18%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
                   <Icon name="shopping_bag" className="text-5xl text-[var(--color-on-surface)]" />
                 </motion.div>
-                <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 7.5, ease: "easeInOut" }} className="absolute top-[45%] right-[2%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 7.5, ease: "easeInOut" }} className="absolute top-[45%] -right-[5%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
                   <Icon name="design_services" className="text-6xl text-[var(--color-on-surface)]" />
                 </motion.div>
-                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 7.2, ease: "easeInOut" }} className="absolute bottom-[12%] right-[15%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 7.2, ease: "easeInOut" }} className="absolute bottom-[5%] right-[10%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
                   <Icon name="storage" className="text-7xl text-[var(--color-on-surface)]" />
                 </motion.div>
               </div>
