@@ -40,7 +40,7 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
   const capeMaterial = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: isDark ? "#ff007f" : "#ff3b30",
+        color: isDark ? "#ff0000" : "#ff3b30", // Pure red in dark mode, slightly softer red in light mode
         metalness: 0.1,
         roughness: 0.7,
         clearcoat: 0.2,
