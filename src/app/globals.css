@@ -20,10 +20,10 @@
 }
 
 :root {
-  --bg: #ffffff;
-  --surface-dim: #f3f4f6;
+  --bg: #f8fafc;
+  --surface-dim: #f1f5f9;
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #f9fafb;
+  --surface-container-low: #f8fafc;
   --surface-container: #f3f4f6;
   --surface-bright: #e5e7eb;
   --on-surface: #111827;

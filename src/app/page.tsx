@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
+import { HeroGlobe } from "@/components/HeroGlobe";
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -224,20 +225,23 @@ export default function Page() {
       </header>
 
       <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <div className="absolute inset-0 aurora pointer-events-none -z-10 opacity-70 dark:opacity-40" />
         <div className="absolute inset-0 grid-bg pointer-events-none opacity-40" />
         
-        {/* Floating Animated Icons */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[20%] left-[10%] opacity-[0.15]">
-            <Icon name="code_blocks" className="text-6xl text-[var(--color-primary-container)]" />
+        {/* Floating Animated Icons (Left Side Only) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block z-0">
+          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[14%] left-[6%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+            <Icon name="code_blocks" className="text-6xl text-[var(--color-on-surface)]" />
           </motion.div>
-          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[8%] opacity-[0.15]">
-            <Icon name="rocket_launch" className="text-7xl text-[var(--color-secondary-fixed-dim)]" />
+          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[10%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+            <Icon name="rocket_launch" className="text-7xl text-[var(--color-on-surface)]" />
           </motion.div>
-          <motion.div animate={{ y: [0, -25, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[30%] right-[45%] opacity-[0.15]">
-            <Icon name="memory" className="text-5xl text-[var(--color-primary-container)]" />
+          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[50%] left-[5%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+            <Icon name="terminal" className="text-5xl text-[var(--color-on-surface)]" />
           </motion.div>
         </div>
+        
+
 
         <div className="max-w-container-max mx-auto px-6 md:px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
           <motion.div 
@@ -271,13 +275,31 @@ export default function Page() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="hidden md:flex items-center justify-end"
           >
-            <div className="relative w-full max-w-[600px] perspective-mockup">
-              <img
-                alt="Nexotar dashboard mockup"
-                className="rounded-xl border border-black/10 dark:border-white/10 w-full shadow-2xl"
-                src="/dashboard_mockup.png"
-              />
-              <div className="absolute -inset-10 bg-[var(--color-primary-container)]/10 blur-[120px] rounded-full -z-10" />
+            <div className="relative w-full max-w-[600px] h-[400px] md:h-[600px]">
+              {/* Orbiting Service Icons */}
+              <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
+                <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[10%] left-[15%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                  <Icon name="web" className="text-6xl text-[var(--color-on-surface)]" />
+                </motion.div>
+                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[40%] left-[2%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                  <Icon name="psychology" className="text-5xl text-[var(--color-on-surface)]" />
+                </motion.div>
+                <motion.div animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }} className="absolute bottom-[10%] left-[22%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                  <Icon name="deployed_code" className="text-6xl text-[var(--color-on-surface)]" />
+                </motion.div>
+                <motion.div animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-[5%] right-[22%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                  <Icon name="shopping_bag" className="text-5xl text-[var(--color-on-surface)]" />
+                </motion.div>
+                <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 7.5, ease: "easeInOut" }} className="absolute top-[45%] right-[2%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                  <Icon name="design_services" className="text-6xl text-[var(--color-on-surface)]" />
+                </motion.div>
+                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 7.2, ease: "easeInOut" }} className="absolute bottom-[12%] right-[15%] opacity-40 drop-shadow-[0_0_15px_var(--color-primary-container)]">
+                  <Icon name="storage" className="text-7xl text-[var(--color-on-surface)]" />
+                </motion.div>
+              </div>
+              <div className="relative z-0 w-full h-full">
+                <HeroGlobe />
+              </div>
             </div>
           </motion.div>
         </div>
