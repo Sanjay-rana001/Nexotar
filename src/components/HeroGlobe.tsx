@@ -42,6 +42,9 @@ function SolidBlueMap() {
   return <Sphere args={[2.0, 64, 64]} material={earthMaterial} />;
 }
 
+// Preload the texture for faster initial load
+useTexture.preload("/earth-map.jpg");
+
 // ============================================
 // DARK MODE GLOBE
 // ============================================
@@ -142,7 +145,7 @@ export function HeroGlobe() {
       )}
 
       {/* Single Unified Canvas ensuring no React crashes or WebGL context losses */}
-      <Canvas camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true }}>
+      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true }}>
         <ambientLight intensity={isDark ? 1 : 2} />
         {!isDark && (
           <>
