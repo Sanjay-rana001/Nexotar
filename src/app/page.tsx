@@ -269,6 +269,9 @@ export default function Page() {
     setMounted(true);
     
     if (videoRef.current) {
+      if (videoRef.current.readyState >= 2) {
+        setIsVideoLoaded(true);
+      }
       videoRef.current.play().catch(error => {
         console.log("Video autoplay failed:", error);
         setVideoError(true);
