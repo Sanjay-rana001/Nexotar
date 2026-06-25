@@ -1048,7 +1048,7 @@ export default function Page() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             <div>
               <h2 className="font-display-lg text-display-md mb-6">Common Inquiries</h2>
-              <p className="text-body-lg text-[var(--color-on-surface-variant)]">Everything you need to know about working with Nexotar AI.</p>
+              <p className="text-body-lg text-[var(--color-on-surface-variant)]">Everything you need to know about working with Nexotar.</p>
             </div>
             <div className="space-y-4">
               {FAQS.map((f, i) => {
@@ -1100,7 +1100,7 @@ export default function Page() {
             <span className="w-7 h-7 rounded-md bg-[var(--color-primary-container)] grid place-items-center text-[var(--color-on-primary-container)] font-bold">N</span>
             <span className="font-display text-lg">Nexotar</span>
           </div>
-          <div className="text-sm text-[var(--color-on-surface-variant)]">© {new Date().getFullYear()} Nexotar AI. All rights reserved.</div>
+          <div className="text-sm text-[var(--color-on-surface-variant)]">© {new Date().getFullYear()} Nexotar. All rights reserved.</div>
           <div className="flex gap-6 text-sm text-[var(--color-on-surface-variant)]">
             <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privacy</a>
             <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Terms</a>
