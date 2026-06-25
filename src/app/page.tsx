@@ -14,6 +14,8 @@ const NAV = [
   { label: "FAQ", href: "#faq" },
 ];
 
+
+
 const SERVICES = [
   { icon: "web", title: "Web Dev", body: "Pixel-perfect, high-performance web applications built with the latest React & Next.js frameworks.", tone: "primary" },
   { icon: "deployed_code", title: "SaaS", body: "Scalable multi-tenant architectures designed to support millions of users with rock-solid reliability.", tone: "secondary" },
@@ -148,7 +150,7 @@ function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll:
           style={{ height: fillHeight }}
           className={`absolute bottom-0 left-0 w-full bg-gradient-to-t ${gradients[i] || gradients[0]} z-0`}
         >
-          {/* Subtle wave highlight at the top of the water */}
+          {/* Subtle wave highlight at the top of water */}
           <div className="absolute top-0 left-0 w-full h-[2px] bg-white/40" />
           
           {/* Floating water bubbles */}
