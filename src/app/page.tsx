@@ -413,6 +413,7 @@ export default function Page() {
         <div className="absolute inset-0 w-full h-full">
           {!videoError ? (
             <video
+              suppressHydrationWarning
               ref={videoRef}
               autoPlay
               muted
