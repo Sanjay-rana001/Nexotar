@@ -801,7 +801,7 @@ export default function Page() {
                 transition={{ duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.4 }}
                 className={`
                   relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer
-                  border border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]
+                  border-2 border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
                   transition-all duration-300 ease-out hover:-translate-y-2
