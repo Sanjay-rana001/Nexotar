@@ -512,10 +512,9 @@ export default function Page() {
               </div>
               
               <div className="relative z-0 w-full h-full">
-                <div className="w-full h-full rounded-full bg-black/20 backdrop-blur-sm border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.3)]">
+                <div className="w-full h-full">
                   <HeroGlobe />
                 </div>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none mix-blend-multiply" />
               </div>
             </div>
           </motion.div>
