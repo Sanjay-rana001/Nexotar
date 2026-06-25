@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin } from "lucide-react";
+import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
 import { HeroGlobe } from "@/components/HeroGlobe";
 
@@ -243,6 +243,7 @@ function MinimalCursor() {
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("Pro");
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -396,16 +397,14 @@ export default function Page() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <a 
-              href="https://wa.me/1234567890" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+              href="tel:+911234567890" 
               className={`hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm transition-all shadow-lg ${
                 isScrolled 
-                  ? 'border-[#25D366]/30 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white border' 
+                  ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
                   : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20'
               }`}
             >
-              <WhatsAppIcon className="w-4 h-4" /> Book a call
+              <Phone className="w-4 h-4" /> Call now
             </a>
           </div>
         </div>
@@ -724,13 +723,6 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--color-primary-container)]/10 border border-[var(--color-primary-container)]/20 text-[var(--color-primary-container)] text-sm font-semibold tracking-wide shadow-lg shadow-[var(--color-primary-container)]/10">
-              <span className="text-base">💰</span>
-              <span>Prices are negotiable</span>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
             {[
               {
@@ -748,7 +740,7 @@ export default function Page() {
                   "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
-                buttonVariant: "outline",
+                buttonVariant: "solid",
                 icon: Zap,
                 popular: false,
               },
@@ -791,25 +783,28 @@ export default function Page() {
                   "Free Hosting (3 years)",
                 ],
                 buttonText: "Contact Sales",
-                buttonVariant: "outline",
+                buttonVariant: "solid",
                 icon: Users,
                 popular: false,
               },
-            ].map((plan, i) => (
+            ].map((plan, i) => {
+              const isSelected = selectedPlan === plan.name;
+              return (
               <motion.div
                 key={plan.name}
+                onClick={() => setSelectedPlan(plan.name)}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -8 }}
                 className={`
-                  relative rounded-2xl p-8 backdrop-blur-sm
-                  border border-black/5 dark:border-white/5
+                  relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer
+                  border-2 border-transparent hover:border-[var(--color-primary-container)]
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
-                  transition-all duration-300
-                  ${plan.popular ? 'ring-2 ring-[var(--color-primary-container)] shadow-[0_8px_40px_rgba(0,112,243,0.15)]' : ''}
+                  transition-all duration-150 ease-out
+                  ${isSelected ? 'shadow-[0_8px_40px_rgba(0,112,243,0.25)] scale-[1.02]' : ''}
                   hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(255,255,255,0.04)]
                 `}
               >
@@ -866,8 +861,15 @@ export default function Page() {
                 >
                   {plan.buttonText}
                 </a>
+
+                {(plan.name === "Pro" || plan.name === "Business") && (
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-xs font-semibold tracking-wide whitespace-nowrap">
+                    Prices are negotiable
+                  </div>
+                )}
               </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="text-center mt-12">
