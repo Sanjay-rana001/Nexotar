@@ -7,15 +7,20 @@ import * as THREE from "three";
 import { useTheme } from "next-themes";
 
 // ============================================
-// SHARED SOLID BLUE MAP
+// SHARED SOLID MAP
 // ============================================
-function SolidBlueMap() {
+function SolidMap({ isDark }: { isDark: boolean }) {
   const earthTexture = useTexture("/earth-map.jpg");
   
   const earthMaterial = useMemo(() => {
+    const colorVec = isDark 
+      ? new THREE.Vector4(0.145, 0.388, 0.921, 0.85) // Primary blue
+      : new THREE.Vector4(0.05, 0.05, 0.05, 0.85); // Almost black for light mode
+      
     return new THREE.ShaderMaterial({
       uniforms: {
         map: { value: earthTexture },
+        uColor: { value: colorVec },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -26,18 +31,19 @@ function SolidBlueMap() {
       `,
       fragmentShader: `
         uniform sampler2D map;
+        uniform vec4 uColor;
         varying vec2 vUv;
         void main() {
           vec4 texColor = texture2D(map, vUv);
           // In the specular map, oceans are white (near 1.0) and land is black (near 0.0)
           if (texColor.r > 0.5) discard; // Discard ocean
           
-          gl_FragColor = vec4(0.145, 0.388, 0.921, 0.85); // Primary blue (#2563eb)
+          gl_FragColor = uColor;
         }
       `,
       transparent: true,
     });
-  }, [earthTexture]);
+  }, [earthTexture, isDark]);
 
   return <Sphere args={[2.0, 64, 64]} material={earthMaterial} />;
 }
@@ -199,7 +205,7 @@ function DarkGlobe() {
 
   return (
     <group ref={groupRef}>
-      <SolidBlueMap />
+      <SolidMap isDark={true} />
       <ClientLocations isDark={true} />
       <Sphere args={[1.98, 32, 32]}>
         <meshBasicMaterial color="#0ea5e9" wireframe transparent opacity={0.15} />
@@ -242,7 +248,7 @@ function LightGlobeR3F() {
         </Sphere>
         
         {/* Solid Continents Layer */}
-        <SolidBlueMap />
+        <SolidMap isDark={false} />
         
         {/* Client Locations Dots */}
         <ClientLocations isDark={false} />
@@ -250,11 +256,11 @@ function LightGlobeR3F() {
         {/* Wireframe Grid aligned and rotating with the globe */}
         <Sphere args={[2.005, 36, 18]}>
           <meshBasicMaterial 
-            color="#3b82f6" 
+            color="#000000" 
             wireframe 
             transparent 
-            opacity={0.25} 
-            blending={THREE.AdditiveBlending}
+            opacity={0.15} 
+            blending={THREE.NormalBlending}
           />
         </Sphere>
       </group>
