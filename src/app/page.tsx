@@ -353,7 +353,9 @@ export default function Page() {
       )}
       
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
-      {mounted && <RobotMascot />}
+      <div className="hidden md:block">
+        {mounted && <RobotMascot />}
+      </div>
       
       <header 
         className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
@@ -796,15 +798,14 @@ export default function Page() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -8 }}
+                transition={{ duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.4 }}
                 className={`
                   relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer
-                  border-2 border-transparent hover:border-[var(--color-primary-container)]
+                  border border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
-                  transition-all duration-150 ease-out
-                  ${isSelected ? 'shadow-[0_8px_40px_rgba(0,112,243,0.25)] scale-[1.02]' : ''}
+                  transition-all duration-300 ease-out hover:-translate-y-2
+                  ${isSelected ? 'shadow-[0_8px_40px_rgba(0,112,243,0.25)] scale-[1.02] border-[var(--color-primary-container)]' : ''}
                   hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(255,255,255,0.04)]
                 `}
               >
