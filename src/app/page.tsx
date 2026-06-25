@@ -801,11 +801,13 @@ export default function Page() {
                 transition={{ duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.4 }}
                 className={`
                   relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer
-                  border-2 border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]
+                  border-2
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
                   transition-all duration-300 ease-out hover:-translate-y-2
-                  ${isSelected ? 'shadow-[0_8px_40px_rgba(0,112,243,0.25)] scale-[1.02] border-[var(--color-primary-container)]' : ''}
+                  ${isSelected 
+                    ? 'border-[var(--color-primary-container)] shadow-[0_8px_40px_rgba(0,112,243,0.25)] scale-[1.02]' 
+                    : 'border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]'}
                   hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(255,255,255,0.04)]
                 `}
               >
