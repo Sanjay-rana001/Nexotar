@@ -423,7 +423,7 @@ export default function Page() {
               muted
               loop
               playsInline
-              className={`w-full h-full object-cover transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+              className={`w-full h-full object-cover transition-opacity duration-1000 invert dark:invert-0 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
               onLoadedData={() => {
                 console.log("Video loaded successfully");
                 setIsVideoLoaded(true);
@@ -438,10 +438,10 @@ export default function Page() {
             <div className="w-full h-full bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900" />
           )}
           
-          <div className="absolute inset-0 bg-black/60 dark:bg-black/60 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-white/60 dark:bg-black/60 dark:mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/70 dark:from-black/20 dark:via-transparent dark:to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/40 to-transparent dark:from-black/30 dark:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent" />
         </div>
 
         <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block z-0">
