@@ -20,17 +20,17 @@
 }
 
 :root {
-  --bg: #f5f7fa;
-  --surface-dim: #ebf0f5;
+  --bg: #f8fafc;
+  --surface-dim: #f1f5f9;
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #f5f7fa;
-  --surface-container: #eef2f6;
-  --surface-bright: #e2e8f0;
-  --on-surface: #0f172a;
-  --on-surface-variant: #475569;
-  --primary-container: #0ea5e9;
+  --surface-container-low: #f8fafc;
+  --surface-container: #f3f4f6;
+  --surface-bright: #e5e7eb;
+  --on-surface: #111827;
+  --on-surface-variant: #4b5563;
+  --primary-container: #0070f3;
   --on-primary-container: #ffffff;
-  --secondary-fixed-dim: #8b5cf6;
+  --secondary-fixed-dim: #7c3aed;
 }
 
 .dark {
@@ -52,7 +52,6 @@ html, body {
   color: var(--on-surface);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 @layer base {
