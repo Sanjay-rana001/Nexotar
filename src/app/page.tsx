@@ -37,33 +37,45 @@ const TESTIMONIALS = [
     name: "Aarav Sharma", 
     role: "CTO, Veridian Systems", 
     quote: "Nexotar transformed our legacy infrastructure into a high-performing SaaS engine. Their technical depth is unparalleled in the agency space.",
-    avatar: "https://i.pravatar.cc/150?img=11"
+    avatar: "https://ui-avatars.com/api/?name=Aarav+Sharma&background=FF9933&color=fff&size=150&bold=true"
   },
   { 
     name: "Priya Patel", 
     role: "Founder, Aura Design", 
     quote: "The attention to detail and design sensibility Nexotar brings is exactly what we needed to launch our luxury platform. Pure excellence.",
-    avatar: "https://i.pravatar.cc/150?img=25"
+    avatar: "https://ui-avatars.com/api/?name=Priya+Patel&background=138808&color=fff&size=150&bold=true"
   },
   { 
     name: "Rohan Desai", 
     role: "Product Lead, NexaCloud", 
     quote: "Speed, reliability, and innovation. They didn't just build our app; they helped us redefine our business strategy.",
-    avatar: "https://i.pravatar.cc/150?img=33"
+    avatar: "https://ui-avatars.com/api/?name=Rohan+Desai&background=FF9933&color=fff&size=150&bold=true"
   },
   { 
     name: "Ananya Singh", 
     role: "VP Eng, Northwind", 
     quote: "A rare combination of taste and engineering rigor. Every milestone shipped on time and exceeded the brief.",
-    avatar: "https://i.pravatar.cc/150?img=45"
+    avatar: "https://ui-avatars.com/api/?name=Ananya+Singh&background=138808&color=fff&size=150&bold=true"
   },
 ];
 
 const FAQS = [
-  { q: "How long does a typical project take?", a: "Most projects range from 8 to 16 weeks depending on complexity. We prioritize quality over speed, but our agile process ensures rapid delivery of MVPs within the first 4–6 weeks." },
-  { q: "Do you offer post-launch support?", a: "Yes, we provide ongoing maintenance and support packages to ensure your platform remains secure, updated, and performing at its peak." },
-  { q: "What tech stack do you use?", a: "We specialize in the modern web stack: Next.js, React, Node.js, TypeScript, and various cloud-native tools like AWS and Vercel. We choose the best tools for each project's needs." },
-  { q: "Can you work with our existing team?", a: "Absolutely. We embed seamlessly with in-house teams, contributing across product, design, and engineering rituals." },
+  { 
+    q: "How long does a typical project take?", 
+    a: "We pride ourselves on rapid delivery. Most projects are completed within 1 week, thanks to our streamlined agile process and pre-built component library. For complex enterprise solutions, we deliver MVPs in just 2-3 days and fully-functional products within 7-10 days, without compromising on quality." 
+  },
+  { 
+    q: "Do you offer post-launch support?", 
+    a: "Yes, we provide ongoing maintenance and support packages to ensure your platform remains secure, updated, and performing at its peak." 
+  },
+  { 
+    q: "What tech stack do you use?", 
+    a: "We specialize in the modern web stack: Next.js, React, Node.js, TypeScript, and various cloud-native tools like AWS and Vercel. We choose the best tools for each project's needs." 
+  },
+  { 
+    q: "Can you work with our existing team?", 
+    a: "Absolutely. We embed seamlessly with in-house teams, contributing across product, design, and engineering rituals." 
+  },
 ];
 
 function Icon({ name, className = "" }: { name: string; className?: string }) {
@@ -358,60 +370,78 @@ export default function Page() {
         {mounted && <RobotMascot />}
       </div>
       
-      <header 
-        className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
+<header 
+  className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
+    isScrolled 
+      ? 'bg-white/80 dark:bg-black/80 border-b border-black/10 dark:border-white/10' 
+      : 'bg-transparent border-b border-white/10'
+  }`}
+>
+  <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
+    <a href="#home" className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+      {/* Logo - Light mode (scrolled) */}
+      <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${isScrolled ? 'dark:hidden block' : 'hidden'}`}>
+        <img 
+          src="/images/nexotar_logo_dark.png" 
+          alt="Nexotar" 
+          className="w-full h-full object-contain transition-all duration-300"
+        />
+      </div>
+      
+      {/* Logo - Dark mode (scrolled) */}
+      <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${isScrolled ? 'dark:block hidden' : 'hidden'}`}>
+        <img 
+          src="/images/nexotar_logo.png" 
+          alt="Nexotar" 
+          className="w-full h-full object-contain transition-all duration-300"
+        />
+      </div>
+      
+      {/* Logo - At top (always white for video background) */}
+      <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${isScrolled ? 'hidden' : 'block'}`}>
+        <img 
+          src="/images/nexotar_logo.png" 
+          alt="Nexotar" 
+          className="w-full h-full object-contain transition-all duration-300"
+          style={{
+            filter: 'brightness(0) invert(1)',
+          }}
+        />
+      </div>
+    </a>
+    
+    <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+      {NAV.map((n) => (
+        <a 
+          key={n.href} 
+          href={n.href} 
+          className={`text-sm font-medium transition-all duration-300 ${
+            isScrolled 
+              ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
+              : 'text-white/80 hover:text-white'
+          }`}
+        >
+          {n.label}
+        </a>
+      ))}
+    </nav>
+    
+    <div className="flex items-center gap-2 md:gap-3">
+      <ThemeToggle />
+      <a 
+        href="tel:+917703988597" 
+        className={`hidden sm:inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg whitespace-nowrap ${
           isScrolled 
-            ? 'bg-white/80 dark:bg-black/80 border-b border-black/10 dark:border-white/10' 
-            : 'bg-transparent border-b border-white/10'
+            ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
+            : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border'
         }`}
       >
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-5 flex items-center justify-between">
-          <a href="#home" className="flex items-center gap-2">
-            <span className={`w-7 h-7 rounded-md backdrop-blur-sm border grid place-items-center font-bold transition-all duration-300 ${
-              isScrolled 
-                ? 'bg-black/5 dark:bg-white/20 border-black/20 dark:border-white/30 text-black dark:text-white' 
-                : 'bg-white/20 border-white/30 text-white'
-            }`}>
-              N
-            </span>
-            <span className={`font-display text-xl tracking-tight drop-shadow-lg transition-all duration-300 ${
-              isScrolled 
-                ? 'text-black dark:text-white' 
-                : 'text-white'
-            }`}>
-              Nexotar
-            </span>
-          </a>
-          <nav className="hidden md:flex items-center gap-8">
-            {NAV.map((n) => (
-              <a 
-                key={n.href} 
-                href={n.href} 
-                className={`text-sm transition-all duration-300 drop-shadow-md ${
-                  isScrolled 
-                    ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
-                    : 'text-white/80 hover:text-white'
-                }`}
-              >
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <a 
-              href="tel:+911234567890" 
-              className={`hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm transition-all shadow-lg ${
-                isScrolled 
-                  ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
-                  : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20'
-              }`}
-            >
-              <Phone className="w-4 h-4" /> Call now
-            </a>
-          </div>
-        </div>
-      </header>
+        <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" /> 
+        <span>Call now</span>
+      </a>
+    </div>
+  </div>
+</header>
 
       {/* HERO SECTION */}
       <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
@@ -431,8 +461,8 @@ export default function Page() {
               }}
               onError={handleVideoError}
             >
-              <source src="/video/hero_vid.mp4" type="video/mp4" />
-              <source src="/video/hero_vid.webm" type="video/webm" />
+              <source src="/video/hero_vid_compressed.mp4" type="video/mp4" />
+              <source src="/video/hero_vid_compressed.webm" type="video/webm" />
               Your browser does not support the video tag.
             </video>
           ) : (
@@ -475,7 +505,7 @@ export default function Page() {
               We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#1ebd5a] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-1">
+              <a href="https://wa.me/8178546141" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#1ebd5a] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-1">
                 <WhatsAppIcon className="w-5 h-5" /> Let's Chat
               </a>
               <button className="border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">
@@ -738,7 +768,7 @@ export default function Page() {
                   "1 round of design revisions",
                   "1 week of post-launch support",
                   "Deployment & hosting setup",
-                  "Free Domain (.com, .in, .org)",
+                  "Free Domain",
                   "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
@@ -759,8 +789,8 @@ export default function Page() {
                   "Custom API integrations",
                   "Database design & optimization",
                   "Admin dashboard",
-                  "Free Domain (.com, .in, .org)",
-                  "Free Hosting (2 years)",
+                  "Free Domain",
+                  "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
                 buttonVariant: "solid",
@@ -781,8 +811,8 @@ export default function Page() {
                   "Security & compliance audit",
                   "Dedicated project manager",
                   "24/7 priority support",
-                  "Free Domain (.com, .in, .org)",
-                  "Free Hosting (3 years)",
+                  "Free Domain",
+                  "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
                 buttonVariant: "solid",
@@ -847,7 +877,7 @@ export default function Page() {
                           {feature}
                         </span>
                       </li>
-                    );
+                    ); 
                   })}
                 </ul>
 
@@ -909,140 +939,140 @@ export default function Page() {
         </div>
       </section>
 
-      {/* REDESIGNED PROFESSIONAL FEEDBACK SECTION */}
-      <section className="py-24 bg-[var(--color-surface)] relative overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/5 rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
-        </div>
-        
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary-container)]/10 border border-[var(--color-primary-container)]/20 rounded-full mb-6">
-              <span className="text-[var(--color-primary-container)] text-sm font-medium">Testimonials</span>
-            </div>
-            <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
-              What Our Partners Say
-            </h2>
-            <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-2xl mx-auto">
-              Hear from the visionaries who trusted us to bring their ideas to life.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {TESTIMONIALS.map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative p-8 rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/20 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
-              >
-                {/* Quote icon background */}
-                <div className="absolute top-6 right-6 text-6xl font-serif text-[var(--color-primary-container)]/5 group-hover:text-[var(--color-primary-container)]/10 transition-colors duration-500">
-                  "
-                </div>
-
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="relative">
-                    <img 
-                      src={t.avatar}
-                      alt={t.name}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary-container)]/20"
-                    />
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#0A66C2] flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Linkedin className="w-3.5 h-3.5 text-white" />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-display text-lg font-semibold text-[var(--color-on-surface)]">
-                      {t.name}
-                    </h4>
-                    <p className="text-sm text-[var(--color-on-surface-variant)]">
-                      {t.role}
-                    </p>
-                  </div>
-                </div>
-
-                <blockquote className="relative">
-                  <p className="text-[var(--color-on-surface-variant)] text-body-md leading-relaxed italic">
-                    "{t.quote}"
-                  </p>
-                </blockquote>
-
-                {/* Decorative line */}
-                <div className="absolute bottom-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* LinkedIn icon in corner (showcase only) */}
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <div className="w-8 h-8 rounded-full bg-[#0A66C2] flex items-center justify-center shadow-md">
-                    <Linkedin className="w-4 h-4 text-white" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-        {/* Trust indicators */}
-<div className="mt-12 flex flex-wrap items-center justify-center gap-8 opacity-80">
-  <div className="flex items-center gap-3">
-    <div className="flex -space-x-2">
-      <img 
-        src="https://i.pravatar.cc/40?img=1" 
-        alt="Client 1" 
-        className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
-      />
-      <img 
-        src="https://i.pravatar.cc/40?img=2" 
-        alt="Client 2" 
-        className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
-      />
-      <img 
-        src="https://i.pravatar.cc/40?img=3" 
-        alt="Client 3" 
-        className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
-      />
-      <img 
-        src="https://i.pravatar.cc/40?img=4" 
-        alt="Client 4" 
-        className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
-      />
-      <div className="w-10 h-10 rounded-full bg-[var(--color-primary-container)]/10 border-2 border-white dark:border-black flex items-center justify-center text-xs font-semibold text-[var(--color-primary-container)] ring-2 ring-[var(--color-primary-container)]/20">
-        +50
-      </div>
-    </div>
-    <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">
-      Trusted by 50+ companies worldwide
-    </span>
+    {/* REDESIGNED PROFESSIONAL FEEDBACK SECTION */}
+<section className="py-24 bg-[var(--color-surface)] relative overflow-hidden">
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/5 rounded-full blur-[120px] pointer-events-none" />
+    <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
   </div>
   
-  <div className="flex items-center gap-3">
-    <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <svg key={i} className="w-5 h-5 text-[var(--color-primary-container)] fill-current" viewBox="0 0 20 20">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
+  <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+    <div className="text-center max-w-3xl mx-auto mb-16">
+      <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--color-primary-container)]/10 border border-[var(--color-primary-container)]/20 rounded-full mb-6">
+        <span className="text-[var(--color-primary-container)] text-sm font-medium">Testimonials</span>
+      </div>
+      <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
+        What Our Partners Say
+      </h2>
+      <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-2xl mx-auto">
+        Hear from the visionaries who trusted us to bring their ideas to life.
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      {TESTIMONIALS.map((t, i) => (
+        <motion.div
+          key={t.name}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: i * 0.1 }}
+          className="group relative p-8 rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/20 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+        >
+          {/* Quote icon background */}
+          <div className="absolute top-6 right-6 text-6xl font-serif text-[var(--color-primary-container)]/5 group-hover:text-[var(--color-primary-container)]/10 transition-colors duration-500">
+            "
+          </div>
+
+          <div className="flex items-center gap-4 mb-6">
+            <div className="relative">
+              <img 
+                src={t.avatar}
+                alt={t.name}
+                className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary-container)]/20"
+              />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#0A66C2] flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <Linkedin className="w-3.5 h-3.5 text-white" />
+              </div>
+            </div>
+            <div>
+              <h4 className="font-display text-lg font-semibold text-[var(--color-on-surface)]">
+                {t.name}
+              </h4>
+              <p className="text-sm text-[var(--color-on-surface-variant)]">
+                {t.role}
+              </p>
+            </div>
+          </div>
+
+          <blockquote className="relative">
+            <p className="text-[var(--color-on-surface-variant)] text-body-md leading-relaxed italic">
+              "{t.quote}"
+            </p>
+          </blockquote>
+
+          {/* Decorative line */}
+          <div className="absolute bottom-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+          {/* LinkedIn icon in corner (showcase only) */}
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="w-8 h-8 rounded-full bg-[#0A66C2] flex items-center justify-center shadow-md">
+              <Linkedin className="w-4 h-4 text-white" />
+            </div>
+          </div>
+        </motion.div>
       ))}
     </div>
-    <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">
-      4.9/5 average rating
-    </span>
-  </div>
-  
-  <div className="flex items-center gap-3">
-    <div className="flex items-center gap-1">
-      <svg className="w-5 h-5 text-green-500 fill-current" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-      </svg>
-      <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">
-        100% satisfaction guaranteed
-      </span>
+
+    {/* Trust indicators */}
+    <div className="mt-12 flex flex-wrap items-center justify-center gap-8 opacity-80">
+      <div className="flex items-center gap-3">
+        <div className="flex -space-x-2">
+          <img 
+            src="https://i.pravatar.cc/40?img=12" 
+            alt="Client" 
+            className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
+          />
+          <img 
+            src="https://i.pravatar.cc/40?img=13" 
+            alt="Client" 
+            className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
+          />
+          <img 
+            src="https://i.pravatar.cc/40?img=14" 
+            alt="Client" 
+            className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
+          />
+          <img 
+            src="https://i.pravatar.cc/40?img=15" 
+            alt="Client" 
+            className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
+          />
+          <div className="w-10 h-10 rounded-full bg-[var(--color-primary-container)]/10 border-2 border-white dark:border-black flex items-center justify-center text-xs font-semibold text-[var(--color-primary-container)] ring-2 ring-[var(--color-primary-container)]/20">
+            +50
+          </div>
+        </div>
+        <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+          Trusted by 50+ companies worldwide
+        </span>
+      </div>
+      
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <svg key={i} className="w-5 h-5 text-[var(--color-primary-container)] fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+        <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+          4.9/5 average rating
+        </span>
+      </div>
+      
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
+          <svg className="w-5 h-5 text-green-500 fill-current" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          </svg>
+          <span className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+            100% satisfaction guaranteed
+          </span>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-        </div>
-      </section>
+</section>
 
       <section id="faq" className="py-24 bg-[var(--color-surface-container-lowest)]">
         <div className="max-w-[1440px] mx-auto px-4 md:px-6">
@@ -1078,41 +1108,170 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="contact" className="py-32 relative">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 text-center">
-          <h2 className="font-display-lg text-display-md mb-6 bg-gradient-to-br from-black to-black/40 dark:from-white dark:to-white/40 bg-clip-text text-transparent">
-            Let's build what's next.
-          </h2>
-          <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl mx-auto mb-10">
-            Tell us about your product. We'll respond within one business day with a plan to move forward.
-          </p>
-          <motion.a 
-            href="https://wa.me/1234567890" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 bg-[#25D366] text-white font-semibold px-10 py-4 rounded-full shadow-[0_0_40px_rgba(37,211,102,0.3)] hover:shadow-[0_0_60px_rgba(37,211,102,0.5)] transition-shadow"
-          >
-            <WhatsAppIcon className="w-6 h-6" /> Chat on WhatsApp
-          </motion.a>
-        </div>
-      </section>
+    <section id="contact" className="py-32 relative">
+  <div className="max-w-[1440px] mx-auto px-4 md:px-6 text-center">
+    <h2 className="font-display-lg text-display-md mb-6 bg-gradient-to-br from-black to-black/40 dark:from-white dark:to-white/40 bg-clip-text text-transparent">
+      Let's build what's next.
+    </h2>
+    <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl mx-auto mb-10">
+      Tell us about your product. We'll respond within one business day with a plan to move forward.
+    </p>
+    <motion.a 
+      href="https://wa.me/918178546141" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="inline-flex items-center gap-3 bg-[#1a8c4a] text-white font-semibold px-10 py-4 rounded-full shadow-[0_0_40px_rgba(26,140,74,0.3)] hover:shadow-[0_0_60px_rgba(26,140,74,0.5)] transition-shadow hover:bg-[#157a3f]"
+    >
+      <WhatsAppIcon className="w-6 h-6" /> Chat on WhatsApp
+    </motion.a>
+  </div>
+</section>
 
-      <footer className="border-t border-black/5 dark:border-white/5 py-12">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 flex flex-col md:flex-row gap-6 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-md bg-[var(--color-primary-container)] grid place-items-center text-[var(--color-on-primary-container)] font-bold">N</span>
-            <span className="font-display text-lg">Nexotar</span>
-          </div>
-          <div className="text-sm text-[var(--color-on-surface-variant)]">© {new Date().getFullYear()} Nexotar. All rights reserved.</div>
-          <div className="flex gap-6 text-sm text-[var(--color-on-surface-variant)]">
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Contact</a>
-          </div>
+ <footer className="border-t border-black/5 dark:border-white/5 py-12">
+  <div className="max-w-[1440px] mx-auto px-4 md:px-6 flex flex-col md:flex-row gap-6 items-center justify-between">
+    <div className="flex items-center gap-3">
+      {/* Light mode logo */}
+      <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 dark:hidden block">
+        <img 
+          src="/images/nexotar_logo_dark.png" 
+          alt="Nexotar" 
+          className="w-full h-full object-contain"
+        />
+      </div>
+      {/* Dark mode logo */}
+      <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 dark:block hidden">
+        <img 
+          src="/images/nexotar_logo.png" 
+          alt="Nexotar" 
+          className="w-full h-full object-contain"
+        />
+      </div>
+    </div>
+    <div className="text-sm text-[var(--color-on-surface-variant)]">© {new Date().getFullYear()} Nexotar. All rights reserved.</div>
+    <div className="flex gap-6 text-sm text-[var(--color-on-surface-variant)]">
+      <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privacy</a>
+      <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Terms</a>
+      <button 
+        onClick={() => document.getElementById('contactModal')?.showModal()}
+        className="hover:text-black dark:hover:text-white transition-colors cursor-pointer"
+      >
+        Contact
+      </button>
+    </div>
+  </div>
+
+  {/* Contact Modal - Updated with different logos */}
+  <dialog 
+    id="contactModal" 
+    className="rounded-2xl p-0 backdrop:bg-black/50 backdrop:backdrop-blur-sm max-w-md w-full mx-auto border border-black/10 dark:border-white/10 bg-white dark:bg-black shadow-2xl"
+  >
+    <div className="p-8 relative">
+      {/* Close button */}
+      <button 
+        onClick={() => document.getElementById('contactModal')?.close()}
+        className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div className="text-center mb-8">
+        {/* Light mode logo in modal */}
+        <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 dark:hidden block">
+          <img 
+            src="/images/nexotar_logo_dark.png" 
+            alt="Nexotar" 
+            className="w-full h-full object-contain"
+          />
         </div>
-      </footer>
+        {/* Dark mode logo in modal */}
+        <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 dark:block hidden">
+          <img 
+            src="/images/nexotar_logo.png" 
+            alt="Nexotar" 
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <h3 className="font-display text-2xl font-semibold text-black dark:text-white transition-colors duration-300">
+          Contact Us
+        </h3>
+        <p className="text-sm text-[var(--color-on-surface-variant)] mt-1">Reach out to us via phone or WhatsApp</p>
+      </div>
+
+      <div className="space-y-4">
+        {/* Phone Number */}
+        <a 
+          href="tel:+917703988597" 
+          className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 transition-all hover:bg-[var(--color-surface-container)] group"
+        >
+          <div className="w-12 h-12 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center flex-shrink-0">
+            <Phone className="w-5 h-5 text-[var(--color-primary-container)]" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm text-[var(--color-on-surface-variant)]">Phone</p>
+            <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[var(--color-primary-container)] transition-colors">
+              +91 77039 88597
+            </p>
+          </div>
+          <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        {/* WhatsApp Number 1 */}
+        <a 
+          href="https://wa.me/918178546141" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group"
+        >
+          <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center flex-shrink-0">
+            <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp</p>
+            <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
+              +91 81785 46141
+            </p>
+          </div>
+          <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        {/* WhatsApp Number 2 */}
+        <a 
+          href="https://wa.me/917703988597" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group"
+        >
+          <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center flex-shrink-0">
+            <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp (Alt)</p>
+            <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
+              +91 77039 88597
+            </p>
+          </div>
+          <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div className="mt-6 pt-6 border-t border-black/5 dark:border-white/5 text-center">
+        <p className="text-xs text-[var(--color-on-surface-variant)]">
+          We respond within 1 business day
+        </p>
+      </div>
+    </div>
+  </dialog>
+</footer>
     </div>
   );
 }
