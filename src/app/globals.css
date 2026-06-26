@@ -135,3 +135,43 @@ html, body {
                 radial-gradient(60% 60% at 70% 90%, rgba(0,229,255,0.10), transparent 60%);
   }
 }
+
+/* =========================================
+   Modern Theme-Compatible Scrollbar
+   ========================================= */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 2px solid var(--bg); /* Adds a 'floating' padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Firefox Support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+html.dark {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
