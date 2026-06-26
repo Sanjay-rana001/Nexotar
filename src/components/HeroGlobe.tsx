@@ -6,6 +6,29 @@ import { OrbitControls, Sphere, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useTheme } from "next-themes";
 
+function AnimatedGlobeGroup({ children }: { children: React.ReactNode }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const startTime = useRef(Date.now());
+  
+  useFrame(() => {
+    if (!groupRef.current) return;
+    const elapsed = (Date.now() - startTime.current) / 1000;
+    
+    if (elapsed < 2) {
+      // Ease out cubic
+      const t = elapsed / 2;
+      const easeOutCubic = 1 - Math.pow(1 - t, 3);
+      // Scale from 0.1 to 1.0
+      const scale = 0.1 + (0.9 * easeOutCubic);
+      groupRef.current.scale.set(scale, scale, scale);
+    } else {
+      groupRef.current.scale.set(1, 1, 1);
+    }
+  });
+
+  return <group ref={groupRef} scale={0.1}>{children}</group>;
+}
+
 // ============================================
 // SHARED SOLID MAP
 // ============================================
@@ -293,21 +316,25 @@ export function HeroGlobe() {
       )}
 
       {/* Single Unified Canvas ensuring no React crashes or WebGL context losses */}
-      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
-        <ambientLight intensity={isDark ? 1 : 2} />
-        {!isDark && (
-          <>
-            <directionalLight position={[5, 5, 5]} intensity={3} color="#ffffff" />
-            <directionalLight position={[-5, -5, -5]} intensity={1} color="#60a5fa" />
-          </>
-        )}
-        
-        <Suspense fallback={null}>
-          {isDark ? <DarkGlobe /> : <LightGlobeR3F />}
-        </Suspense>
-        
-        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1.5} maxPolarAngle={Math.PI / 1.5} minPolarAngle={Math.PI / 3} />
-      </Canvas>
+      <div className="w-full h-full absolute inset-0">
+        <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
+          <ambientLight intensity={isDark ? 1 : 2} />
+          {!isDark && (
+            <>
+              <directionalLight position={[5, 5, 5]} intensity={3} color="#ffffff" />
+              <directionalLight position={[-5, -5, -5]} intensity={1} color="#60a5fa" />
+            </>
+          )}
+          
+          <Suspense fallback={null}>
+            <AnimatedGlobeGroup>
+              {isDark ? <DarkGlobe /> : <LightGlobeR3F />}
+            </AnimatedGlobeGroup>
+          </Suspense>
+          
+          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1.5} maxPolarAngle={Math.PI / 1.5} minPolarAngle={Math.PI / 3} />
+        </Canvas>
+      </div>
     </div>
   );
 }
