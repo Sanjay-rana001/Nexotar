@@ -86,15 +86,14 @@ export function ScrollToTopButton() {
             <AnimatePresence>
               {(isHovered || isLaunching) && (
                 <motion.div 
-                  initial={{ opacity: 0, height: 0, y: 0 }}
+                  initial={{ opacity: 0, height: 0 }}
                   animate={{ 
                     opacity: 1, 
-                    height: isLaunching ? 80 : 20,
-                    y: isLaunching ? 40 : 10
+                    height: isLaunching ? 60 : 12,
                   }}
-                  exit={{ opacity: 0, height: 0, y: 0 }}
+                  exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute bottom-1 w-2 bg-gradient-to-b from-[#0070f3] via-purple-500 to-orange-500 rounded-full blur-[2px] -z-10"
+                  className="absolute top-1/2 mt-2 w-1.5 bg-gradient-to-b from-[#0070f3] via-purple-500 to-orange-500 rounded-full blur-[1px] -z-10 origin-top"
                 />
               )}
             </AnimatePresence>
