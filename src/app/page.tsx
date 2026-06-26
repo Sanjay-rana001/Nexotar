@@ -497,8 +497,8 @@ export default function Page() {
             <p className="text-body-lg text-white/90 max-w-lg mb-10 drop-shadow-lg">
               We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="https://wa.me/8178546141" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1">
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+              <a href="https://wa.me/918178546141" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1">
                 <WhatsAppIcon className="w-5 h-5" /> Let's Chat
               </a>
               <button className="border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">
@@ -875,11 +875,11 @@ export default function Page() {
                 </ul>
 
                 <a
-                  href="https://wa.me/1234567890"
+                  href="https://wa.me/918178546141"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`
-                    mt-auto w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all
+                    relative z-10 mt-auto w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all
                     ${plan.buttonVariant === 'solid'
                       ? 'bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] hover:opacity-90 hover:shadow-[0_0_30px_rgba(0,112,243,0.3)]'
                       : 'border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-[var(--color-on-surface)]'
@@ -1197,7 +1197,7 @@ export default function Page() {
       <div className="space-y-4">
         {/* Phone Number */}
         <a 
-          href="tel:+917703988597" 
+          href="tel:+918178546141" 
           className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 transition-all hover:bg-[var(--color-surface-container)] group"
         >
           <div className="w-12 h-12 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center flex-shrink-0">
@@ -1206,7 +1206,7 @@ export default function Page() {
           <div className="flex-1 text-left">
             <p className="text-sm text-[var(--color-on-surface-variant)]">Phone</p>
             <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[var(--color-primary-container)] transition-colors">
-              +91 77039 88597
+              +91 81785 46141
             </p>
           </div>
           <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
