@@ -87,19 +87,19 @@ function BlinkingDot({ position, offset, scaleMultiplier, color }: { position: T
     <group position={position} ref={groupRef} scale={scaleMultiplier}>
       {/* Flat Colored Glow */}
       <mesh position={[0, 0, 0.001]}>
-        <circleGeometry args={[0.035, 16]} />
+        <circleGeometry args={[0.035, 12]} />
         <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
       
       {/* Expanding Radar Ring */}
       <mesh ref={ringRef} position={[0, 0, 0.002]}>
-        <ringGeometry args={[0.015, 0.02, 24]} />
+        <ringGeometry args={[0.015, 0.02, 16]} />
         <meshBasicMaterial ref={ringMaterialRef} color={color} transparent depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
       
       {/* Solid Radar Core */}
       <mesh position={[0, 0, 0.003]}>
-        <circleGeometry args={[0.012, 16]} />
+        <circleGeometry args={[0.012, 12]} />
         <meshBasicMaterial ref={coreRef} color={color} transparent depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
     </group>
@@ -293,7 +293,7 @@ export function HeroGlobe() {
       )}
 
       {/* Single Unified Canvas ensuring no React crashes or WebGL context losses */}
-      <Canvas camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true }}>
+      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
         <ambientLight intensity={isDark ? 1 : 2} />
         {!isDark && (
           <>

@@ -214,7 +214,7 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
       <RobotParticles isDark={isDark} />
       
       {/* Soft Shadow */}
-      <ContactShadows position={[0, -1.5, 0]} opacity={0.6} scale={6} blur={2.5} far={4} color="#000000" />
+      <ContactShadows resolution={256} position={[0, -1.5, 0]} opacity={0.6} scale={6} blur={2.5} far={4} color="#000000" />
     </group>
   );
 }
@@ -311,7 +311,7 @@ export function RobotMascot() {
 
   return (
     <div className="fixed inset-0 z-[999] pointer-events-none">
-      <Canvas eventSource={typeof window !== 'undefined' ? document.body : undefined} eventPrefix="client" camera={{ position: [0, 0, 5], fov: 50 }}>
+      <Canvas dpr={[1, 1.5]} eventSource={typeof window !== 'undefined' ? document.body : undefined} eventPrefix="client" camera={{ position: [0, 0, 5], fov: 50 }} gl={{ powerPreference: "high-performance" }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 10, 5]} intensity={2} />
         <directionalLight position={[-5, 5, -5]} intensity={1.5} color="#00e5ff" /> 

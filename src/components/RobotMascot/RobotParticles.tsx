@@ -203,33 +203,33 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
       <group ref={thinkingGroupRef} position={[0.6, 2.8, 0]} scale={0}>
         {/* Main cloud body - wider horizontal arrangement */}
         <mesh material={cloudMaterial} position={[0, 0, 0]}>
-          <sphereGeometry args={[0.5, 32, 32]} />
+          <sphereGeometry args={[0.5, 16, 16]} />
         </mesh>
         <mesh material={cloudMaterial} position={[-0.4, 0, 0]}>
-          <sphereGeometry args={[0.4, 32, 32]} />
+          <sphereGeometry args={[0.4, 16, 16]} />
         </mesh>
         <mesh material={cloudMaterial} position={[0.4, 0, 0]}>
-          <sphereGeometry args={[0.4, 32, 32]} />
+          <sphereGeometry args={[0.4, 16, 16]} />
         </mesh>
         <mesh material={cloudMaterial} position={[-0.7, 0.1, 0]}>
-          <sphereGeometry args={[0.25, 32, 32]} />
+          <sphereGeometry args={[0.25, 16, 16]} />
         </mesh>
         <mesh material={cloudMaterial} position={[0.7, 0.1, 0]}>
-          <sphereGeometry args={[0.25, 32, 32]} />
+          <sphereGeometry args={[0.25, 16, 16]} />
         </mesh>
         <mesh material={cloudMaterial} position={[-0.3, 0.25, -0.05]}>
-          <sphereGeometry args={[0.3, 32, 32]} />
+          <sphereGeometry args={[0.3, 16, 16]} />
         </mesh>
         <mesh material={cloudMaterial} position={[0.3, 0.25, 0.05]}>
-          <sphereGeometry args={[0.3, 32, 32]} />
+          <sphereGeometry args={[0.3, 16, 16]} />
         </mesh>
         
         {/* Trail bubbles pointing down to head */}
         <mesh material={cloudMaterial} position={[-0.6, -0.5, 0]}>
-          <sphereGeometry args={[0.12, 16, 16]} />
+          <sphereGeometry args={[0.12, 12, 12]} />
         </mesh>
         <mesh material={cloudMaterial} position={[-0.4, -0.8, 0]}>
-          <sphereGeometry args={[0.06, 16, 16]} />
+          <sphereGeometry args={[0.06, 12, 12]} />
         </mesh>
 
         {/* Text inside cloud */}
@@ -287,10 +287,10 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
       {/* Steam Puffs */}
       {emotion === 'angry' && (
         <group ref={steamGroupRef} position={[0, 0.7, 0]}>
-           <mesh position={[-0.7, 0, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.15, 16, 16]} /></mesh>
-           <mesh position={[0.7, 0, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.15, 16, 16]} /></mesh>
-           <mesh position={[-0.8, 0.2, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.1, 16, 16]} /></mesh>
-           <mesh position={[0.8, 0.2, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.1, 16, 16]} /></mesh>
+           <mesh position={[-0.7, 0, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.15, 12, 12]} /></mesh>
+           <mesh position={[0.7, 0, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.15, 12, 12]} /></mesh>
+           <mesh position={[-0.8, 0.2, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.1, 12, 12]} /></mesh>
+           <mesh position={[0.8, 0.2, 0]} material={angrySteamMaterial}><sphereGeometry args={[0.1, 12, 12]} /></mesh>
         </group>
       )}
 
@@ -308,7 +308,7 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
       <group ref={smokeGroupRef} position={[0.6, 2.8, 0]}>
         {[...Array(8)].map((_, i) => (
           <mesh key={i} material={smokeMaterial} scale={0}>
-            <sphereGeometry args={[0.3, 16, 16]} />
+            <sphereGeometry args={[0.3, 12, 12]} />
           </mesh>
         ))}
       </group>
