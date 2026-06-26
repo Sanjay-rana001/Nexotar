@@ -22,7 +22,7 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
   }), []);
   
   const zzzMaterial = useMemo(() => new THREE.MeshBasicMaterial({
-    color: isDark ? "#00e5ff" : "#ff007f", toneMapped: false, transparent: true, opacity: 0.8
+    color: isDark ? "#00e5ff" : "#0070f3", toneMapped: false, transparent: true, opacity: 0.8
   }), [isDark]);
 
   const cloudMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({

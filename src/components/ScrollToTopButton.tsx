@@ -28,13 +28,32 @@ export function ScrollToTopButton() {
   const handleLaunch = () => {
     if (isLaunching) return;
     setIsLaunching(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
     
-    // Reset the launch state after it flies off screen (1.2s)
+    // Custom smooth scroll to make it exactly 20% slower than native (native is ~800ms)
+    const scrollDuration = 1200; // 1.2 seconds
+    const startY = window.scrollY;
+    const startTime = performance.now();
+    
+    // Ease-in-out cubic function for a very smooth blast-off feel
+    const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    
+    const scrollStep = (currentTime: number) => {
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / scrollDuration, 1);
+      
+      window.scrollTo(0, startY * (1 - easeInOutCubic(progress)));
+      
+      if (progress < 1) {
+        requestAnimationFrame(scrollStep);
+      }
+    };
+    requestAnimationFrame(scrollStep);
+    
+    // Reset the launch state after it flies off screen (match the new slower duration)
     setTimeout(() => {
       setIsLaunching(false);
       setIsHovered(false);
-    }, 1200);
+    }, 1500);
   };
 
   const isVisible = (scrollProgress > 0.02) || isLaunching;
@@ -52,7 +71,7 @@ export function ScrollToTopButton() {
           exit={{ opacity: 0, y: 50, scale: 0.5 }}
           transition={
             isLaunching 
-              ? { duration: 0.8, ease: "easeIn" } 
+              ? { duration: 1.2, ease: "easeIn" } // Slower launch to match the scroll
               : { type: "spring", stiffness: 400, damping: 25 }
           }
           onClick={handleLaunch}
@@ -74,9 +93,13 @@ export function ScrollToTopButton() {
             {/* The Rocket Icon (Rotated to point straight up) */}
             <motion.div
               animate={{ 
-                y: isHovered && !isLaunching ? [0, -3, 0] : 0 
+                y: isLaunching ? 0 : isHovered ? [0, -3, 0] : [0, -5, 0] 
               }}
-              transition={{ repeat: isHovered && !isLaunching ? Infinity : 0, duration: 0.6 }}
+              transition={{ 
+                repeat: isLaunching ? 0 : Infinity, 
+                duration: isHovered ? 1.0 : 2.5, // Slightly faster than idle (2.5s), but much slower than previous rattle (0.2s)
+                ease: "easeInOut"
+              }}
               className="relative z-10"
             >
               <Rocket className={`w-5 h-5 -rotate-45 transition-colors duration-300 ${isHovered || isLaunching ? 'text-[#0070f3] dark:text-[#7c3aed]' : 'text-black/70 dark:text-white/70'}`} strokeWidth={2.5} />
