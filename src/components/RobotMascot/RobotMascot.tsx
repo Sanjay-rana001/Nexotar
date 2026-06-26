@@ -224,10 +224,9 @@ export function RobotMascot() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark" || resolvedTheme === undefined; // Default to dark
 
-  // State to track if we are on a mobile device or scrolled away
+  // State to track if we are on a mobile device
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isScrolledAway, setIsScrolledAway] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -248,10 +247,6 @@ export function RobotMascot() {
       } else {
         setScrollProgress(0);
       }
-      
-      // If we scroll past 800px (the hero section), completely unmount the 3D canvas for performance
-      // React will automatically ignore this update if the value hasn't changed.
-      setIsScrolledAway(scrollTop > 800);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -326,8 +321,8 @@ export function RobotMascot() {
     };
   }, []);
 
-  // Do not render the heavy 3D canvas on mobile devices, during SSR, or when scrolled far down the page
-  if (!mounted || isMobile || isScrolledAway) return null;
+  // Do not render the heavy 3D canvas on mobile devices, or during SSR
+  if (!mounted || isMobile) return null;
 
   return (
     <div className="fixed inset-0 z-[999] pointer-events-none">
