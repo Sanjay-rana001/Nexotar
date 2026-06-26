@@ -505,7 +505,7 @@ export default function Page() {
               We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="https://wa.me/8178546141" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#1ebd5a] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-1">
+              <a href="https://wa.me/8178546141" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1">
                 <WhatsAppIcon className="w-5 h-5" /> Let's Chat
               </a>
               <button className="border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">

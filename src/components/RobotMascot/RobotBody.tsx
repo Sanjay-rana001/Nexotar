@@ -1,6 +1,6 @@
 import { useRef, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { RoundedBox } from "@react-three/drei";
+import { RoundedBox, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useMascotStore } from "@/store/mascotStore";
 import { RobotFace } from "./RobotFace";
@@ -60,6 +60,13 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
     color: isDark ? "#ffffff" : "#ffe4e8", // Cute pastel pink body
     roughness: 0.15, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.1
   }), [isDark]);
+  
+  const logoLight = useTexture("/images/nexotar_logo.png");
+  const logoDark = useTexture("/images/nexotar_logo_dark.png");
+  const logoMaterial = useMemo(() => new THREE.MeshBasicMaterial({
+    map: isDark ? logoDark : logoLight,
+    transparent: true,
+  }), [isDark, logoLight, logoDark]);
   
   const jointMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: isDark ? "#111111" : "#ffb6c1", // Soft pink joints
@@ -359,8 +366,10 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
           <mesh material={coreMaterial} position={[0, 0, 0.04]} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.15, 0.15, 0.02, 32]} />
           </mesh>
-          {/* Animated Glowing Star Core */}
-          <mesh ref={chestCoreRef} material={starMaterial} position={[0, 0, 0.08]} geometry={starGeometry} />
+          {/* Logo Chest Core */}
+          <mesh ref={chestCoreRef} material={logoMaterial} position={[0, 0, 0.08]}>
+            <planeGeometry args={[0.22, 0.22]} />
+          </mesh>
         </group>
         
         {/* Dynamic Cape */}
