@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
 import { HeroGlobe } from "@/components/HeroGlobe";
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -791,7 +792,7 @@ export default function Page() {
                   "Free Domain",
                   "Free Hosting (1 year)",
                 ],
-                buttonText: "Start Project",
+                buttonText: "Get Started",
                 buttonVariant: "solid",
                 icon: Shield,
                 popular: true,
@@ -829,7 +830,7 @@ export default function Page() {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.4 }}
                 className={`
-                  relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer
+                  relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer flex flex-col h-full
                   border-2
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
@@ -854,6 +855,7 @@ export default function Page() {
                 </div>
 
                 <div className="mb-2">
+                  <p className="text-[10px] uppercase tracking-wider text-[var(--color-on-surface-variant)] font-semibold mb-1">Starts from</p>
                   <span className="font-display text-4xl font-bold tracking-tight">{plan.price}</span>
                   {plan.price !== "Custom" && (
                     <span className="text-[var(--color-on-surface-variant)] text-sm ml-1">/ project</span>
@@ -884,7 +886,7 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`
-                    w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all
+                    mt-auto w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all
                     ${plan.buttonVariant === 'solid'
                       ? 'bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] hover:opacity-90 hover:shadow-[0_0_30px_rgba(0,112,243,0.3)]'
                       : 'border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-[var(--color-on-surface)]'
@@ -1077,7 +1079,11 @@ export default function Page() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             <div>
               <h2 className="font-display-lg text-display-md mb-6">Common Inquiries</h2>
-              <p className="text-body-lg text-[var(--color-on-surface-variant)]">Everything you need to know about working with Nexotar.</p>
+              <p className="text-body-lg text-[var(--color-on-surface-variant)] mb-12">Everything you need to know about working with Nexotar.</p>
+              
+              <div className="h-[320px] w-full">
+                <AnalyticsDashboard />
+              </div>
             </div>
             <div className="space-y-4">
               {FAQS.map((f, i) => {
