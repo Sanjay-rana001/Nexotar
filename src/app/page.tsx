@@ -825,6 +825,7 @@ export default function Page() {
                 </div>
 
                 <div className="mb-2">
+                  <p className="text-[10px] uppercase tracking-wider text-[var(--color-on-surface-variant)] font-semibold mb-1">Starts from</p>
                   <span className="font-display text-4xl font-bold tracking-tight">{plan.price}</span>
                   {plan.price !== "Custom" && (
                     <span className="text-[var(--color-on-surface-variant)] text-sm ml-1">/ project</span>

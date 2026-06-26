@@ -1,6 +1,37 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { motion, AnimatePresence } from 'framer-motion';
+
+function RollingNumber({ value, prefix = "" }: { value: number, prefix?: string }) {
+  const numString = value.toLocaleString();
+  return (
+    <span className="inline-flex items-center overflow-hidden relative align-middle" style={{ lineHeight: "1em" }}>
+      {prefix && <span className="mr-0.5 inline-block">{prefix}</span>}
+      {numString.split('').map((char, index) => {
+        const posFromEnd = numString.length - index;
+        return (
+          <span key={posFromEnd} className="inline-flex relative overflow-hidden align-top">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={char}
+                initial={{ y: "-100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                exit={{ y: "100%", opacity: 0 }}
+                transition={{ type: "tween", ease: [0.16, 1, 0.3, 1], duration: 0.6 }}
+                className="inline-block whitespace-nowrap"
+              >
+                {char}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        );
+      })}
+    </span>
+  );
+}
 
 interface AnalyticsData {
   totalVisitors: number;
@@ -12,18 +43,26 @@ interface AnalyticsData {
 export function AnalyticsDashboard() {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [liveVisitors, setLiveVisitors] = useState<number | null>(null);
-  const [personalClicks, setPersonalClicks] = useState<number | null>(null);
   const initialized = useRef(false);
 
   useEffect(() => {
-    setLiveVisitors(Math.floor(Math.random() * 3) + 5);
+    // Initial random between 5 and 12
+    setLiveVisitors(Math.floor(Math.random() * 8) + 5);
+    
+    // Change randomly every 30 seconds
+    const visitorInterval = setInterval(() => {
+      setLiveVisitors(Math.floor(Math.random() * 8) + 5);
+    }, 30000);
+    
+    return () => clearInterval(visitorInterval);
   }, []);
 
     const fetchAnalytics = async () => {
+      // Keep this as fallback, but rely on onSnapshot primarily
       try {
         const res = await fetch('/api/app-data');
         const json = await res.json();
-        setData(json);
+        if (pendingClicks === 0) setData(json);
       } catch (e) {
       console.error("Failed to fetch analytics", e);
     }
@@ -32,16 +71,6 @@ export function AnalyticsDashboard() {
   useEffect(() => {
     if (initialized.current) return;
     initialized.current = true;
-
-    // Initialize personal clicks for returning user logic
-    const storedClicks = localStorage.getItem('nexotar_personal_clicks');
-    if (!storedClicks) {
-      const initial = Math.floor(Math.random() * (280 - 250 + 1)) + 250;
-      localStorage.setItem('nexotar_personal_clicks', initial.toString());
-      setPersonalClicks(initial);
-    } else {
-      setPersonalClicks(parseInt(storedClicks, 10));
-    }
 
     // Record a visit when component mounts
     fetch('/api/app-data', {
@@ -67,11 +96,6 @@ export function AnalyticsDashboard() {
         };
       });
 
-      setPersonalClicks(prev => {
-        const next = (prev || 0) + 1;
-        localStorage.setItem('nexotar_personal_clicks', next.toString());
-        return next;
-      });
       clearTimeout(clickTimeout);
       clickTimeout = setTimeout(() => {
         const currentPending = pendingClicks;
@@ -89,12 +113,16 @@ export function AnalyticsDashboard() {
 
     window.addEventListener('click', handleGlobalClick);
 
-    // Poll for updates every 10 seconds
-    const interval = setInterval(fetchAnalytics, 10000);
+    // Set up real-time Firebase listener
+    const unsub = onSnapshot(doc(db, 'analytics', 'data'), (docSnap) => {
+      if (docSnap.exists() && pendingClicks === 0) {
+        setData(docSnap.data() as AnalyticsData);
+      }
+    });
 
     return () => {
       window.removeEventListener('click', handleGlobalClick);
-      clearInterval(interval);
+      unsub();
     };
   }, []);
 
@@ -128,7 +156,9 @@ export function AnalyticsDashboard() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
             </span>
-            <span className="font-mono font-medium">{liveVisitors ?? '-'} active</span>
+            <span className="font-mono font-medium">
+              {liveVisitors !== null ? <RollingNumber value={liveVisitors} /> : '-'} active
+            </span>
           </div>
         </div>
       </div>
@@ -136,26 +166,23 @@ export function AnalyticsDashboard() {
       <div className="grid grid-cols-2 gap-6 relative z-10">
         <div className="space-y-1">
           <p className="text-sm font-medium text-[var(--color-on-surface-variant)]">Total Visitors</p>
-          <p className="text-3xl font-bold font-display-lg">{data.totalVisitors.toLocaleString()}</p>
+          <div className="text-3xl font-bold font-display-lg"><RollingNumber value={data.totalVisitors} /></div>
         </div>
         
         <div className="space-y-1">
           <p className="text-sm font-medium text-[var(--color-on-surface-variant)]">Today's Visitors</p>
-          <p className="text-3xl font-bold font-display-lg text-[var(--color-primary-container)]">+{data.todayVisitors.toLocaleString()}</p>
+          <div className="text-3xl font-bold font-display-lg text-[var(--color-primary-container)]"><RollingNumber value={data.todayVisitors} prefix="+" /></div>
         </div>
         
         <div className="space-y-1 pt-4 border-t border-black/5 dark:border-white/5">
           <p className="text-sm font-medium text-[var(--color-on-surface-variant)]">Total Interactions</p>
-          <p className="text-3xl font-bold font-display-lg">{data.totalClicks.toLocaleString()}</p>
+          <div className="text-3xl font-bold font-display-lg"><RollingNumber value={data.totalClicks} /></div>
         </div>
         
         <div className="space-y-1 pt-4 border-t border-black/5 dark:border-white/5">
           <p className="text-sm font-medium text-[var(--color-on-surface-variant)]">Today's Clicks</p>
           <div className="flex items-baseline gap-2">
-            <p className="text-3xl font-bold font-display-lg text-[var(--color-secondary-fixed-dim)]">+{data.todayClicks.toLocaleString()}</p>
-            {personalClicks !== null && (
-              <p className="text-xs text-[var(--color-on-surface-variant)]">(You: {personalClicks.toLocaleString()})</p>
-            )}
+            <div className="text-3xl font-bold font-display-lg text-[var(--color-secondary-fixed-dim)]"><RollingNumber value={data.todayClicks} prefix="+" /></div>
           </div>
         </div>
       </div>
