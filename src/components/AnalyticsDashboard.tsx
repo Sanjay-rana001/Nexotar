@@ -98,7 +98,7 @@ export function AnalyticsDashboard() {
     };
   }, []);
 
-  if (!data) {
+  if (!data || !data.totalVisitors) {
     return (
       <div className="w-full h-full min-h-[300px] flex items-center justify-center border border-black/5 dark:border-white/5 rounded-2xl bg-[var(--color-surface-container-low)] animate-pulse">
         <span className="text-[var(--color-on-surface-variant)] text-sm">Loading Live Data...</span>
