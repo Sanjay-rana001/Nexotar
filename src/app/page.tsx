@@ -1170,7 +1170,7 @@ export default function Page() {
     <div className="p-8 relative">
       {/* Close button */}
       <button 
-        onClick={() => document.getElementById('contactModal')?.close()}
+        onClick={() => (document.getElementById('contactModal') as HTMLDialogElement)?.close()}
         className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
