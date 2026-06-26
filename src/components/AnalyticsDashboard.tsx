@@ -44,6 +44,7 @@ export function AnalyticsDashboard() {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [liveVisitors, setLiveVisitors] = useState<number | null>(null);
   const initialized = useRef(false);
+  const pendingClicks = useRef(0);
 
   useEffect(() => {
     // Initial random between 5 and 12
@@ -62,7 +63,7 @@ export function AnalyticsDashboard() {
       try {
         const res = await fetch('/api/app-data');
         const json = await res.json();
-        if (pendingClicks === 0) setData(json);
+        if (pendingClicks.current === 0) setData(json);
       } catch (e) {
       console.error("Failed to fetch analytics", e);
     }
@@ -81,10 +82,9 @@ export function AnalyticsDashboard() {
 
     // Track global clicks (debounced to avoid spamming the API)
     let clickTimeout: NodeJS.Timeout;
-    let pendingClicks = 0;
 
     const handleGlobalClick = () => {
-      pendingClicks++;
+      pendingClicks.current++;
       
       // Optimistically update the UI instantly
       setData(prev => {
@@ -98,15 +98,15 @@ export function AnalyticsDashboard() {
 
       clearTimeout(clickTimeout);
       clickTimeout = setTimeout(() => {
-        const currentPending = pendingClicks;
-        pendingClicks = 0;
+        const currentPending = pendingClicks.current;
+        pendingClicks.current = 0;
         
         fetch('/api/app-data', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'click', count: currentPending })
         }).then(res => res.json()).then(json => {
-          if (pendingClicks === 0) setData(json);
+          if (pendingClicks.current === 0) setData(json);
         }).catch(console.error);
       }, 500);
     };
@@ -115,7 +115,7 @@ export function AnalyticsDashboard() {
 
     // Set up real-time Firebase listener
     const unsub = onSnapshot(doc(db, 'analytics', 'data'), (docSnap) => {
-      if (docSnap.exists() && pendingClicks === 0) {
+      if (docSnap.exists() && pendingClicks.current === 0) {
         setData(docSnap.data() as AnalyticsData);
       }
     });
