@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef, Suspense, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
@@ -224,6 +224,18 @@ export function RobotMascot() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark" || resolvedTheme === undefined; // Default to dark
 
+  // State to track if we are on a mobile device
+  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       // Calculate scroll progress from 0.0 to 1.0
@@ -308,6 +320,9 @@ export function RobotMascot() {
       window.removeEventListener('click', handleClick);
     };
   }, []);
+
+  // Do not render the heavy 3D canvas on mobile devices or during SSR
+  if (!mounted || isMobile) return null;
 
   return (
     <div className="fixed inset-0 z-[999] pointer-events-none">
