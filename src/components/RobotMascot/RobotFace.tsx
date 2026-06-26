@@ -133,17 +133,17 @@ export function RobotFace({ isDark }: { isDark: boolean }) {
     const targetLeftEyeY = leftEyeBaseY + eyeOffsetY;
     const targetRightEyeY = rightEyeBaseY + eyeOffsetY;
 
-    leftEyeRef.current.scale.set(THREE.MathUtils.lerp(leftEyeRef.current.scale.x, leftEyeScaleX, 0.2), THREE.MathUtils.lerp(leftEyeRef.current.scale.y, leftEyeScaleY, 0.2), 1);
-    rightEyeRef.current.scale.set(THREE.MathUtils.lerp(rightEyeRef.current.scale.x, rightEyeScaleX, 0.2), THREE.MathUtils.lerp(rightEyeRef.current.scale.y, rightEyeScaleY, 0.2), 1);
+    leftEyeRef.current.scale.set(THREE.MathUtils.lerp(leftEyeRef.current.scale.x, leftEyeScaleX, 0.45), THREE.MathUtils.lerp(leftEyeRef.current.scale.y, leftEyeScaleY, 0.45), 1);
+    rightEyeRef.current.scale.set(THREE.MathUtils.lerp(rightEyeRef.current.scale.x, rightEyeScaleX, 0.45), THREE.MathUtils.lerp(rightEyeRef.current.scale.y, rightEyeScaleY, 0.45), 1);
     
     // Lerp both X and Y positions
-    leftEyeRef.current.position.x = THREE.MathUtils.lerp(leftEyeRef.current.position.x, targetLeftEyeX, 0.2);
-    leftEyeRef.current.position.y = THREE.MathUtils.lerp(leftEyeRef.current.position.y, targetLeftEyeY, 0.2);
-    rightEyeRef.current.position.x = THREE.MathUtils.lerp(rightEyeRef.current.position.x, targetRightEyeX, 0.2);
-    rightEyeRef.current.position.y = THREE.MathUtils.lerp(rightEyeRef.current.position.y, targetRightEyeY, 0.2);
+    leftEyeRef.current.position.x = THREE.MathUtils.lerp(leftEyeRef.current.position.x, targetLeftEyeX, 0.45);
+    leftEyeRef.current.position.y = THREE.MathUtils.lerp(leftEyeRef.current.position.y, targetLeftEyeY, 0.45);
+    rightEyeRef.current.position.x = THREE.MathUtils.lerp(rightEyeRef.current.position.x, targetRightEyeX, 0.45);
+    rightEyeRef.current.position.y = THREE.MathUtils.lerp(rightEyeRef.current.position.y, targetRightEyeY, 0.45);
     
-    leftEyeRef.current.rotation.z = THREE.MathUtils.lerp(leftEyeRef.current.rotation.z, leftEyeRotZ, 0.2);
-    rightEyeRef.current.rotation.z = THREE.MathUtils.lerp(rightEyeRef.current.rotation.z, rightEyeRotZ, 0.2);
+    leftEyeRef.current.rotation.z = THREE.MathUtils.lerp(leftEyeRef.current.rotation.z, leftEyeRotZ, 0.45);
+    rightEyeRef.current.rotation.z = THREE.MathUtils.lerp(rightEyeRef.current.rotation.z, rightEyeRotZ, 0.45);
   });
 
   return (

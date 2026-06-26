@@ -2,10 +2,11 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone } from "lucide-react";
+import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone, ArrowUp } from "lucide-react";
 import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
 import { HeroGlobe } from "@/components/HeroGlobe";
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
+import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 
 const NAV = [
   { label: "Services", href: "#services" },
@@ -374,38 +375,30 @@ export default function Page() {
   className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
     isScrolled 
       ? 'bg-white/80 dark:bg-black/80 border-b border-black/10 dark:border-white/10' 
-      : 'bg-transparent border-b border-white/10'
+      : 'bg-transparent border-b border-black/10 dark:border-white/10'
   }`}
 >
-  <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
+  <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-0.5 md:py-1 flex items-center justify-between">
     <a href="#home" className="flex items-center gap-2 md:gap-3 flex-shrink-0">
-      {/* Logo - Light mode (scrolled) */}
-      <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${isScrolled ? 'dark:hidden block' : 'hidden'}`}>
+      {/* Responsive Theme & Scroll Logo */}
+      <div className="relative w-12 h-12 md:w-16 md:h-16 lg:w-[72px] lg:h-[72px]">
+        {/* Light Mode: White Logo (visible at top) */}
+        <img 
+          src="/images/nexotar_logo.png" 
+          alt="Nexotar" 
+          className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
+        />
+        {/* Light Mode: Dark Logo (visible when scrolled) */}
         <img 
           src="/images/nexotar_logo_dark.png" 
           alt="Nexotar" 
-          className="w-full h-full object-contain transition-all duration-300"
+          className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled ? 'opacity-100' : 'opacity-0'}`}
         />
-      </div>
-      
-      {/* Logo - Dark mode (scrolled) */}
-      <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${isScrolled ? 'dark:block hidden' : 'hidden'}`}>
+        {/* Dark Mode: Always use White Logo */}
         <img 
           src="/images/nexotar_logo.png" 
           alt="Nexotar" 
-          className="w-full h-full object-contain transition-all duration-300"
-        />
-      </div>
-      
-      {/* Logo - At top (always white for video background) */}
-      <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${isScrolled ? 'hidden' : 'block'}`}>
-        <img 
-          src="/images/nexotar_logo.png" 
-          alt="Nexotar" 
-          className="w-full h-full object-contain transition-all duration-300"
-          style={{
-            filter: 'brightness(0) invert(1)',
-          }}
+          className="absolute inset-0 w-full h-full object-contain transition-all duration-500 hidden dark:block"
         />
       </div>
     </a>
@@ -418,7 +411,7 @@ export default function Page() {
           className={`text-sm font-medium transition-all duration-300 ${
             isScrolled 
               ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
-              : 'text-white/80 hover:text-white'
+              : 'text-white/90 hover:text-white drop-shadow-md' // Always white at top because video is dark
           }`}
         >
           {n.label}
@@ -433,7 +426,7 @@ export default function Page() {
         className={`hidden sm:inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg whitespace-nowrap ${
           isScrolled 
             ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
-            : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border'
+            : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border' // Always glass/white at top
         }`}
       >
         <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" /> 
@@ -1272,6 +1265,7 @@ export default function Page() {
     </div>
   </dialog>
 </footer>
+      <ScrollToTopButton />
     </div>
   );
 }

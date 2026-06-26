@@ -137,11 +137,11 @@ html, body {
 }
 
 /* =========================================
-   Ultra-Slim Scrollbar (3px)
+   Ultra-Slim Scrollbar (3px) - No Track
    ========================================= */
 ::-webkit-scrollbar {
   width: 3px;
-  height: 3px;
+  background-color: transparent !important; /* Force transparent background */
 }
 
 /* Ensure arrows are completely hidden */
@@ -150,21 +150,34 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  /* Theme-compatible gradient */
-  background: linear-gradient(180deg, var(--primary-container), var(--secondary-fixed-dim));
+  background: rgba(0, 0, 0, 0.3) !important;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--secondary-fixed-dim), var(--primary-container));
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Firefox Support */
 html {
   scrollbar-width: thin;
-  scrollbar-color: var(--primary-container) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+html.dark {
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }

@@ -57,25 +57,24 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
   const lastWorldPos = useRef(new THREE.Vector3());
 
   const bodyMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: isDark ? "#ffffff" : "#ffe4e8", // Cute pastel pink body
+    color: isDark ? "#ffffff" : "#f0f8ff", // Clean Alice blue in light mode instead of pink
     roughness: 0.15, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.1
   }), [isDark]);
   
-  const logoLight = useTexture("/images/nexotar_logo.png");
-  const logoDark = useTexture("/images/nexotar_logo_dark.png");
+  const logoTexture = useTexture("/images/nexotar_logo_without_text.png");
   const logoMaterial = useMemo(() => new THREE.MeshBasicMaterial({
-    map: isDark ? logoDark : logoLight,
+    map: logoTexture,
     transparent: true,
-  }), [isDark, logoLight, logoDark]);
+  }), [logoTexture]);
   
   const jointMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: isDark ? "#111111" : "#ffb6c1", // Soft pink joints
+    color: isDark ? "#111111" : "#a9cce3", // Theme-compatible blue-gray joints
     roughness: 0.2, metalness: 0.8 // Glossy dark joints
   }), [isDark]);
 
   const coreMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: isDark ? "#00e5ff" : "#ff007f", // Hot pink core in light mode
-    emissive: isDark ? "#00e5ff" : "#ff007f", 
+    color: isDark ? "#0070f3" : "#7c3aed", // Nexotar Blue / Purple
+    emissive: isDark ? "#0070f3" : "#7c3aed", 
     emissiveIntensity: 2, toneMapped: false
   }), [isDark]);
 
@@ -136,7 +135,7 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
       // 1. Calculate how far he is from his destination
       // This is completely bug-free because it doesn't rely on frame timing or derivatives.
       let flightFactor = 0;
-      let poseLerp = 0.1; // Default smooth idle speed
+      let poseLerp = 0.3; // Massively increased from 0.1 for very fast, snappy cursor tracking
       
       if (rootRef.current.parent) {
         const targetPos = useMascotStore.getState().targetPosition;
@@ -289,7 +288,6 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
 
       // Animated LED Chest Core
       if (chestCoreRef.current) {
-        chestCoreRef.current.rotation.z += delta * 2; // Spin smoothly
         chestCoreRef.current.scale.setScalar(1 + Math.sin(t * 4) * 0.1);
       }
       
@@ -363,12 +361,18 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
           <mesh material={bodyMaterial} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.2, 0.2, 0.08, 32]} />
           </mesh>
-          <mesh material={coreMaterial} position={[0, 0, 0.04]} rotation={[Math.PI / 2, 0, 0]}>
+          {/* Glowing Chest Core Ring (Pulses) */}
+          <mesh ref={chestCoreRef} material={coreMaterial} position={[0, 0, 0.04]} rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.15, 0.15, 0.02, 32]} />
           </mesh>
-          {/* Logo Chest Core */}
-          <mesh ref={chestCoreRef} material={logoMaterial} position={[0, 0, 0.08]}>
-            <planeGeometry args={[0.22, 0.22]} />
+          {/* White Sticker Background to make Logo Pop */}
+          <mesh position={[0, 0, 0.06]}>
+            <circleGeometry args={[0.23, 32]} />
+            <meshBasicMaterial color="#ffffff" />
+          </mesh>
+          {/* Static Logo */}
+          <mesh material={logoMaterial} position={[0, 0, 0.08]}>
+            <planeGeometry args={[0.44, 0.44]} />
           </mesh>
         </group>
         
