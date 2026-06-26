@@ -1154,7 +1154,7 @@ export default function Page() {
       <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privacy</a>
       <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Terms</a>
       <button 
-        onClick={() => document.getElementById('contactModal')?.showModal()}
+        onClick={() => (document.getElementById('contactModal') as HTMLDialogElement)?.showModal()}
         className="hover:text-black dark:hover:text-white transition-colors cursor-pointer"
       >
         Contact
