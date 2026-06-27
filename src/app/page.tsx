@@ -767,7 +767,7 @@ export default function Page() {
               viewport={{ once: true }}
               className="group inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6 relative overflow-hidden"
             >
-              <div className="absolute top-0 bottom-0 left-1/2 w-16 -ml-8 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-[var(--color-primary-container)]/20 to-transparent animate-shimmer-slash will-change-transform pointer-events-none" />
+              <div className="absolute top-0 bottom-0 left-1/2 w-6 -ml-3 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-[var(--color-primary-container)]/20 to-transparent animate-shimmer-slash will-change-transform pointer-events-none" />
               <Icon name="payments" className="text-base text-[var(--color-primary-container)] relative z-10" />
               <span className="text-label-sm font-semibold text-[var(--color-on-surface-variant)] relative z-10 uppercase tracking-widest">
                 Transparent Pricing
@@ -895,7 +895,7 @@ export default function Page() {
                     if (isFreeFeature) {
                       return (
                         <li key={feature} className="flex items-center gap-3 text-sm p-2.5 rounded-xl bg-gradient-to-r from-[var(--color-primary-container)]/10 to-transparent relative overflow-hidden group">
-                          <div className="absolute top-0 bottom-0 left-1/2 w-16 -ml-8 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-[var(--color-primary-container)]/20 to-transparent animate-shimmer-slash will-change-transform pointer-events-none" />
+                          <div className="absolute top-0 bottom-0 left-1/2 w-6 -ml-3 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-[var(--color-primary-container)]/20 to-transparent animate-shimmer-slash will-change-transform pointer-events-none" />
                           <div className="w-6 h-6 rounded-full bg-[var(--color-primary-container)]/20 flex flex-shrink-0 items-center justify-center relative z-10 mt-0.5">
                             <Gift className="w-3.5 h-3.5 text-[var(--color-primary-container)]" />
                           </div>
