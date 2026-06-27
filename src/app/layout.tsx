@@ -16,6 +16,8 @@ const dmSerif = DM_Serif_Display({
 });
 
 import { SmoothScroll } from '@/components/SmoothScroll';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://nexotar.com'),
@@ -67,7 +69,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <SmoothScroll>
+            <Header />
             {children}
+            <Footer />
           </SmoothScroll>
         </ThemeProvider>
       </body>

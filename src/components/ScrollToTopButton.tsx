@@ -77,7 +77,7 @@ export function ScrollToTopButton() {
           onClick={handleLaunch}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] group flex flex-col items-center justify-center cursor-pointer"
+          className="fixed bottom-20 right-6 md:bottom-24 md:right-8 z-[100] group flex flex-col items-center justify-center cursor-pointer"
           aria-label="Scroll to top"
         >
           {/* Main Glass Circle */}
