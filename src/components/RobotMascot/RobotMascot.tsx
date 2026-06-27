@@ -27,6 +27,14 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
   const dizzyTriggered = useRef(false);
   const lastCloudTriggerTime = useRef(0);
 
+  const [isLowEnd, setIsLowEnd] = useState(false);
+  useEffect(() => {
+    // Basic heuristic for low-end device
+    if (typeof navigator !== 'undefined') {
+      setIsLowEnd(navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false);
+    }
+  }, []);
+
   // Responsive scale: 0.35 on desktop, 0.25 on smaller screens
   const responsiveScale = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.25 : 0.35;
 
@@ -36,19 +44,28 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
   // Smoothly move the robot globally towards targetPosition
   useFrame((state) => {
     if (!mascotRef.current) return;
-    // Increased speed by double (0.055 to 0.11)
-    mascotRef.current.position.lerp(targetPosition, 0.11);
+
+    // Optimization: Only run calculations if distance is significant
+    const distanceSq = mascotRef.current.position.distanceToSquared(targetPosition);
+    if (distanceSq > 0.0001) {
+      // Increased speed by double (0.055 to 0.11)
+      mascotRef.current.position.lerp(targetPosition, 0.11);
+    }
     
     // Face the exact direction of movement, or face the user when idle
     if (Math.abs(targetPosition.x - mascotRef.current.position.x) > 0.1) {
       // Turn completely sideways (90 degrees / Math.PI / 2) to point exactly at the destination!
       const targetRotation = targetPosition.x > mascotRef.current.position.x ? Math.PI / 2 : -Math.PI / 2;
-      mascotRef.current.rotation.y = THREE.MathUtils.lerp(mascotRef.current.rotation.y, targetRotation, 0.4);
+      if (Math.abs(mascotRef.current.rotation.y - targetRotation) > 0.01) {
+        mascotRef.current.rotation.y = THREE.MathUtils.lerp(mascotRef.current.rotation.y, targetRotation, 0.4);
+      }
     } else {
       // Counteract perspective distortion by angling the body towards the camera [0,0,5]
       // If the robot is on the right (+x), it should rotate left (-y).
       const lookAtCameraRotation = -mascotRef.current.position.x * 0.15;
-      mascotRef.current.rotation.y = THREE.MathUtils.lerp(mascotRef.current.rotation.y, lookAtCameraRotation, 0.1);
+      if (Math.abs(mascotRef.current.rotation.y - lookAtCameraRotation) > 0.01) {
+        mascotRef.current.rotation.y = THREE.MathUtils.lerp(mascotRef.current.rotation.y, lookAtCameraRotation, 0.1);
+      }
     }
 
     // Fast Mouse Tracking
@@ -213,8 +230,10 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
       <RobotBody isDark={isDark} />
       <RobotParticles isDark={isDark} />
       
-      {/* Soft Shadow */}
-      <ContactShadows resolution={256} position={[0, -1.5, 0]} opacity={0.6} scale={6} blur={2.5} far={4} color="#000000" />
+      {/* Soft Shadow (Disabled on low end devices to save GPU) */}
+      {!isLowEnd && (
+        <ContactShadows resolution={256} position={[0, -1.5, 0]} opacity={0.6} scale={6} blur={2.5} far={4} color="#000000" />
+      )}
     </group>
   );
 }

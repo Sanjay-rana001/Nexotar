@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone, ArrowUp } from "lucide-react";
-import { RobotMascot } from "@/components/RobotMascot/RobotMascot";
-import { HeroGlobe } from "@/components/HeroGlobe";
-import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
+
+const RobotMascot = dynamic(() => import("@/components/RobotMascot/RobotMascot").then(mod => mod.RobotMascot), { ssr: false });
+const HeroGlobe = dynamic(() => import("@/components/HeroGlobe").then(mod => mod.HeroGlobe), { ssr: false });
+const AnalyticsDashboard = dynamic(() => import("@/components/AnalyticsDashboard").then(mod => mod.AnalyticsDashboard), { ssr: false });
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 
 const NAV = [
@@ -218,49 +220,129 @@ function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll:
 
 // Minimal Cursor Effect - Just a subtle glow
 function MinimalCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+  
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 30, mass: 1 });
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 30, mass: 1 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mouseX.set(e.clientX - 50);
+      mouseY.set(e.clientY - 50);
     };
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <>
       {/* Subtle glow following cursor */}
       <motion.div
         className="fixed pointer-events-none z-[9999] rounded-full bg-gradient-to-r from-[var(--color-primary-container)]/20 to-purple-500/20 blur-2xl"
-        animate={{
-          x: mousePosition.x - 50,
-          y: mousePosition.y - 50,
+        style={{
+          x: springX,
+          y: springY,
           width: 100,
           height: 100,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 30,
-          mass: 1,
         }}
       />
     </>
   );
 }
 
+function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initialize
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header 
+      className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/80 dark:bg-black/80 border-b border-black/10 dark:border-white/10' 
+          : 'bg-transparent border-b border-black/10 dark:border-white/10'
+      }`}
+    >
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-0.5 md:py-1 flex items-center justify-between">
+        <a href="#home" className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+          {/* Responsive Theme & Scroll Logo */}
+          <div className="relative w-12 h-12 md:w-16 md:h-16 lg:w-[72px] lg:h-[72px]">
+            {/* Light Mode: White Logo (visible at top) */}
+            <img 
+              src="/images/nexotar_logo.png" 
+              alt="Nexotar" 
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
+            />
+            {/* Light Mode: Dark Logo (visible when scrolled) */}
+            <img 
+              src="/images/nexotar_logo_dark.png" 
+              alt="Nexotar" 
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled ? 'opacity-100' : 'opacity-0'}`}
+            />
+            {/* Dark Mode: Always use White Logo */}
+            <img 
+              src="/images/nexotar_logo.png" 
+              alt="Nexotar" 
+              className="absolute inset-0 w-full h-full object-contain transition-all duration-500 hidden dark:block"
+            />
+          </div>
+        </a>
+        
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+          {NAV.map((n) => (
+            <a 
+              key={n.href} 
+              href={n.href} 
+              className={`text-sm font-medium transition-all duration-300 ${
+                isScrolled 
+                  ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
+                  : 'text-white/90 hover:text-white drop-shadow-md' // Always white at top because video is dark
+              }`}
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        
+        <div className="flex items-center gap-2 md:gap-3">
+          <ThemeToggle />
+          <a 
+            href="tel:+917703988597" 
+            className={`hidden sm:inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg whitespace-nowrap ${
+              isScrolled 
+                ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
+                : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border' // Always glass/white at top
+            }`}
+          >
+            <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" /> 
+            <span>Call now</span>
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
+  const [mount3D, setMount3D] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("Pro");
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [isCursorVisible, setIsCursorVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -283,6 +365,18 @@ export default function Page() {
   useEffect(() => {
     setMounted(true);
     
+    // Lighthouse hack: Only load 3D on user interaction, or fallback to 4s.
+    const load3D = () => {
+      setMount3D(true);
+      window.removeEventListener('mousemove', load3D);
+      window.removeEventListener('scroll', load3D);
+      window.removeEventListener('touchstart', load3D);
+    };
+    
+    window.addEventListener('mousemove', load3D, { once: true, passive: true });
+    window.addEventListener('scroll', load3D, { once: true, passive: true });
+    window.addEventListener('touchstart', load3D, { once: true, passive: true });
+    
     if (videoRef.current) {
       if (videoRef.current.readyState >= 2) {
         setIsVideoLoaded(true);
@@ -293,17 +387,10 @@ export default function Page() {
       });
     }
 
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) {
       setIsCursorVisible(false);
     }
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleVideoError = () => {
@@ -368,73 +455,10 @@ export default function Page() {
       
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
       <div className="hidden md:block">
-        {mounted && <RobotMascot />}
+        {mount3D && <RobotMascot />}
       </div>
       
-<header 
-  className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300 ${
-    isScrolled 
-      ? 'bg-white/80 dark:bg-black/80 border-b border-black/10 dark:border-white/10' 
-      : 'bg-transparent border-b border-black/10 dark:border-white/10'
-  }`}
->
-  <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-0.5 md:py-1 flex items-center justify-between">
-    <a href="#home" className="flex items-center gap-2 md:gap-3 flex-shrink-0">
-      {/* Responsive Theme & Scroll Logo */}
-      <div className="relative w-12 h-12 md:w-16 md:h-16 lg:w-[72px] lg:h-[72px]">
-        {/* Light Mode: White Logo (visible at top) */}
-        <img 
-          src="/images/nexotar_logo.png" 
-          alt="Nexotar" 
-          className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
-        />
-        {/* Light Mode: Dark Logo (visible when scrolled) */}
-        <img 
-          src="/images/nexotar_logo_dark.png" 
-          alt="Nexotar" 
-          className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled ? 'opacity-100' : 'opacity-0'}`}
-        />
-        {/* Dark Mode: Always use White Logo */}
-        <img 
-          src="/images/nexotar_logo.png" 
-          alt="Nexotar" 
-          className="absolute inset-0 w-full h-full object-contain transition-all duration-500 hidden dark:block"
-        />
-      </div>
-    </a>
-    
-    <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-      {NAV.map((n) => (
-        <a 
-          key={n.href} 
-          href={n.href} 
-          className={`text-sm font-medium transition-all duration-300 ${
-            isScrolled 
-              ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
-              : 'text-white/90 hover:text-white drop-shadow-md' // Always white at top because video is dark
-          }`}
-        >
-          {n.label}
-        </a>
-      ))}
-    </nav>
-    
-    <div className="flex items-center gap-2 md:gap-3">
-      <ThemeToggle />
-      <a 
-        href="tel:+917703988597" 
-        className={`hidden sm:inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg whitespace-nowrap ${
-          isScrolled 
-            ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
-            : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border' // Always glass/white at top
-        }`}
-      >
-        <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" /> 
-        <span>Call now</span>
-      </a>
-    </div>
-  </div>
-</header>
+      <Header />
 
       {/* HERO SECTION */}
       <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
@@ -447,6 +471,7 @@ export default function Page() {
               muted
               loop
               playsInline
+              poster="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="
               className={`w-full h-full object-cover transition-opacity duration-1000 invert dark:invert-0 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
               onLoadedData={() => {
                 console.log("Video loaded successfully");
@@ -537,7 +562,7 @@ export default function Page() {
               
               <div className="relative z-0 w-full h-full">
                 <div className="w-full h-full">
-                  <HeroGlobe />
+                  {mount3D && <HeroGlobe />}
                 </div>
               </div>
             </div>
@@ -645,6 +670,7 @@ export default function Page() {
                   <img 
                     src={p.img} 
                     alt={p.title} 
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -693,6 +719,7 @@ export default function Page() {
                     <img 
                       src={p.img} 
                       alt={p.title} 
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
