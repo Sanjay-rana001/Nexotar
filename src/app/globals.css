@@ -136,20 +136,24 @@ html, body {
   
   @keyframes shimmer-slash {
     0% {
-      transform: translate(-150%, 50%) rotate(45deg);
+      transform: translate(-200px, 100px) rotate(45deg);
       opacity: 0;
     }
     10% {
       opacity: 1;
     }
     50% {
-      transform: translate(150%, -50%) rotate(45deg);
+      transform: translate(400px, -150px) rotate(45deg);
       opacity: 0;
     }
     100% {
-      transform: translate(150%, -50%) rotate(45deg);
+      transform: translate(400px, -150px) rotate(45deg);
       opacity: 0;
     }
+  }
+
+  .animate-shimmer-slash {
+    animation: shimmer-slash 1.5s infinite linear;
   }
 
   @keyframes rocket-bounce {
