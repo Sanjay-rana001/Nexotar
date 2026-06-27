@@ -1,10 +1,20 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { DM_Sans, DM_Serif_Display } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter' });
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-space' });
+const dmSans = DM_Sans({ 
+  subsets: ['latin'], 
+  weight: ['400', '500', '600', '700'], 
+  variable: '--font-sans' 
+});
+
+const dmSerif = DM_Serif_Display({ 
+  subsets: ['latin'], 
+  weight: ['400'], 
+  variable: '--font-serif' 
+});
+
 import { SmoothScroll } from '@/components/SmoothScroll';
 
 export const metadata: Metadata = {
@@ -18,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${dmSans.variable} ${dmSerif.variable}`}>
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
       </head>
