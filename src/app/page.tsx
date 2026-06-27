@@ -767,8 +767,9 @@ export default function Page() {
               viewport={{ once: true }}
               className="group inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6 relative overflow-hidden"
             >
-              <div className="absolute -top-24 left-0 w-12 h-64 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-white/20 to-transparent blur-[2px] animate-[shimmer-slash_3s_infinite_ease-in-out] pointer-events-none will-change-transform" />
-              <span className="text-label-sm font-semibold text-[var(--color-on-surface-variant)] relative z-10">
+              <div className="absolute top-0 bottom-0 left-1/2 w-16 -ml-8 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-[var(--color-primary-container)]/20 to-transparent animate-shimmer-slash will-change-transform pointer-events-none" />
+              <Icon name="payments" className="text-base text-[var(--color-primary-container)] relative z-10" />
+              <span className="text-label-sm font-semibold text-[var(--color-on-surface-variant)] relative z-10 uppercase tracking-widest">
                 Transparent Pricing
               </span>
             </motion.div>
