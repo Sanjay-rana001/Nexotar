@@ -65,6 +65,7 @@ export function RobotBody({ isDark }: { isDark: boolean }) {
   const logoMaterial = useMemo(() => new THREE.MeshBasicMaterial({
     map: logoTexture,
     transparent: true,
+    color: "#000000" // Tints the blue logo perfectly black!
   }), [logoTexture]);
   
   const jointMaterial = useMemo(() => new THREE.MeshStandardMaterial({

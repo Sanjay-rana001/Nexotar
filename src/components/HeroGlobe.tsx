@@ -301,13 +301,13 @@ export function HeroGlobe() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <div className="w-full h-full min-h-[400px] md:min-h-[500px]" />;
+    return <div className="w-full h-full" />;
   }
 
   const isDark = resolvedTheme === "dark";
 
   return (
-    <div className="w-full h-full min-h-[400px] md:min-h-[500px] relative flex items-center justify-center cursor-move">
+    <div className="w-full h-full relative flex items-center justify-center cursor-move">
       <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-primary-container)]/10 to-transparent blur-3xl -z-10 rounded-full" />
       
       {/* Dynamic Drop Shadow for Light Mode Globe */}

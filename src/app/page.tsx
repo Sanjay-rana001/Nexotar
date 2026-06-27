@@ -3,8 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone, ArrowUp } from "lucide-react";
-import { ContactForm } from "@/components/ContactForm";
+import { Moon, Sun, Check, Sparkles, Zap, Shield, Users, Gift, Linkedin, Phone, ArrowUp } from "lucide-react";
+const ContactForm = dynamic(() => import("@/components/ContactForm").then(mod => mod.ContactForm));
 
 const RobotMascot = dynamic(() => import("@/components/RobotMascot/RobotMascot").then(mod => mod.RobotMascot), { ssr: false });
 const HeroGlobe = dynamic(() => import("@/components/HeroGlobe").then(mod => mod.HeroGlobe), { ssr: false });
@@ -469,6 +469,7 @@ export default function Page() {
             <video
               suppressHydrationWarning
               ref={videoRef}
+              preload="none"
               autoPlay
               muted
               loop
@@ -538,10 +539,10 @@ export default function Page() {
             initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0"
+            className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0 w-full"
           >
-            <div className="relative w-full max-w-[500px] lg:max-w-[600px] h-[350px] lg:h-[600px]">
-              <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
+            <div className="relative w-full max-w-[280px] md:max-w-[380px] lg:max-w-[600px] h-[280px] md:h-[380px] lg:h-[600px]">
+              <div className="absolute inset-0 pointer-events-none z-10 hidden lg:block">
                 <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                   <Icon name="web" className="text-6xl text-white" />
                 </motion.div>
@@ -766,7 +767,7 @@ export default function Page() {
               viewport={{ once: true }}
               className="group inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6 relative overflow-hidden"
             >
-              <div className="absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-black/20 dark:via-white/20 to-transparent blur-[2px] animate-[shimmer-slash_3s_infinite_ease-in-out] pointer-events-none" />
+              <div className="absolute -top-24 left-0 w-12 h-64 bg-gradient-to-r from-transparent via-[var(--color-primary-container)]/30 dark:via-white/20 to-transparent blur-[2px] animate-[shimmer-slash_3s_infinite_ease-in-out] pointer-events-none will-change-transform" />
               <span className="text-label-sm font-semibold text-[var(--color-on-surface-variant)] relative z-10">
                 Transparent Pricing
               </span>
@@ -792,7 +793,7 @@ export default function Page() {
                   "1 round of design revisions",
                   "1 week of post-launch support",
                   "Deployment & hosting setup",
-                  "Free Domain",
+                  "Free Domain (1 year)",
                   "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
@@ -813,7 +814,7 @@ export default function Page() {
                   "Custom API integrations",
                   "Database design & optimization",
                   "Admin dashboard",
-                  "Free Domain",
+                  "Free Domain (1 year)",
                   "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
@@ -835,7 +836,7 @@ export default function Page() {
                   "Security & compliance audit",
                   "Dedicated project manager",
                   "24/7 priority support",
-                  "Free Domain",
+                  "Free Domain (1 year)",
                   "Free Hosting (1 year)",
                 ],
                 buttonText: "Get Started",
@@ -875,25 +876,49 @@ export default function Page() {
                   <h3 className="font-display text-xl font-semibold">{plan.name}</h3>
                 </div>
 
-                <div className="mb-2">
-                  <span className="font-display text-4xl font-bold tracking-tight">{plan.price}</span>
-                  {plan.price !== "Custom" && (
-                    <span className="text-[var(--color-on-surface-variant)] text-sm ml-1">/ project</span>
-                  )}
+                <div className="mb-2 flex flex-col">
+                  <span className="text-sm font-medium text-[var(--color-on-surface-variant)] mb-0.5">Starts from</span>
+                  <div className="flex items-baseline">
+                    <span className="font-display text-4xl font-bold tracking-tight">{plan.price}</span>
+                    {plan.price !== "Custom" && (
+                      <span className="text-[var(--color-on-surface-variant)] text-sm ml-1">/ project</span>
+                    )}
+                  </div>
                 </div>
                 <p className="text-[var(--color-on-surface-variant)] text-sm mb-6">{plan.description}</p>
 
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature) => {
                     const isFreeFeature = feature.includes("Free Domain") || feature.includes("Free Hosting");
+                    
+                    if (isFreeFeature) {
+                      return (
+                        <li key={feature} className="flex items-center gap-3 text-sm p-2.5 rounded-xl bg-gradient-to-r from-[var(--color-primary-container)]/10 to-transparent relative overflow-hidden group">
+                          <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-container)]/0 via-[var(--color-primary-container)]/10 to-[var(--color-primary-container)]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out will-change-transform" />
+                          <div className="w-6 h-6 rounded-full bg-[var(--color-primary-container)]/20 flex flex-shrink-0 items-center justify-center relative z-10 mt-0.5">
+                            <Gift className="w-3.5 h-3.5 text-[var(--color-primary-container)]" />
+                          </div>
+                          <div className="flex flex-col relative z-10">
+                            <span className="font-semibold text-[var(--color-primary-container)] leading-tight">
+                              {feature}
+                            </span>
+                            <span className="text-[9px] text-[var(--color-primary-container)]/80 uppercase font-bold tracking-wider mt-0.5">
+                              Limited Time Offer
+                            </span>
+                          </div>
+                          <div className="ml-auto relative z-10 flex-shrink-0">
+                            <span className="text-[9px] font-bold uppercase tracking-widest bg-[var(--color-primary-container)] text-white dark:text-black px-2 py-1 rounded-full shadow-[0_0_10px_rgba(0,112,243,0.3)]">
+                              Gift
+                            </span>
+                          </div>
+                        </li>
+                      );
+                    }
+
                     return (
                       <li key={feature} className="flex items-start gap-3 text-sm">
-                        {isFreeFeature ? (
-                          <span className="text-[var(--color-primary-container)] flex-shrink-0 mt-0.5">✦</span>
-                        ) : (
-                          <Check className="w-4 h-4 text-[var(--color-primary-container)] flex-shrink-0 mt-0.5" />
-                        )}
-                        <span className={isFreeFeature ? "text-[var(--color-primary-container)] font-medium" : "text-[var(--color-on-surface)]"}>
+                        <Check className="w-4 h-4 text-[var(--color-primary-container)] flex-shrink-0 mt-0.5" />
+                        <span className="text-[var(--color-on-surface)]">
                           {feature}
                         </span>
                       </li>

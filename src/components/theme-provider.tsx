@@ -11,6 +11,15 @@ if (typeof console !== "undefined") {
     if (typeof args[0] === "string" && args[0].includes("Encountered a script tag while rendering React component")) {
       return; // Ignore this specific warning
     }
+    
+    // Ignore hydration errors caused by password managers (e.g., Bitwarden) injecting fdprocessedid
+    const hasFdProcessedId = args.some(arg => 
+      typeof arg === "string" && arg.includes("fdprocessedid")
+    );
+    if (hasFdProcessedId) {
+      return;
+    }
+
     originalError.apply(console, args);
   };
 }

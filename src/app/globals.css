@@ -134,14 +134,31 @@ html, body {
                 radial-gradient(60% 60% at 70% 90%, rgba(0,229,255,0.10), transparent 60%);
   }
   
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-  
   @keyframes shimmer-slash {
-    0% { left: -100px; transform: skewX(25deg); }
-    100% { left: calc(100% + 100px); transform: skewX(25deg); }
+    0% {
+      transform: translate(-150%, 50%) rotate(45deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    50% {
+      transform: translate(150%, -50%) rotate(45deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(150%, -50%) rotate(45deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes rocket-bounce {
+    0%, 100% {
+      transform: translate(0px, 0px) rotate(0deg) scale(1);
+    }
+    50% {
+      transform: translate(4px, -4px) rotate(10deg) scale(1.1);
+    }
   }
 }
 

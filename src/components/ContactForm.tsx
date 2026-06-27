@@ -40,6 +40,20 @@ export function ContactForm() {
         createdAt: serverTimestamp(),
       });
 
+      // Send to Telegram via our secure API route
+      try {
+        await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+      } catch (tgError) {
+        console.error("Failed to send Telegram notification:", tgError);
+        // We don't fail the whole submission just because Telegram failed
+      }
+
       setIsSuccess(true);
       setFormData({ name: "", email: "", websiteType: "", budget: "" });
     } catch (err) {
@@ -54,7 +68,7 @@ export function ContactForm() {
   const labelClasses = "block text-sm font-semibold text-[var(--color-on-surface-variant)] mb-2 ml-1";
 
   return (
-    <div className="relative rounded-3xl p-8 sm:p-10 backdrop-blur-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/60 shadow-2xl h-full">
+    <div className="relative rounded-3xl p-8 sm:p-10 backdrop-blur-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/60 shadow-2xl h-full transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,112,243,0.15)] hover:-translate-y-1">
       
       {/* Subtle background glow for eye-catching effect */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-primary-container)]/10 rounded-full blur-[50px] pointer-events-none" />
@@ -138,12 +152,12 @@ export function ContactForm() {
                     onChange={handleChange}
                     className={`${inputClasses} appearance-none cursor-pointer`}
                   >
-                    <option value="" disabled>Select type...</option>
-                    <option value="Landing Page">Landing Page</option>
-                    <option value="E-commerce">E-commerce</option>
-                    <option value="SaaS / Web App">SaaS / Web App</option>
-                    <option value="Portfolio / Corporate">Portfolio / Corporate</option>
-                    <option value="Custom">Custom</option>
+                    <option className="bg-white dark:bg-zinc-900" value="" disabled>Select type...</option>
+                    <option className="bg-white dark:bg-zinc-900" value="Landing Page">Landing Page</option>
+                    <option className="bg-white dark:bg-zinc-900" value="E-commerce">E-commerce</option>
+                    <option className="bg-white dark:bg-zinc-900" value="SaaS / Web App">SaaS / Web App</option>
+                    <option className="bg-white dark:bg-zinc-900" value="Portfolio / Corporate">Portfolio / Corporate</option>
+                    <option className="bg-white dark:bg-zinc-900" value="Custom">Custom</option>
                   </select>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -164,11 +178,11 @@ export function ContactForm() {
                     onChange={handleChange}
                     className={`${inputClasses} appearance-none cursor-pointer`}
                   >
-                    <option value="" disabled>Select budget...</option>
-                    <option value="Under ₹20,000">Under ₹20,000</option>
-                    <option value="₹20,000 - ₹50,000">₹20,000 - ₹50,000</option>
-                    <option value="₹50,000 - ₹1,00,000">₹50,000 - ₹1,00,000</option>
-                    <option value="₹1,00,000+">₹1,00,000+</option>
+                    <option className="bg-white dark:bg-zinc-900" value="" disabled>Select budget...</option>
+                    <option className="bg-white dark:bg-zinc-900" value="Under ₹20,000">Under ₹20,000</option>
+                    <option className="bg-white dark:bg-zinc-900" value="₹20,000 - ₹50,000">₹20,000 - ₹50,000</option>
+                    <option className="bg-white dark:bg-zinc-900" value="₹50,000 - ₹1,00,000">₹50,000 - ₹1,00,000</option>
+                    <option className="bg-white dark:bg-zinc-900" value="₹1,00,000+">₹1,00,000+</option>
                   </select>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -185,7 +199,7 @@ export function ContactForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-base font-bold px-6 py-4 rounded-xl shadow-[0_0_20px_rgba(0,112,243,0.2)] hover:shadow-[0_0_35px_rgba(0,112,243,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                className="group w-full flex items-center justify-center gap-2 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-base font-bold px-6 py-4 rounded-xl shadow-[0_0_20px_rgba(0,112,243,0.2)] hover:shadow-[0_0_35px_rgba(0,112,243,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
               >
                 {isSubmitting ? (
                   <>
@@ -194,7 +208,7 @@ export function ContactForm() {
                   </>
                 ) : (
                   <>
-                    Submit Request <Send className="w-4 h-4 ml-1" />
+                    Submit Request <Send className="w-4 h-4 ml-1 group-hover:animate-[rocket-bounce_0.6s_ease-in-out_infinite]" />
                   </>
                 )}
               </button>
