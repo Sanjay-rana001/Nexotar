@@ -17,13 +17,13 @@ export async function POST(req: Request) {
     }
 
     const text = `
-🚀 *New Lead from Nexotar!*
+🚀 <b>New Lead from Nexotar!</b>
 
-👤 *Name:* ${name}
-📧 *Email:* ${email}
-🌐 *Website Type:* ${websiteType}
-💰 *Budget:* ${budget}
-📝 *Message:*
+👤 <b>Name:</b> ${name}
+📧 <b>Email:</b> ${email}
+🌐 <b>Website Type:</b> ${websiteType}
+💰 <b>Budget:</b> ${budget}
+📝 <b>Message:</b>
 ${message || "No additional message provided."}
     `;
 
@@ -37,7 +37,7 @@ ${message || "No additional message provided."}
       body: JSON.stringify({
         chat_id: chatId,
         text: text,
-        parse_mode: 'Markdown',
+        parse_mode: 'HTML',
       }),
     });
 
