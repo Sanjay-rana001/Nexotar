@@ -42,13 +42,19 @@ export function ContactForm() {
 
       // Send to Telegram via our secure API route
       try {
-        await fetch('/api/contact', {
+        const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
         });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Telegram API route returned an error:", errorData);
+          // Optional: throw new Error("Failed to send to Telegram");
+        }
       } catch (tgError) {
         console.error("Failed to send Telegram notification:", tgError);
         // We don't fail the whole submission just because Telegram failed
