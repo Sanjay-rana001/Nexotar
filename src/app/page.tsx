@@ -455,7 +455,9 @@ export default function Page() {
       
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
       <div className="hidden md:block">
-        {mount3D && <RobotMascot />}
+        <div className="hidden lg:block">
+          {mount3D && <RobotMascot />}
+        </div>
       </div>
       
       <Header />
@@ -505,7 +507,7 @@ export default function Page() {
           </motion.div>
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -536,9 +538,9 @@ export default function Page() {
             initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="hidden md:flex items-center justify-end"
+            className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0"
           >
-            <div className="relative w-full max-w-[600px] h-[400px] md:h-[600px]">
+            <div className="relative w-full max-w-[500px] lg:max-w-[600px] h-[350px] lg:h-[600px]">
               <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
                 <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                   <Icon name="web" className="text-6xl text-white" />
@@ -764,7 +766,6 @@ export default function Page() {
               viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6"
             >
-              <Sparkles className="w-4 h-4 text-[var(--color-primary-container)]" />
               <span className="text-label-sm text-[var(--color-on-surface-variant)]">Transparent Pricing</span>
             </motion.div>
             <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent">
