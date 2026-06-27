@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue } from "fram
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { Moon, Sun, Check, Zap, Shield, Users, Sparkles, Linkedin, Phone, ArrowUp } from "lucide-react";
+import { ContactForm } from "@/components/ContactForm";
 
 const RobotMascot = dynamic(() => import("@/components/RobotMascot/RobotMascot").then(mod => mod.RobotMascot), { ssr: false });
 const HeroGlobe = dynamic(() => import("@/components/HeroGlobe").then(mod => mod.HeroGlobe), { ssr: false });
@@ -340,7 +341,6 @@ export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mounted, setMounted] = useState(false);
   const [mount3D, setMount3D] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState("Pro");
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
@@ -455,7 +455,9 @@ export default function Page() {
       
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
       <div className="hidden md:block">
-        {mount3D && <RobotMascot />}
+        <div className="hidden lg:block">
+          {mount3D && <RobotMascot />}
+        </div>
       </div>
       
       <Header />
@@ -505,7 +507,7 @@ export default function Page() {
           </motion.div>
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -536,9 +538,9 @@ export default function Page() {
             initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="hidden md:flex items-center justify-end"
+            className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0"
           >
-            <div className="relative w-full max-w-[600px] h-[400px] md:h-[600px]">
+            <div className="relative w-full max-w-[500px] lg:max-w-[600px] h-[350px] lg:h-[600px]">
               <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
                 <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                   <Icon name="web" className="text-6xl text-white" />
@@ -764,7 +766,6 @@ export default function Page() {
               viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6"
             >
-              <Sparkles className="w-4 h-4 text-[var(--color-primary-container)]" />
               <span className="text-label-sm text-[var(--color-on-surface-variant)]">Transparent Pricing</span>
             </motion.div>
             <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent">
@@ -840,25 +841,22 @@ export default function Page() {
                 popular: false,
               },
             ].map((plan, i) => {
-              const isSelected = selectedPlan === plan.name;
               return (
               <motion.div
                 key={plan.name}
-                onClick={() => setSelectedPlan(plan.name)}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.4 } }}
+                whileHover={{ y: -8, scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.4 }}
                 className={`
-                  relative rounded-2xl p-8 backdrop-blur-sm cursor-pointer flex flex-col h-full
+                  will-change-transform
+                  relative rounded-2xl p-8 backdrop-blur-sm flex flex-col h-full
                   border-2
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]
-                  transition-all duration-300 ease-out hover:-translate-y-2
-                  ${isSelected 
-                    ? 'border-[var(--color-primary-container)] shadow-[0_8px_40px_rgba(0,112,243,0.25)] scale-[1.02]' 
-                    : 'border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]'}
-                  hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_60px_rgba(255,255,255,0.04)]
+                  transition-colors duration-300 ease-out
+                  border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]
+                  hover:shadow-[0_8px_40px_rgba(0,112,243,0.25)]
                 `}
               >
                 {plan.popular && (
@@ -875,7 +873,6 @@ export default function Page() {
                 </div>
 
                 <div className="mb-2">
-                  <p className="text-[10px] uppercase tracking-wider text-[var(--color-on-surface-variant)] font-semibold mb-1">Starts from</p>
                   <span className="font-display text-4xl font-bold tracking-tight">{plan.price}</span>
                   {plan.price !== "Custom" && (
                     <span className="text-[var(--color-on-surface-variant)] text-sm ml-1">/ project</span>
@@ -1128,26 +1125,79 @@ export default function Page() {
         </div>
       </section>
 
-    <section id="contact" className="py-32 relative">
-  <div className="max-w-[1440px] mx-auto px-4 md:px-6 text-center">
-    <h2 className="font-display-lg text-display-md mb-6 bg-gradient-to-br from-black to-black/40 dark:from-white dark:to-white/40 bg-clip-text text-transparent">
-      Let's build what's next.
-    </h2>
-    <p className="text-body-lg text-[var(--color-on-surface-variant)] max-w-xl mx-auto mb-10">
-      Tell us about your product. We'll respond within one business day with a plan to move forward.
-    </p>
-    <motion.a 
-      href="https://wa.me/918178546141" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="inline-flex items-center gap-3 bg-[#1a8c4a] text-white font-semibold px-10 py-4 rounded-full shadow-[0_0_40px_rgba(26,140,74,0.3)] hover:shadow-[0_0_60px_rgba(26,140,74,0.5)] transition-shadow hover:bg-[#157a3f]"
-    >
-      <WhatsAppIcon className="w-6 h-6" /> Chat on WhatsApp
-    </motion.a>
-  </div>
-</section>
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-primary-container)]/5 dark:bg-[var(--color-primary-container)]/10 blur-[100px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 items-center justify-between relative">
+          
+          {/* Left Column: Text & WhatsApp */}
+          <div className="text-left max-w-xl w-full lg:w-[45%]">
+            <h2 className="font-display-lg text-display-md mb-6 bg-gradient-to-br from-black to-black/40 dark:from-white dark:to-white/40 bg-clip-text text-transparent">
+              What's on your mind!!
+            </h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)] mb-10">
+              Got an idea you can't stop thinking about? We'd love to hear it. Fill out the form, or drop us a quick text and let's figure out how to bring it to life.
+            </p>
+            
+            <div className="flex flex-wrap items-center gap-4">
+              <motion.a 
+                href="https://wa.me/918178546141" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 bg-[#1a8c4a] text-white font-semibold px-8 py-3.5 rounded-xl shadow-[0_0_30px_rgba(26,140,74,0.2)] hover:shadow-[0_0_50px_rgba(26,140,74,0.4)] transition-shadow hover:bg-[#157a3f]"
+              >
+                <WhatsAppIcon className="w-5 h-5" /> Chat on WhatsApp
+              </motion.a>
+              
+              <span className="text-sm text-[var(--color-on-surface-variant)] font-medium px-2">
+                Usually responds in 5 minutes
+              </span>
+            </div>
+          </div>
+
+          {/* OR Divider with Logo */}
+          <div className="flex lg:flex-col items-center justify-center w-full lg:w-auto shrink-0 opacity-50 lg:translate-x-4">
+            <div className="h-[1px] w-full lg:h-32 lg:w-[1px] bg-gradient-to-r lg:bg-gradient-to-b from-transparent via-black dark:via-white to-transparent" />
+            
+            <div className="px-6 lg:px-0 lg:py-8 flex items-center justify-center">
+              <div className="relative w-14 h-14 md:w-20 md:h-20 opacity-90 hover:opacity-100 transition-all hover:scale-110 drop-shadow-lg cursor-default">
+                
+                {/* Light Mode: Flat Black Mask */}
+                <div 
+                  className="w-full h-full bg-black dark:hidden block"
+                  style={{
+                    WebkitMaskImage: 'url(/images/nexotar_logo_without_text.png)',
+                    WebkitMaskSize: 'contain',
+                    WebkitMaskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                  }}
+                />
+
+                {/* Dark Mode: Original Image */}
+                <img 
+                  src="/images/nexotar_logo_without_text.png" 
+                  alt="Nexotar Icon" 
+                  className="w-full h-full object-contain hidden dark:block"
+                />
+
+              </div>
+            </div>
+
+            <div className="h-[1px] w-full lg:h-32 lg:w-[1px] bg-gradient-to-r lg:bg-gradient-to-b from-black dark:from-white via-black dark:via-white to-transparent" />
+          </div>
+
+          {/* Right Column: Contact Form */}
+          <div className="w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto lg:w-[45%]">
+            <ContactForm />
+          </div>
+
+        </div>
+      </div>
+    </section>
 
  <footer className="border-t border-black/5 dark:border-white/5 py-12">
   <div className="max-w-[1440px] mx-auto px-4 md:px-6 flex flex-col md:flex-row gap-6 items-center justify-between">

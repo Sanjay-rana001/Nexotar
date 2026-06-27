@@ -133,6 +133,11 @@ html, body {
                 radial-gradient(50% 50% at 80% 20%, rgba(198,168,255,0.16), transparent 60%),
                 radial-gradient(60% 60% at 70% 90%, rgba(0,229,255,0.10), transparent 60%);
   }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
 /* =========================================
