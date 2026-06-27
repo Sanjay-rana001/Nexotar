@@ -20,37 +20,37 @@ function ProjectCard({ p }: { p: Project }) {
       transition={{ type: "spring", stiffness: 80, damping: 20 }}
       className="bg-[var(--color-surface-container)] rounded-[2rem] border border-black/5 dark:border-white/5 overflow-hidden flex flex-col group shadow-xl"
     >
-      {/* Header Container: Flow column on mobile, relative container on md+ */}
-      <div className="w-full flex flex-col md:block relative bg-[var(--color-surface-container)] md:bg-black/5 dark:md:bg-white/5">
+      {/* Header Container: Flow column on mobile/tablet, relative container on lg+ */}
+      <div className="w-full flex flex-col lg:block relative bg-[var(--color-surface-container)] lg:bg-black/5 dark:lg:bg-white/5">
         
         {/* Image Section */}
-        <div className="relative w-full aspect-square md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden">
+        <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-[21/9] overflow-hidden">
           <img 
             src={p.img} 
             alt={p.title}
             loading="lazy"
-            className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-700" 
+            className="w-full h-full object-cover lg:group-hover:scale-105 transition-transform duration-700" 
           />
-          {/* Overlay gradient only on md+ */}
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
+          {/* Overlay gradient only on lg+ */}
+          <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
         </div>
         
-        {/* Title & Hook - Flow below on mobile, absolute overlay on md+ */}
-        <div className="relative md:absolute bottom-0 left-0 right-0 p-6 md:p-10 flex flex-col md:flex-row md:items-end justify-between gap-6 bg-[var(--color-surface-container)] md:bg-transparent">
-          <div className="md:text-white text-[var(--color-on-surface)]">
+        {/* Title & Hook - Flow below on mobile/tablet, absolute overlay on lg+ */}
+        <div className="relative lg:absolute bottom-0 left-0 right-0 p-6 lg:p-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6 bg-[var(--color-surface-container)] lg:bg-transparent">
+          <div className="lg:text-white text-[var(--color-on-surface)]">
             <div className="flex flex-wrap gap-2 mb-4">
               {p.tags.map((t) => (
-                <span key={t} className="text-xs font-bold tracking-wider uppercase px-3 py-1 bg-[var(--color-primary-container)]/10 md:bg-white/20 backdrop-blur-md rounded-full border border-[var(--color-primary-container)]/20 md:border-white/30 text-[var(--color-primary-container)] md:text-white md:shadow-lg">
+                <span key={t} className="text-xs font-bold tracking-wider uppercase px-3 py-1 bg-[var(--color-primary-container)]/10 lg:bg-white/20 backdrop-blur-md rounded-full border border-[var(--color-primary-container)]/20 lg:border-white/30 text-[var(--color-primary-container)] lg:text-white lg:shadow-lg">
                   {t}
                 </span>
               ))}
             </div>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight mb-2 md:drop-shadow-xl">{p.title}</h2>
-            <h3 className="text-lg md:text-2xl font-medium text-[var(--color-on-surface-variant)] md:text-white/90 md:drop-shadow-md max-w-2xl">{p.hook}</h3>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-display tracking-tight mb-2 lg:drop-shadow-xl">{p.title}</h2>
+            <h3 className="text-lg md:text-xl lg:text-2xl font-medium text-[var(--color-on-surface-variant)] lg:text-white/90 lg:drop-shadow-md max-w-2xl">{p.hook}</h3>
           </div>
           
-          <div className="shrink-0 bg-[var(--color-primary-container)]/5 md:bg-white/10 backdrop-blur-md border border-[var(--color-primary-container)]/20 md:border-white/20 rounded-2xl p-5 max-w-sm text-[var(--color-on-surface)] md:text-white md:shadow-2xl">
-            <h4 className="text-xs uppercase tracking-widest font-bold text-[var(--color-primary-container)] md:text-green-400 mb-2">Key Impact</h4>
+          <div className="shrink-0 w-full lg:w-auto lg:max-w-sm bg-[var(--color-primary-container)]/5 lg:bg-white/10 backdrop-blur-md border border-[var(--color-primary-container)]/20 lg:border-white/20 rounded-2xl p-5 lg:p-6 text-[var(--color-on-surface)] lg:text-white lg:shadow-2xl">
+            <h4 className="text-xs uppercase tracking-widest font-bold text-[var(--color-primary-container)] lg:text-green-400 mb-2">Key Impact</h4>
             <p className="text-sm md:text-base font-semibold leading-relaxed">
               {p.results}
             </p>
