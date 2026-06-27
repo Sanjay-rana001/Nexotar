@@ -94,7 +94,7 @@ export function ContactForm() {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="John Doe"
+                placeholder="Sanjay Rana"
                 className="w-full px-3 py-2 text-sm rounded-lg border border-black/15 dark:border-white/15 bg-white dark:bg-black focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/50 focus:border-[var(--color-primary-container)] transition-all placeholder:text-black/30 dark:placeholder:text-white/30"
               />
             </div>
@@ -110,7 +110,7 @@ export function ContactForm() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="john@example.com"
+                placeholder="sanjay.rana@example.com"
                 className="w-full px-3 py-2 text-sm rounded-lg border border-black/15 dark:border-white/15 bg-white dark:bg-black focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/50 focus:border-[var(--color-primary-container)] transition-all placeholder:text-black/30 dark:placeholder:text-white/30"
               />
             </div>
