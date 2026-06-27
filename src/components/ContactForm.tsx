@@ -50,26 +50,34 @@ export function ContactForm() {
     }
   };
 
+  const inputClasses = "w-full px-4 py-3 sm:py-3.5 text-[15px] sm:text-base rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-black/50 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/40 focus:border-[var(--color-primary-container)] transition-all duration-300 placeholder:text-black/30 dark:placeholder:text-white/30 hover:border-black/20 dark:hover:border-white/20";
+  const labelClasses = "block text-sm font-semibold text-[var(--color-on-surface-variant)] mb-2 ml-1";
+
   return (
-    <div className="relative rounded-2xl p-6 backdrop-blur-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/70 shadow-lg h-full">
+    <div className="relative rounded-3xl p-8 sm:p-10 backdrop-blur-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/60 shadow-2xl h-full">
+      
+      {/* Subtle background glow for eye-catching effect */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-primary-container)]/10 rounded-full blur-[50px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-[var(--color-secondary-fixed-dim)]/10 rounded-full blur-[50px] pointer-events-none" />
+
       <AnimatePresence mode="wait">
         {isSuccess ? (
           <motion.div
             key="success"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center py-8 text-center h-full min-h-[300px]"
+            className="flex flex-col items-center justify-center py-12 text-center h-full min-h-[350px] relative z-10"
           >
-            <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center mb-4">
-              <CheckCircle2 className="w-6 h-6 text-[#1a8c4a]" />
+            <div className="w-16 h-16 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center mb-6 shadow-inner">
+              <CheckCircle2 className="w-8 h-8 text-[#1a8c4a]" />
             </div>
-            <h3 className="font-display text-xl font-semibold mb-2">Message Received!</h3>
-            <p className="text-[var(--color-on-surface-variant)] text-sm">
+            <h3 className="font-display text-2xl font-bold mb-3">Message Received!</h3>
+            <p className="text-[var(--color-on-surface-variant)] text-base max-w-[250px]">
               Thanks {formData.name || "friend"}. We'll get back to you within 24 hours.
             </p>
             <button
               onClick={() => setIsSuccess(false)}
-              className="mt-6 text-sm font-semibold text-[var(--color-primary-container)] hover:underline"
+              className="mt-8 px-6 py-2.5 rounded-full bg-black/5 dark:bg-white/5 text-sm font-semibold hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
             >
               Send another message
             </button>
@@ -77,14 +85,15 @@ export function ContactForm() {
         ) : (
           <motion.form
             key="form"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
             onSubmit={handleSubmit}
-            className="space-y-4"
+            className="space-y-6 relative z-10"
           >
-            <div className="space-y-1.5">
-              <label htmlFor="name" className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+            <div>
+              <label htmlFor="name" className={labelClasses}>
                 Your Name
               </label>
               <input
@@ -95,12 +104,12 @@ export function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Sanjay Rana"
-                className="w-full px-3 py-2 text-sm rounded-lg border border-black/15 dark:border-white/15 bg-white dark:bg-black focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/50 focus:border-[var(--color-primary-container)] transition-all placeholder:text-black/30 dark:placeholder:text-white/30"
+                className={inputClasses}
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label htmlFor="email" className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+            <div>
+              <label htmlFor="email" className={labelClasses}>
                 Email Address
               </label>
               <input
@@ -111,13 +120,13 @@ export function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="sanjay.rana@example.com"
-                className="w-full px-3 py-2 text-sm rounded-lg border border-black/15 dark:border-white/15 bg-white dark:bg-black focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/50 focus:border-[var(--color-primary-container)] transition-all placeholder:text-black/30 dark:placeholder:text-white/30"
+                className={inputClasses}
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label htmlFor="websiteType" className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="websiteType" className={labelClasses}>
                   Project Type
                 </label>
                 <div className="relative">
@@ -127,7 +136,7 @@ export function ContactForm() {
                     required
                     value={formData.websiteType}
                     onChange={handleChange}
-                    className="w-full appearance-none px-3 py-2 text-sm rounded-lg border border-black/15 dark:border-white/15 bg-white dark:bg-black focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/50 focus:border-[var(--color-primary-container)] transition-all"
+                    className={`${inputClasses} appearance-none cursor-pointer`}
                   >
                     <option value="" disabled>Select type...</option>
                     <option value="Landing Page">Landing Page</option>
@@ -136,14 +145,14 @@ export function ContactForm() {
                     <option value="Portfolio / Corporate">Portfolio / Corporate</option>
                     <option value="Custom">Custom</option>
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label htmlFor="budget" className="text-sm font-medium text-[var(--color-on-surface-variant)]">
+              <div>
+                <label htmlFor="budget" className={labelClasses}>
                   Estimated Budget
                 </label>
                 <div className="relative">
@@ -153,7 +162,7 @@ export function ContactForm() {
                     required
                     value={formData.budget}
                     onChange={handleChange}
-                    className="w-full appearance-none px-3 py-2 text-sm rounded-lg border border-black/15 dark:border-white/15 bg-white dark:bg-black focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-container)]/50 focus:border-[var(--color-primary-container)] transition-all"
+                    className={`${inputClasses} appearance-none cursor-pointer`}
                   >
                     <option value="" disabled>Select budget...</option>
                     <option value="Under ₹20,000">Under ₹20,000</option>
@@ -161,33 +170,35 @@ export function ContactForm() {
                     <option value="₹50,000 - ₹1,00,000">₹50,000 - ₹1,00,000</option>
                     <option value="₹1,00,000+">₹1,00,000+</option>
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                   </div>
                 </div>
               </div>
             </div>
 
             {error && (
-              <p className="text-sm text-red-500 font-medium">{error}</p>
+              <p className="text-sm text-red-500 font-medium px-1">{error}</p>
             )}
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full mt-2 flex items-center justify-center gap-2 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  Submit Request <Send className="w-3.5 h-3.5" />
-                </>
-              )}
-            </button>
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-base font-bold px-6 py-4 rounded-xl shadow-[0_0_20px_rgba(0,112,243,0.2)] hover:shadow-[0_0_35px_rgba(0,112,243,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Sending Request...
+                  </>
+                ) : (
+                  <>
+                    Submit Request <Send className="w-4 h-4 ml-1" />
+                  </>
+                )}
+              </button>
+            </div>
           </motion.form>
         )}
       </AnimatePresence>
