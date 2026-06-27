@@ -138,6 +138,11 @@ html, body {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
+  
+  @keyframes shimmer-slash {
+    0% { left: -100px; transform: skewX(25deg); }
+    100% { left: calc(100% + 100px); transform: skewX(25deg); }
+  }
 }
 
 /* =========================================

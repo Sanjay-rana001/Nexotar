@@ -764,9 +764,12 @@ export default function Page() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6"
+              className="group inline-flex items-center gap-2 px-4 py-1.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-full mb-6 relative overflow-hidden"
             >
-              <span className="text-label-sm text-[var(--color-on-surface-variant)]">Transparent Pricing</span>
+              <div className="absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-black/20 dark:via-white/20 to-transparent blur-[2px] animate-[shimmer-slash_3s_infinite_ease-in-out] pointer-events-none" />
+              <span className="text-label-sm font-semibold text-[var(--color-on-surface-variant)] relative z-10">
+                Transparent Pricing
+              </span>
             </motion.div>
             <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-b from-black to-black/60 dark:from-white dark:to-white/60 bg-clip-text text-transparent">
               Choose Your Plan
@@ -861,7 +864,7 @@ export default function Page() {
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-xs font-semibold tracking-wide">
-                    Most Popular
+                    Recommended
                   </div>
                 )}
 
