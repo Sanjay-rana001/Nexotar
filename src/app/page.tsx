@@ -1,3 +1,4 @@
+// app/page.tsx
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
@@ -6,6 +7,7 @@ import dynamic from "next/dynamic";
 import { Moon, Sun, Check, Sparkles, Zap, Shield, Users, Gift, Linkedin, Phone, ArrowUp } from "lucide-react";
 const ContactForm = dynamic(() => import("@/components/ContactForm").then(mod => mod.ContactForm));
 
+// Import the RobotMascot normally (will be conditionally rendered)
 const RobotMascot = dynamic(() => import("@/components/RobotMascot/RobotMascot").then(mod => mod.RobotMascot), { ssr: false });
 const HeroGlobe = dynamic(() => import("@/components/HeroGlobe").then(mod => mod.HeroGlobe), { ssr: false });
 const AnalyticsDashboard = dynamic(() => import("@/components/AnalyticsDashboard").then(mod => mod.AnalyticsDashboard), { ssr: false });
@@ -14,6 +16,7 @@ import Link from 'next/link';
 import { allProjects } from "@/data/projects";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { WhatsAppIcon } from "@/components/Footer";
+import { BotToggleButton } from "@/components/BotToggleButton";
 
 // NAV extracted to global Header
 
@@ -83,8 +86,6 @@ const FAQS = [
 function Icon({ name, className = "" }: { name: string; className?: string }) {
   return <span className={`material-symbols-outlined ${className}`}>{name}</span>;
 }
-// WhatsAppIcon extracted to global Footer
-
 
 function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll: any }) {
   const gradients = [
@@ -196,7 +197,6 @@ function MinimalCursor() {
     </>
   );
 }
-// Header extracted to global layout
 
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -205,6 +205,7 @@ export default function Page() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [isCursorVisible, setIsCursorVisible] = useState(true);
+  const [isBotVisible, setIsBotVisible] = useState(false); // Hidden by default
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const processRef = useRef<HTMLElement>(null);
@@ -233,9 +234,16 @@ export default function Page() {
       window.removeEventListener('touchstart', load3D);
     };
     
-    window.addEventListener('mousemove', load3D, { once: true, passive: true });
-    window.addEventListener('scroll', load3D, { once: true, passive: true });
-    window.addEventListener('touchstart', load3D, { once: true, passive: true });
+    // Only load 3D on desktop (lg breakpoint and above)
+    const isDesktop = window.innerWidth >= 1024;
+    if (isDesktop) {
+      window.addEventListener('mousemove', load3D, { once: true, passive: true });
+      window.addEventListener('scroll', load3D, { once: true, passive: true });
+      window.addEventListener('touchstart', load3D, { once: true, passive: true });
+    } else {
+      // On mobile/tablet, don't load 3D at all
+      setMount3D(false);
+    }
     
     if (videoRef.current) {
       if (videoRef.current.readyState >= 2) {
@@ -251,6 +259,13 @@ export default function Page() {
     if (isTouchDevice) {
       setIsCursorVisible(false);
     }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('mousemove', load3D);
+      window.removeEventListener('scroll', load3D);
+      window.removeEventListener('touchstart', load3D);
+    };
   }, []);
 
   const handleVideoError = () => {
@@ -258,6 +273,9 @@ export default function Page() {
     setVideoError(true);
   };
 
+  const toggleBot = () => {
+    setIsBotVisible(!isBotVisible);
+  };
 
   const initialProjects = allProjects.slice(0, 4);
 
@@ -276,10 +294,10 @@ export default function Page() {
       )}
       
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
-      <div className="hidden md:block">
-        <div className="hidden lg:block">
-          {mount3D && <RobotMascot />}
-        </div>
+      
+      {/* Bot Container - Only on desktop (lg+) */}
+      <div className="hidden lg:block">
+        {isBotVisible && mount3D && <RobotMascot />}
       </div>
       
 
@@ -1001,8 +1019,11 @@ export default function Page() {
       </div>
     </section>
 
-// Footer extracted to global layout
+      {/* Footer is extracted to global layout */}
       <ScrollToTopButton />
+      
+      {/* Bot Toggle Button - Only visible on desktop (lg+) */}
+      <BotToggleButton isBotVisible={isBotVisible} onToggle={toggleBot} />
     </div>
   );
 }
