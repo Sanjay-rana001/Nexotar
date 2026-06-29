@@ -17,7 +17,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     requestAnimationFrame(raf);
 
+    // Listen for custom events to pause/resume
+    const handlePause = () => lenis.stop();
+    const handleResume = () => lenis.start();
+    
+    window.addEventListener('pause-scroll', handlePause);
+    window.addEventListener('resume-scroll', handleResume);
+
     return () => {
+      window.removeEventListener('pause-scroll', handlePause);
+      window.removeEventListener('resume-scroll', handleResume);
       lenis.destroy();
     };
   }, []);
