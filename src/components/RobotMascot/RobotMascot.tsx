@@ -238,7 +238,7 @@ function RobotLogic({ isDark }: { isDark: boolean }) {
   );
 }
 
-export function RobotMascot() {
+export function RobotMascot({ isVisible = true }: { isVisible?: boolean }) {
   const setScrollProgress = useMascotStore(state => state.setScrollProgress);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark" || resolvedTheme === undefined; // Default to dark
@@ -246,12 +246,18 @@ export function RobotMascot() {
   // State to track if we are on a mobile device
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isLowEnd, setIsLowEnd] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile(); // Check on mount
     window.addEventListener('resize', checkMobile, { passive: true });
+    
+    if (typeof navigator !== 'undefined') {
+      setIsLowEnd(navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false);
+    }
+    
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -344,8 +350,8 @@ export function RobotMascot() {
   if (!mounted || isMobile) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] pointer-events-none">
-      <Canvas style={{ pointerEvents: 'none' }} dpr={[1, 1.5]} eventSource={typeof window !== 'undefined' ? document.body : undefined} eventPrefix="client" camera={{ position: [0, 0, 5], fov: 50 }} gl={{ powerPreference: "high-performance" }}>
+    <div className={`fixed inset-0 z-[999] pointer-events-none transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <Canvas frameloop={isVisible ? "always" : "never"} style={{ pointerEvents: 'none' }} dpr={isLowEnd ? [1, 1] : [1, 1.5]} eventSource={typeof window !== 'undefined' ? document.body : undefined} eventPrefix="client" camera={{ position: [0, 0, 5], fov: 50 }} gl={{ powerPreference: "high-performance", antialias: !isLowEnd }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 10, 5]} intensity={2} />
         <directionalLight position={[-5, 5, -5]} intensity={1.5} color="#00e5ff" /> 

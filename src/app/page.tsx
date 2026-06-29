@@ -18,6 +18,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { WhatsAppIcon } from "@/components/Footer";
 import { BotToggleButton } from "@/components/BotToggleButton";
 
+
 // NAV extracted to global Header
 
 const SERVICES = [
@@ -277,6 +278,7 @@ export default function Page() {
     setIsBotVisible(!isBotVisible);
   };
 
+
   const initialProjects = allProjects.slice(0, 4);
 
   return (
@@ -297,7 +299,7 @@ export default function Page() {
       
       {/* Bot Container - Only on desktop (lg+) */}
       <div className="hidden lg:block">
-        {isBotVisible && mount3D && <RobotMascot />}
+        {mount3D && <RobotMascot isVisible={isBotVisible} />}
       </div>
       
 
@@ -1023,7 +1025,6 @@ export default function Page() {
       <ScrollToTopButton />
       
       {/* Bot Toggle Button - Only visible on desktop (lg+) */}
-      <BotToggleButton isBotVisible={isBotVisible} onToggle={toggleBot} />
-    </div>
+      <BotToggleButton isBotVisible={isBotVisible} onToggle={toggleBot} />    </div>
   );
 }

@@ -9,9 +9,22 @@ export function BotToggleButton({ isBotVisible, onToggle }: { isBotVisible: bool
   const [isHovered, setIsHovered] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  const [yOffset, setYOffset] = useState(96);
+
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    const updatePosition = () => {
+      const bottomOffset = window.innerWidth >= 768 ? 160 : 144;
+      if (isBotVisible) {
+        setYOffset(window.innerHeight - bottomOffset - 48); // 48px is button height
+      } else {
+        setYOffset(96); // 96px is top-24
+      }
+    };
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    return () => window.removeEventListener("resize", updatePosition);
+  }, [isBotVisible]);
 
   if (!isMounted) return null;
 
@@ -20,17 +33,16 @@ export function BotToggleButton({ isBotVisible, onToggle }: { isBotVisible: bool
       onClick={onToggle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="fixed bottom-24 left-18 z-[9999] group hidden lg:flex" // Hidden on mobile and tablet
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ 
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
-        delay: 0.5
-      }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      className="fixed top-0 right-6 md:right-8 z-[9999] group hidden lg:flex flex-col items-center justify-center cursor-pointer"
+      initial={{ scale: 0, opacity: 0, y: 96 }}
+      animate={{ scale: 1, opacity: 1, y: yOffset }}
+      transition={
+        isBotVisible 
+          ? { type: "spring", stiffness: 500, damping: 30 } // Zips down instantly
+          : { type: "spring", stiffness: 260, damping: 20 } // Smoothly floats back up
+      }
+      whileHover={{ scale: 1.1, opacity: 1 }}
+      whileTap={{ scale: 0.9 }}
     >
       <div className="relative">
         {/* Glow Effect */}
@@ -38,7 +50,7 @@ export function BotToggleButton({ isBotVisible, onToggle }: { isBotVisible: bool
         
         {/* Button Background */}
         <div className={`
-          relative w-16 h-16 rounded-full 
+          relative w-12 h-12 rounded-full 
           bg-gradient-to-br from-blue-900 to-cyan-400
           shadow-[0_0_40px_rgba(59,130,246,0.3)]
           group-hover:shadow-[0_0_60px_rgba(59,130,246,0.5)]
@@ -58,39 +70,47 @@ export function BotToggleButton({ isBotVisible, onToggle }: { isBotVisible: bool
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="relative"
           >
-            {/* Robot SVG Icon */}
+            {/* Custom Robot Mascot SVG Icon */}
             <svg 
               viewBox="0 0 24 24" 
               fill="none" 
-              className="w-8 h-8 text-white"
+              className="w-6 h-6 text-white"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Robot Head */}
-              <rect x="4" y="6" width="16" height="14" rx="3" stroke="currentColor" strokeWidth="1.5"/>
               {/* Antenna */}
-              <line x1="12" y1="6" x2="12" y2="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              <circle cx="12" cy="2" r="1.5" fill="currentColor" stroke="currentColor" strokeWidth="1"/>
-              {/* Eyes */}
-              <circle cx="9" cy="11" r="1.5" fill="currentColor"/>
-              <circle cx="15" cy="11" r="1.5" fill="currentColor"/>
-              {/* Mouth - Smile */}
-              <path d="M8 15.5C9 17 11 17.5 12 17.5C13 17.5 15 17 16 15.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              {/* Ears/Side panels */}
-              <rect x="2" y="10" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.6"/>
-              <rect x="20" y="10" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.6"/>
-              {/* Eyes glow effect */}
-              <circle cx="9" cy="11" r="2.5" fill="currentColor" opacity="0.2"/>
-              <circle cx="15" cy="11" r="2.5" fill="currentColor" opacity="0.2"/>
+              <motion.g
+                animate={isHovered ? { rotate: [0, 15, -10, 5, 0] } : { rotate: 0 }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                style={{ transformOrigin: "12px 5px" }}
+              >
+                <line x1="12" y1="5" x2="12" y2="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="12" cy="2" r="1.5" fill="currentColor" />
+              </motion.g>
+              
+              {/* Earmuffs */}
+              <rect x="2" y="10" width="3" height="6" rx="1.5" fill="currentColor" opacity="0.8" />
+              <rect x="19" y="10" width="3" height="6" rx="1.5" fill="currentColor" opacity="0.8" />
+              
+              {/* Pill Head */}
+              <rect x="4" y="6" width="16" height="12" rx="5" stroke="currentColor" strokeWidth="1.5" fill="rgba(255,255,255,0.05)" />
+              
+              {/* Visor Screen */}
+              <rect x="6" y="9.5" width="12" height="5" rx="2.5" fill="currentColor" opacity="0.2" />
+              
+              {/* Glowing Eyes */}
+              <motion.g
+                animate={isHovered ? { x: [0, 1.5, -1.5, 0] } : { x: 0 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <circle cx="9.5" cy="12" r="1.2" fill="currentColor" />
+                <circle cx="14.5" cy="12" r="1.2" fill="currentColor" />
+                
+                {/* Eye Glow Effect */}
+                <circle cx="9.5" cy="12" r="2.5" fill="currentColor" opacity="0.2" />
+                <circle cx="14.5" cy="12" r="2.5" fill="currentColor" opacity="0.2" />
+              </motion.g>
             </svg>
 
-            {/* Visibility indicator overlay */}
-            {!isBotVisible && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-6 h-6 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
-                  <EyeOff className="w-3.5 h-3.5 text-white" />
-                </div>
-              </div>
-            )}
           </motion.div>
 
           {/* Status Dot */}
@@ -106,9 +126,11 @@ export function BotToggleButton({ isBotVisible, onToggle }: { isBotVisible: bool
               initial={{ opacity: 0, x: -10, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -10, scale: 0.95 }}
-              className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-1.5 
+              className={`absolute left-1/2 -translate-x-1/2 px-3 py-1.5 
                 bg-black/90 backdrop-blur-sm text-white text-xs font-medium rounded-lg
-                whitespace-nowrap shadow-xl border border-white/10"
+                whitespace-nowrap shadow-xl border border-white/10 ${
+                  isBotVisible ? "bottom-full mb-3" : "top-full mt-3"
+                }`}
             >
               {isBotVisible ? 'Hide Robot' : 'Show Robot'}
             </motion.div>
