@@ -11,8 +11,7 @@ export default function PortfolioPage() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true, 
     align: 'center',
-    skipSnaps: false,
-    dragFree: true
+    skipSnaps: false
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -115,52 +114,54 @@ export default function PortfolioPage() {
         </div>
 
         {/* Theater Carousel Section */}
-        <div className="relative w-full overflow-hidden pb-12">
+        <div className="relative w-full overflow-hidden pb-4 md:pb-8">
            <div className="embla" ref={emblaRef}>
-              <div className="embla__container flex touch-pan-y items-center h-[55vh] min-h-[450px] md:h-[65vh]">
+              <div className="embla__container flex touch-pan-y items-center py-8 md:py-12">
                 {allProjects.map((p, i) => {
                    const isActive = i === selectedIndex;
                    
                    return (
                       <div 
                         key={p.title} 
-                        className="embla__slide relative flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[50vw] xl:w-[45vw] mx-2 md:mx-4 transition-none" 
+                        className="embla__slide relative flex-shrink-0 w-[88vw] md:w-[60vw] lg:w-[50vw] xl:w-[45vw] mx-1 md:mx-2 lg:mx-3 transition-none" 
                         style={{ perspective: '1500px' }}
                       >
-                          <div 
-                            className={`relative aspect-[4/3] md:aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 group transition-none ${isActive ? 'cursor-pointer ring-4 ring-[var(--color-primary-container)]/30' : 'cursor-grab'}`} 
-                            style={{ transformStyle: 'preserve-3d' }}
-                            onClick={() => {
-                                if (isActive) {
-                                  setSelectedProject(p);
-                                } else {
-                                  emblaApi?.scrollTo(i);
-                                }
-                            }}
-                          >
-                             <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                             
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-500" />
-                             
-                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 pb-10 md:pb-12 transform transition-transform duration-500">
-                                <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3 drop-shadow-lg">{p.title}</h2>
-                                <p className="text-white/90 font-medium text-sm md:text-base line-clamp-2 mb-6 drop-shadow-md">{p.hook}</p>
+                         <div className="w-full h-full transition-none"> {/* This wrapper gets the 3D transform from JS */}
+                            <div 
+                              className={`relative w-full h-full aspect-[4/3] md:aspect-[16/10] rounded-[2rem] overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 group transition-none ${isActive ? 'cursor-pointer ring-4 ring-[var(--color-primary-container)]/30' : 'cursor-grab'}`} 
+                              style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+                              onClick={() => {
+                                  if (isActive) {
+                                    setSelectedProject(p);
+                                  } else {
+                                    emblaApi?.scrollTo(i);
+                                  }
+                              }}
+                            >
+                               <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                               
+                               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent transition-opacity duration-500" />
+                               
+                               <div className="absolute bottom-0 left-0 right-0 p-5 md:p-10 pb-8 md:pb-12 transform transition-transform duration-500">
+                                <h2 className="text-2xl md:text-4xl font-display font-bold text-white mb-2 md:mb-3 drop-shadow-lg leading-tight">{p.title}</h2>
+                                <p className="text-white/90 font-medium text-xs md:text-base line-clamp-2 mb-4 md:mb-6 drop-shadow-md">{p.hook}</p>
                                 
-                                <div className="flex flex-wrap gap-2 mb-4">
+                                <div className="flex flex-wrap gap-1.5 md:gap-2 mb-2 md:mb-4">
                                    {p.tags.map(t => (
-                                     <span key={t} className="px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-[10px] md:text-xs font-bold text-white uppercase tracking-widest border border-white/20">
+                                     <span key={t} className="px-2.5 py-1 md:px-3 md:py-1.5 bg-white/20 backdrop-blur-md rounded-full text-[9px] md:text-xs font-bold text-white uppercase tracking-widest border border-white/20">
                                        {t}
                                      </span>
                                    ))}
                                 </div>
 
                                 {isActive && (
-                                  <div className="hidden md:inline-flex items-center gap-2 mt-4 px-6 py-3 bg-white text-black rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors shadow-xl">
-                                    Read Case Study <ExternalLink size={16} />
+                                  <div className="inline-flex items-center gap-2 mt-3 md:mt-4 px-4 py-2 md:px-6 md:py-3 bg-white text-black rounded-xl font-bold text-xs md:text-sm hover:bg-gray-100 transition-colors shadow-xl">
+                                    Read Case Study <ExternalLink size={14} className="md:w-4 md:h-4" />
                                   </div>
                                 )}
                              </div>
                           </div>
+                         </div>
                       </div>
                    )
                 })}
@@ -168,7 +169,7 @@ export default function PortfolioPage() {
            </div>
 
            {/* Carousel Controls */}
-           <div className="flex items-center justify-center gap-6 mt-12 md:mt-16 relative z-20">
+           <div className="flex items-center justify-center gap-4 md:gap-6 mt-2 md:mt-4 lg:mt-8 relative z-20">
               <button 
                 onClick={scrollPrev} 
                 className="w-12 h-12 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary-container)] hover:text-white transition-all shadow-sm"
@@ -254,7 +255,7 @@ export default function PortfolioPage() {
                  </button>
                  
                  {/* Hero Image Section */}
-                 <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px] shrink-0">
+                 <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px] shrink-0 rounded-t-[2rem] overflow-hidden" style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}>
                     <img src={selectedProject.img} className="w-full h-full object-cover" alt={selectedProject.title} />
                     {/* Gradient to blend with background */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-surface)] via-black/20 to-transparent" />
