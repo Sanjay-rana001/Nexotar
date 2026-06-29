@@ -1065,7 +1065,7 @@ export default function Page() {
       <section className="py-24 relative bg-[var(--color-surface-container-lowest)] border-t border-black/5 dark:border-white/5">
         <div className="max-w-[1440px] mx-auto px-4 md:px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="font-display-lg text-display-md mb-4 text-[#ff5722] dark:text-[#ff7043] drop-shadow-sm">Results You Can Expect</h2>
+            <h2 className="font-display-lg text-display-md mb-4 text-[#10b981] dark:text-[#34d399] drop-shadow-sm">Results You Can Expect</h2>
             <p className="text-body-lg text-[var(--color-on-surface-variant)]">We don't just build websites; we build business growth engines.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1076,9 +1076,9 @@ export default function Page() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex flex-col items-center text-center p-8 rounded-3xl bg-white dark:bg-black/40 border border-black/5 dark:border-white/10 shadow-lg hover:shadow-[0_20px_40px_rgba(255,87,34,0.1)] transition-all duration-300"
+                className="flex flex-col items-center text-center p-8 rounded-3xl bg-white dark:bg-black/40 border border-black/5 dark:border-white/10 shadow-lg hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition-all duration-300"
               >
-                <div className="w-16 h-16 rounded-full bg-[#ff5722]/10 flex items-center justify-center mb-6 text-[#ff5722]">
+                <div className="w-16 h-16 rounded-full bg-[#10b981]/10 flex items-center justify-center mb-6 text-[#10b981]">
                   <Icon name={res.icon} className="text-[32px]" />
                 </div>
                 <h3 className="font-display text-xl font-bold mb-3">{res.title}</h3>
