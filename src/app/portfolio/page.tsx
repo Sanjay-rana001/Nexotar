@@ -325,6 +325,9 @@ export default function PortfolioPage() {
                     <h4 className="font-display font-semibold text-lg">{work.title}</h4>
                     <span className="text-sm text-[var(--color-primary-container)] font-medium">{work.type}</span>
                   </div>
+                  <div className="px-3 py-1 rounded-full border border-black/10 dark:border-white/10 text-[10px] font-bold uppercase tracking-wider text-[var(--color-on-surface-variant)] group-hover:bg-[var(--color-primary-container)] group-hover:text-white group-hover:border-transparent transition-all">
+                    In Progress
+                  </div>
                 </div>
               </motion.div>
             ))}
