@@ -273,7 +273,7 @@ export default function Page() {
       setMount3D(false);
     }
     
-    if (videoRef.current) {
+    if (videoRef.current && isDesktop) {
       if (videoRef.current.readyState >= 2) {
         setIsVideoLoaded(true);
       }
@@ -344,11 +344,10 @@ export default function Page() {
             <video
               suppressHydrationWarning
               ref={videoRef}
-              preload="none"
-              autoPlay
               muted
               loop
               playsInline
+              preload="none"
               poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgG2Sn2qjgAAAABJRU5ErkJggg=="
               className={`w-full h-full object-cover transition-opacity duration-1000 invert dark:invert-0 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
               onLoadedData={() => {
@@ -372,24 +371,19 @@ export default function Page() {
         </div>
 
         <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block z-0">
-          <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[14%] left-[6%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          <div className="absolute top-[14%] left-[6%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float">
             <Icon name="code_blocks" className="text-6xl text-white" />
-          </motion.div>
-          <motion.div animate={{ y: [0, 40, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute bottom-[25%] left-[10%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          </div>
+          <div className="absolute bottom-[25%] left-[10%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float-slow">
             <Icon name="rocket_launch" className="text-7xl text-white" />
-          </motion.div>
-          <motion.div animate={{ y: [0, -20, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[50%] left-[5%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          </div>
+          <div className="absolute top-[50%] left-[5%] opacity-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float-delayed">
             <Icon name="terminal" className="text-5xl text-white" />
-          </motion.div>
+          </div>
         </div>
 
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col justify-center"
-          >
+          <div className="flex flex-col justify-center animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full w-fit mb-8">
               <Icon name="developer_mode" className="text-white !text-[16px]" />
               <span className="text-label-sm text-white/90">The Future of Digital Excellence</span>
@@ -408,34 +402,29 @@ export default function Page() {
                 View Portfolio <Icon name="arrow_forward" className="!text-[18px]" />
               </Link>
             </div>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0 w-full"
-          >
+          <div className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0 w-full animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="relative w-full max-w-[280px] md:max-w-[380px] lg:max-w-[600px] h-[280px] md:h-[380px] lg:h-[600px]">
               <div className="absolute inset-0 pointer-events-none z-10 hidden lg:block">
-                <motion.div animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }} className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                <div className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float">
                   <Icon name="web" className="text-6xl text-white" />
-                </motion.div>
-                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }} className="absolute top-[40%] -left-[5%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                </div>
+                <div className="absolute top-[40%] -left-[5%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float-delayed">
                   <Icon name="psychology" className="text-5xl text-white" />
-                </motion.div>
-                <motion.div animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }} className="absolute bottom-[5%] left-[18%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                </div>
+                <div className="absolute bottom-[5%] left-[18%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float-slow">
                   <Icon name="deployed_code" className="text-6xl text-white" />
-                </motion.div>
-                <motion.div animate={{ y: [0, 20, 0], rotate: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-[0%] right-[18%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                </div>
+                <div className="absolute top-[0%] right-[18%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float-slow">
                   <Icon name="shopping_bag" className="text-5xl text-white" />
-                </motion.div>
-                <motion.div animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 7.5, ease: "easeInOut" }} className="absolute top-[45%] -right-[5%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                </div>
+                <div className="absolute top-[45%] -right-[5%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float-delayed">
                   <Icon name="design_services" className="text-6xl text-white" />
-                </motion.div>
-                <motion.div animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 7.2, ease: "easeInOut" }} className="absolute bottom-[5%] right-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                </div>
+                <div className="absolute bottom-[5%] right-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float">
                   <Icon name="storage" className="text-7xl text-white" />
-                </motion.div>
+                </div>
               </div>
               
               <div className="relative z-0 w-full h-full">
@@ -444,7 +433,7 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
