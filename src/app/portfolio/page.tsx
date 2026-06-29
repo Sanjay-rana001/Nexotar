@@ -325,8 +325,13 @@ export default function PortfolioPage() {
                     <h4 className="font-display font-semibold text-lg">{work.title}</h4>
                     <span className="text-sm text-[var(--color-primary-container)] font-medium">{work.type}</span>
                   </div>
-                  <div className="px-3 py-1 rounded-full border border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/5 text-[10px] font-bold uppercase tracking-wider text-[var(--color-primary-container)]">
+                  <div className="px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[10px] font-bold uppercase tracking-widest text-[var(--color-on-surface-variant)] flex items-center shadow-sm">
                     {work.status}
+                    <span className="ml-0.5 inline-flex tracking-normal">
+                      <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1.5, delay: 0 }}>.</motion.span>
+                      <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1.5, delay: 0.3 }}>.</motion.span>
+                      <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1.5, delay: 0.6 }}>.</motion.span>
+                    </span>
                   </div>
                 </div>
               </motion.div>
