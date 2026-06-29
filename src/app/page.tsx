@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Moon, Sun, Check, Sparkles, Zap, Shield, Users, Gift, Linkedin, Phone, ArrowUp } from "lucide-react";
 const ContactForm = dynamic(() => import("@/components/ContactForm").then(mod => mod.ContactForm));
 
@@ -31,11 +32,36 @@ const SERVICES = [
 ];
 
 const STEPS = [
-  { n: 1, title: "Discovery", body: "In-depth research and strategic alignment to define project goals and technical requirements." },
-  { n: 2, title: "Design", body: "Interactive prototypes and high-fidelity interfaces that prioritize user flow and brand identity." },
-  { n: 3, title: "Development", body: "Iterative sprints building clean, documented code using a modern, scalable tech stack." },
-  { n: 4, title: "Launch", body: "Rigorous QA testing, deployment automation, and continuous monitoring for success." },
-  { n: 5, title: "Maintenance", body: "Continuous support, performance optimization, and seamless feature scaling to ensure long-term platform health." },
+  { n: 1, title: "Discovery & Planning", body: "In-depth research and strategic alignment to define project goals and technical requirements." },
+  { n: 2, title: "Wireframe & Structure", body: "Laying the foundation with interactive prototypes that prioritize user flow and conversion." },
+  { n: 3, title: "Design & Development", body: "Crafting beautiful, high-fidelity interfaces and building them with clean, modern code." },
+  { n: 4, title: "Review & Refinement", body: "Rigorous QA testing and collaborative feedback loops to ensure pixel-perfect perfection." },
+  { n: 5, title: "Testing & Launch", body: "Final performance audits and seamless deployment to bring your digital vision to life." },
+];
+
+const WEBSITE_TYPES = [
+  { icon: "business_center", title: "Business Websites", body: "Professional websites to establish your business online and build trust." },
+  { icon: "view_quilt", title: "Landing Pages", body: "High-converting pages designed to capture leads and drive action." },
+  { icon: "brush", title: "Portfolio Websites", body: "Showcase your work beautifully and highlight your unique skills." },
+  { icon: "handshake", title: "Service Websites", body: "Present your services clearly and convert visitors into clients." },
+  { icon: "corporate_fare", title: "Corporate Websites", body: "Powerful platforms for companies to communicate credibility and leadership." },
+  { icon: "storefront", title: "E-Commerce Stores", body: "Online stores that are secure, user-friendly, and built to sell." },
+  { icon: "person", title: "Personal Brands", body: "Build your personal brand and connect with your audience online." },
+  { icon: "rocket_launch", title: "Startup Websites", body: "Modern websites for startups to launch, grow, and stand out." },
+];
+
+const RESULTS = [
+  { icon: "public", title: "Better Online Presence", body: "Stand out online with a professional website that represents your business 24/7." },
+  { icon: "verified_user", title: "Higher Customer Trust", body: "Build credibility and trust with a reliable and professional online presence." },
+  { icon: "favorite", title: "Improved Engagement", body: "Engage your visitors with a seamless user experience and meaningful content." },
+  { icon: "mail", title: "More Inquiries", body: "Generate more leads and inquiries through clear CTAs and user-friendly forms." },
+  { icon: "military_tech", title: "Stronger Brand Authority", body: "Establish your brand as an authority in your industry and stay ahead of competitors." },
+  { icon: "trending_up", title: "Increased Conversions", body: "Turn more visitors into customers with strategic design and conversion-focused elements." },
+];
+
+const PERFECT_FOR = [
+  "Small Businesses", "Startups", "Agencies", "Consultants",
+  "Coaches", "Professionals", "Local Services", "E-Commerce Brands"
 ];
 
 const TESTIMONIALS = [
@@ -43,25 +69,25 @@ const TESTIMONIALS = [
     name: "Aarav Sharma", 
     role: "CTO, Veridian Systems", 
     quote: "Nexotar transformed our legacy infrastructure into a high-performing SaaS engine. Their technical depth is unparalleled in the agency space.",
-    avatar: "https://ui-avatars.com/api/?name=Aarav+Sharma&background=FF9933&color=fff&size=150&bold=true"
+    avatar: "/images/avatar-aarav.png"
   },
   { 
     name: "Priya Patel", 
     role: "Founder, Aura Design", 
     quote: "The attention to detail and design sensibility Nexotar brings is exactly what we needed to launch our luxury platform. Pure excellence.",
-    avatar: "https://ui-avatars.com/api/?name=Priya+Patel&background=138808&color=fff&size=150&bold=true"
+    avatar: "/images/avatar-priya.png"
   },
   { 
     name: "Rohan Desai", 
     role: "Product Lead, NexaCloud", 
     quote: "Speed, reliability, and innovation. They didn't just build our app; they helped us redefine our business strategy.",
-    avatar: "https://ui-avatars.com/api/?name=Rohan+Desai&background=FF9933&color=fff&size=150&bold=true"
+    avatar: "/images/avatar-rohan.png"
   },
   { 
     name: "Ananya Singh", 
     role: "VP Eng, Northwind", 
     quote: "A rare combination of taste and engineering rigor. Every milestone shipped on time and exceeded the brief.",
-    avatar: "https://ui-avatars.com/api/?name=Ananya+Singh&background=138808&color=fff&size=150&bold=true"
+    avatar: "/images/avatar-ananya.png"
   },
 ];
 
@@ -420,6 +446,70 @@ export default function Page() {
             </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* WEBSITE TYPES SECTION */}
+      <section className="py-24 relative overflow-hidden bg-[var(--color-surface)]">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--color-primary-container)]/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Website Types We Design</h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)]">Tailored solutions for every business model and industry.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {WEBSITE_TYPES.map((type, i) => (
+              <motion.div
+                key={type.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="group p-8 rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 hover:bg-[var(--color-surface-container)] transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden"
+              >
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--color-primary-container)]/10 rounded-full blur-2xl group-hover:bg-[var(--color-primary-container)]/20 transition-all duration-500" />
+                <div className="w-12 h-12 rounded-xl bg-[var(--color-primary-container)]/10 flex items-center justify-center mb-6 text-[var(--color-primary-container)] group-hover:scale-110 group-hover:bg-[var(--color-primary-container)] group-hover:text-white transition-all duration-300">
+                  <Icon name={type.icon} className="text-[24px]" />
+                </div>
+                <h3 className="font-display text-xl font-semibold mb-3 text-[var(--color-on-surface)] group-hover:text-[var(--color-primary-container)] transition-colors">{type.title}</h3>
+                <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed">{type.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PERFECT FOR MARQUEE */}
+      <section className="py-12 border-b border-black/5 dark:border-white/5 bg-[var(--color-surface-container-lowest)] overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 mb-8 text-center">
+          <p className="text-sm font-bold tracking-widest uppercase text-[var(--color-on-surface-variant)]">Perfectly Tailored For</p>
+        </div>
+        <div className="flex overflow-hidden whitespace-nowrap mask-edges">
+          <motion.div
+            className="flex gap-6 px-3"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 30, repeat: Infinity }}
+            style={{ width: "fit-content" }}
+          >
+            {/* Duplicate array for seamless loop */}
+            {[...PERFECT_FOR, ...PERFECT_FOR, ...PERFECT_FOR, ...PERFECT_FOR].map((item, i) => (
+              <div 
+                key={i} 
+                className="flex items-center gap-3 px-6 py-3.5 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/10 shadow-sm hover:border-[var(--color-primary-container)]/50 transition-colors cursor-default"
+              >
+                <div className="w-6 h-6 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center">
+                  <Icon name="check" className="text-[14px] text-[var(--color-primary-container)]" />
+                </div>
+                <span className="font-display font-semibold text-[var(--color-on-surface)]">{item}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+        <style jsx>{`
+          .mask-edges {
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+          }
+        `}</style>
       </section>
 
       <section id="services" className="py-24 bg-[var(--color-surface-container-lowest)] relative">
@@ -823,9 +913,11 @@ export default function Page() {
 
           <div className="flex items-center gap-4 mb-6">
             <div className="relative">
-              <img 
+              <Image 
                 src={t.avatar}
                 alt={t.name}
+                width={56}
+                height={56}
                 className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary-container)]/20"
               />
               <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#0A66C2] flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -865,24 +957,32 @@ export default function Page() {
     <div className="mt-12 flex flex-wrap items-center justify-center gap-8 opacity-80">
       <div className="flex items-center gap-3">
         <div className="flex -space-x-2">
-          <img 
-            src="https://i.pravatar.cc/40?img=12" 
-            alt="Client" 
+          <Image 
+            src="/images/avatar-12.jpg" 
+            alt="Client"
+            width={40}
+            height={40} 
             className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
           />
-          <img 
-            src="https://i.pravatar.cc/40?img=13" 
+          <Image 
+            src="/images/avatar-13.jpg" 
             alt="Client" 
+            width={40}
+            height={40}
             className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
           />
-          <img 
-            src="https://i.pravatar.cc/40?img=14" 
+          <Image 
+            src="/images/avatar-14.jpg" 
             alt="Client" 
+            width={40}
+            height={40}
             className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
           />
-          <img 
-            src="https://i.pravatar.cc/40?img=15" 
+          <Image 
+            src="/images/avatar-15.jpg" 
             alt="Client" 
+            width={40}
+            height={40}
             className="w-10 h-10 rounded-full border-2 border-white dark:border-black object-cover ring-2 ring-[var(--color-primary-container)]/20"
           />
           <div className="w-10 h-10 rounded-full bg-[var(--color-primary-container)]/10 border-2 border-white dark:border-black flex items-center justify-center text-xs font-semibold text-[var(--color-primary-container)] ring-2 ring-[var(--color-primary-container)]/20">
@@ -961,6 +1061,34 @@ export default function Page() {
         </div>
       </section>
 
+      {/* RESULTS SECTION */}
+      <section className="py-24 relative bg-[var(--color-surface-container-lowest)] border-t border-black/5 dark:border-white/5">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <h2 className="font-display-lg text-display-md mb-4 text-[#ff5722] dark:text-[#ff7043] drop-shadow-sm">Results You Can Expect</h2>
+            <p className="text-body-lg text-[var(--color-on-surface-variant)]">We don't just build websites; we build business growth engines.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {RESULTS.map((res, i) => (
+              <motion.div
+                key={res.title}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="flex flex-col items-center text-center p-8 rounded-3xl bg-white dark:bg-black/40 border border-black/5 dark:border-white/10 shadow-lg hover:shadow-[0_20px_40px_rgba(255,87,34,0.1)] transition-all duration-300"
+              >
+                <div className="w-16 h-16 rounded-full bg-[#ff5722]/10 flex items-center justify-center mb-6 text-[#ff5722]">
+                  <Icon name={res.icon} className="text-[32px]" />
+                </div>
+                <h3 className="font-display text-xl font-bold mb-3">{res.title}</h3>
+                <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed">{res.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-primary-container)]/5 dark:bg-[var(--color-primary-container)]/10 blur-[100px] rounded-full pointer-events-none" />
@@ -1014,10 +1142,12 @@ export default function Page() {
                 />
 
                 {/* Dark Mode: Original Image */}
-                <img 
+                <Image 
                   src="/images/nexotar_logo_without_text.png" 
-                  alt="Nexotar Icon" 
-                  className="w-full h-full object-contain hidden dark:block"
+                  alt="Nexotar Icon"
+                  fill
+                  sizes="(max-width: 768px) 56px, 80px"
+                  className="object-contain hidden dark:block"
                 />
 
               </div>

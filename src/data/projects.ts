@@ -30,7 +30,7 @@ export const allProjects: Project[] = [
     technologies: ["Next.js", "React", "Tailwind CSS", "Vercel Edge"],
     results: "Reduced core load times by 78%, dropping cart abandonment by 32% and driving a 41% increase in mobile-originated revenue.",
     insight: "Speed is revenue. By treating performance as a core business metric rather than an afterthought, we turned a struggling storefront into a high-converting growth engine.",
-    img: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800",
+    img: "/images/grocery-store.jpg",
     url: "https://grocery-store-a57l.vercel.app/"
   },
   {
@@ -49,7 +49,7 @@ export const allProjects: Project[] = [
     technologies: ["Next.js", "Node.js", "Serverless Functions", "Firebase"],
     results: "Reclaimed 15+ hours of weekly administrative overhead, while increasing successful consultation bookings by 64% within the first 60 days.",
     insight: "The best software gets out of the way. By automating the friction of intake, we allowed the clinical team to focus entirely on patient care rather than paperwork.",
-    img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=800",
+    img: "/images/dietitian.jpg",
     url: "https://sanjay-rana001.github.io/Dietetian_Suruchi_website/"
   },
   {
@@ -68,7 +68,7 @@ export const allProjects: Project[] = [
     technologies: ["Next.js", "React", "Framer Motion", "Tailwind CSS"],
     results: "Increased average B2B session duration by 210% and drove a 45% spike in qualified wholesale inquiries in Q1 post-launch.",
     insight: "B2B doesn't mean boring. By treating enterprise procurement officers like everyday consumers who appreciate great design, we massively reduced the friction to purchase.",
-    img: "https://images.unsplash.com/photo-1716191300020-b52dec5b70a8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    img: "/images/sspi.jpg",
     url: "https://sspiplastics.com/"
   },
   {
@@ -87,7 +87,7 @@ export const allProjects: Project[] = [
     technologies: ["React", "TypeScript", "Tailwind CSS", "REST APIs"],
     results: "Slashed the average time-to-book by 32% and achieved a 98% user task completion rate during A/B testing against industry standards.",
     insight: "Complexity is the enemy of conversion. By aggressively hiding complex database queries behind a calm, minimalist UI, we created a booking experience people actually enjoy using.",
-    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800",
+    img: "/images/airlines.jpg",
     url: "https://airlineseticket.com/"
   },
   {
@@ -106,7 +106,7 @@ export const allProjects: Project[] = [
     technologies: ["Next.js", "Framer Motion", "Tailwind CSS"],
     results: "Boosted time-on-page by 4.5 minutes on average, directly correlating to a 28% increase in high-value package inquiries.",
     insight: "When selling high-ticket experiences, the interface itself must feel like a premium experience. We prioritized emotion and imagery while keeping the technical data easily accessible but out of the way.",
-    img: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800",
+    img: "/images/package-reservation.jpg",
     url: "https://packagereservation.com/"
   }
 ];

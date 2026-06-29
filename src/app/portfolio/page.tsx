@@ -3,9 +3,52 @@
 import { allProjects, Project } from "@/data/projects";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Code2, Layout, X, ChevronRight, ChevronLeft } from "lucide-react";
+import Image from "next/image";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from 'embla-carousel-react';
+
+const OTHER_WORKS = [
+  { title: "NeoBank Landing Page", type: "FinTech", img: "/images/neobank.jpg" },
+  { title: "FitLife App Website", type: "Health & Fitness", img: "/images/fitlife.jpg" },
+  { title: "Urban Coffee Roasters", type: "E-Commerce", img: "/images/coffee.jpg" },
+  { title: "Creative Agency Portfolio", type: "B2B Services", img: "/images/creative.jpg" },
+  { title: "EcoTech Dashboard", type: "SaaS", img: "/images/ecotech.jpg" },
+  { title: "Luxury Real Estate", type: "Property", img: "/images/luxury.jpg" },
+];
+
+const PLAYGROUND = [
+  { title: "Glassmorphism UI Kit", category: "Open Source", img: "/images/ui-kit.jpg" },
+  { title: "Spotify App Redesign", category: "Concept", img: "/images/spotify.jpg" },
+  { title: "Web3 Wallet Interaction", category: "Experiment", img: "/images/web3.jpg" },
+];
+
+const TESTIMONIALS = [
+  { 
+    name: "Aarav Sharma", 
+    role: "CTO, Veridian Systems", 
+    quote: "Nexotar transformed our legacy infrastructure into a high-performing SaaS engine. Their technical depth is unparalleled in the agency space.",
+    avatar: "/images/avatar-aarav.png"
+  },
+  { 
+    name: "Priya Patel", 
+    role: "Founder, Aura Design", 
+    quote: "The attention to detail and design sensibility Nexotar brings is exactly what we needed to launch our luxury platform. Pure excellence.",
+    avatar: "/images/avatar-priya.png"
+  },
+  { 
+    name: "Rohan Desai", 
+    role: "Product Lead, NexaCloud", 
+    quote: "Speed, reliability, and innovation. They didn't just build our app; they helped us redefine our business strategy.",
+    avatar: "/images/avatar-rohan.png"
+  },
+  { 
+    name: "Ananya Singh", 
+    role: "VP Eng, Northwind", 
+    quote: "A rare combination of taste and engineering rigor. Every milestone shipped on time and exceeded the brief.",
+    avatar: "/images/avatar-ananya.png"
+  },
+];
 
 export default function PortfolioPage() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
@@ -15,6 +58,9 @@ export default function PortfolioPage() {
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+
+  const filteredProjects = activeTag ? allProjects.filter(p => p.tags.includes(activeTag)) : allProjects;
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
@@ -59,6 +105,17 @@ export default function PortfolioPage() {
     emblaApi.on('reInit', onSelect);
     emblaApi.on('reInit', onScroll);
   }, [emblaApi, onSelect, onScroll]);
+
+  // Re-initialize carousel when filters change to ensure proper centering
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.reInit({
+        loop: filteredProjects.length > 2,
+        containScroll: false
+      });
+      emblaApi.scrollTo(0, true);
+    }
+  }, [emblaApi, activeTag, filteredProjects.length]);
 
   // Lock body scroll and pause Lenis when modal is open
   useEffect(() => {
@@ -113,11 +170,30 @@ export default function PortfolioPage() {
           </motion.p>
         </div>
 
+        {/* Category Filters */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10 px-4">
+          <button 
+            onClick={() => { setActiveTag(null); emblaApi?.scrollTo(0); }}
+            className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all border ${!activeTag ? 'bg-[var(--color-primary-container)] text-white border-transparent shadow-lg shadow-[var(--color-primary-container)]/30' : 'bg-transparent text-[var(--color-on-surface-variant)] border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]/50'}`}
+          >
+            All Projects
+          </button>
+          {Array.from(new Set(allProjects.flatMap(p => p.tags))).map(tag => (
+            <button
+              key={tag}
+              onClick={() => { setActiveTag(tag); emblaApi?.scrollTo(0); }}
+              className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all border ${activeTag === tag ? 'bg-[var(--color-primary-container)] text-white border-transparent shadow-lg shadow-[var(--color-primary-container)]/30' : 'bg-transparent text-[var(--color-on-surface-variant)] border-black/10 dark:border-white/10 hover:border-[var(--color-primary-container)]/50'}`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
         {/* Theater Carousel Section */}
         <div className="relative w-full overflow-hidden pb-4 md:pb-8">
            <div className="embla" ref={emblaRef}>
-              <div className="embla__container flex touch-pan-y items-center py-8 md:py-12">
-                {allProjects.map((p, i) => {
+              <div className={`embla__container flex touch-pan-y items-center py-8 md:py-12 ${filteredProjects.length <= 1 ? 'justify-center' : ''}`}>
+                {filteredProjects.map((p, i) => {
                    const isActive = i === selectedIndex;
                    
                    return (
@@ -138,7 +214,13 @@ export default function PortfolioPage() {
                                   }
                               }}
                             >
-                               <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                               <Image 
+                                 src={p.img} 
+                                 alt={p.title} 
+                                 fill
+                                 sizes="(max-width: 768px) 88vw, 50vw"
+                                 className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+                               />
                                
                                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent transition-opacity duration-500" />
                                
@@ -179,7 +261,7 @@ export default function PortfolioPage() {
               </button>
               
               <div className="flex gap-2">
-                 {allProjects.map((_, i) => (
+                 {filteredProjects.map((_, i) => (
                    <button 
                      key={i} 
                      aria-label={`Go to slide ${i + 1}`}
@@ -197,6 +279,143 @@ export default function PortfolioPage() {
                 <ChevronRight size={24} />
               </button>
            </div>
+        </div>
+
+        {/* 1. Our Design Philosophy */}
+        <div className="py-24 max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <h2 className="font-display-lg text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
+              We design for conversion.
+            </h2>
+            <p className="text-xl md:text-2xl text-[var(--color-on-surface-variant)] leading-relaxed">
+              Every pixel we place and every line of code we write serves a single purpose: to elevate your brand and drive measurable business growth. Aesthetics mean nothing without performance.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* 2. Other Works / Archive */}
+        <div className="py-20 max-w-[1440px] mx-auto px-4 md:px-6 border-t border-black/5 dark:border-white/5">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <h3 className="font-display text-3xl font-bold mb-2">The Archive</h3>
+              <p className="text-[var(--color-on-surface-variant)]">A selection of other projects and one-off builds.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {OTHER_WORKS.map((work, i) => (
+              <motion.div
+                key={work.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group cursor-pointer"
+              >
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4 border border-black/5 dark:border-white/5">
+                  <Image src={work.img} alt={work.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-display font-semibold text-lg">{work.title}</h4>
+                    <span className="text-sm text-[var(--color-primary-container)] font-medium">{work.type}</span>
+                  </div>
+                  <div className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center group-hover:bg-[var(--color-primary-container)] group-hover:text-white group-hover:border-transparent transition-all">
+                    <ExternalLink size={16} />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. Industry Expertise & Stats */}
+        <div className="py-20 max-w-[1440px] mx-auto px-4 md:px-6">
+          <div className="bg-[var(--color-surface-container-low)] rounded-[2rem] p-12 border border-black/5 dark:border-white/5 relative overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-primary-container)]/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+              <div>
+                <div className="text-5xl md:text-6xl font-display-lg font-bold text-[var(--color-primary-container)] mb-4">0.8s</div>
+                <h4 className="font-bold text-lg mb-2">Average Load Time</h4>
+                <p className="text-[var(--color-on-surface-variant)] text-sm">Lightning fast performance across all our builds.</p>
+              </div>
+              <div className="md:border-x border-black/5 dark:border-white/5 px-4">
+                <div className="text-5xl md:text-6xl font-display-lg font-bold text-[var(--color-primary-container)] mb-4">120+</div>
+                <h4 className="font-bold text-lg mb-2">Projects Shipped</h4>
+                <p className="text-[var(--color-on-surface-variant)] text-sm">Successfully delivered for clients worldwide.</p>
+              </div>
+              <div>
+                <div className="text-5xl md:text-6xl font-display-lg font-bold text-[var(--color-primary-container)] mb-4">99%</div>
+                <h4 className="font-bold text-lg mb-2">Client Satisfaction</h4>
+                <p className="text-[var(--color-on-surface-variant)] text-sm">Our partners stay with us for the long haul.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. Wall of Love */}
+        <div className="py-20 max-w-[1440px] mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h3 className="font-display text-3xl font-bold mb-2">Wall of Love</h3>
+            <p className="text-[var(--color-on-surface-variant)]">Don't just take our word for it.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="p-8 rounded-2xl bg-[var(--color-surface-container-lowest)] border border-black/5 dark:border-white/5 shadow-sm hover:-translate-y-1 transition-transform"
+              >
+                <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed italic mb-8">"{t.quote}"</p>
+                <div className="flex items-center gap-4">
+                  <Image src={t.avatar} alt={t.name} width={48} height={48} className="rounded-full object-cover border border-black/10 dark:border-white/10" />
+                  <div>
+                    <h4 className="font-bold text-sm">{t.name}</h4>
+                    <span className="text-xs text-[var(--color-on-surface-variant)]">{t.role}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* 5. The Playground */}
+        <div className="py-20 max-w-[1440px] mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h3 className="font-display text-3xl font-bold mb-2">The Playground</h3>
+            <p className="text-[var(--color-on-surface-variant)]">Concepts, experiments, and open-source contributions.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {PLAYGROUND.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 overflow-hidden shadow-sm"
+              >
+                <div className="relative w-full aspect-video">
+                  <Image src={item.img} alt={item.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-xs font-bold text-white uppercase tracking-widest">
+                    {item.category}
+                  </div>
+                </div>
+                <div className="p-5 flex items-center justify-between">
+                  <h4 className="font-display font-semibold">{item.title}</h4>
+                  <ChevronRight size={18} className="text-[var(--color-on-surface-variant)] group-hover:text-[var(--color-primary-container)] group-hover:translate-x-1 transition-all" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Start a Project Section */}
@@ -256,7 +475,13 @@ export default function PortfolioPage() {
                  
                  {/* Hero Image Section */}
                  <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[350px] shrink-0 rounded-t-[2rem] overflow-hidden" style={{ WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}>
-                    <img src={selectedProject.img} className="w-full h-full object-cover" alt={selectedProject.title} />
+                    <Image 
+                      src={selectedProject.img} 
+                      alt={selectedProject.title}
+                      fill
+                      sizes="100vw"
+                      className="object-cover" 
+                    />
                     {/* Gradient to blend with background */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-surface)] via-black/20 to-transparent" />
                     
