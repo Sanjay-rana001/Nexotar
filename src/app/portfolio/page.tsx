@@ -376,7 +376,7 @@ export default function PortfolioPage() {
               >
                 <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed italic mb-8">"{t.quote}"</p>
                 <div className="flex items-center gap-4">
-                  <Image src={t.avatar} alt={t.name} width={48} height={48} className="rounded-full object-cover border border-black/10 dark:border-white/10" />
+                  <Image src={t.avatar} alt={t.name} width={48} height={48} className="w-12 h-12 rounded-full object-cover border border-black/10 dark:border-white/10" />
                   <div>
                     <h4 className="font-bold text-sm">{t.name}</h4>
                     <span className="text-xs text-[var(--color-on-surface-variant)]">{t.role}</span>
