@@ -11,7 +11,6 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
   const zzzGroupRef = useRef<THREE.Group>(null);
   const dizzyGroupRef = useRef<THREE.Group>(null);
   const eagerGroupRef = useRef<THREE.Group>(null);
-  const thinkingGroupRef = useRef<THREE.Group>(null);
   const heartsGroupRef = useRef<THREE.Group>(null);
   const steamGroupRef = useRef<THREE.Group>(null);
   const laughGroupRef = useRef<THREE.Group>(null);
@@ -91,29 +90,6 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
             textMesh.scale.y = THREE.MathUtils.lerp(textMesh.scale.y, 0, 0.2);
           }
         });
-      }
-    }
-
-    if (thinkingGroupRef.current) {
-      const targetScale = (emotion === 'thinking' || emotion === 'curious') ? 2.4 : 0;
-      
-      let newScale = thinkingGroupRef.current.scale.x;
-      if (targetScale === 0) {
-        newScale = 0; // Instant pop/vanish
-      } else {
-        newScale = THREE.MathUtils.lerp(newScale, targetScale, 0.15);
-      }
-      
-      // Add cute breathing pulse when fully visible
-      if (targetScale > 0 && newScale > 2.3) {
-        newScale += Math.sin(t * 6) * 0.04;
-      }
-      
-      thinkingGroupRef.current.scale.setScalar(newScale);
-      
-      if (thinkingGroupRef.current.scale.x > 0.01) {
-        thinkingGroupRef.current.position.y = 2.8 + Math.sin(t * 3) * 0.05;
-        thinkingGroupRef.current.position.x = 0.4; // Shift right to align the tail with the head
       }
     }
 
@@ -198,53 +174,6 @@ export function RobotParticles({ isDark }: { isDark: boolean }) {
           </mesh>
         </group>
       )}
-
-      {/* Smooth Thinking Cloud */}
-      <group ref={thinkingGroupRef} position={[0.6, 2.8, 0]} scale={0}>
-        {/* Main cloud body - wider horizontal arrangement */}
-        <mesh material={cloudMaterial} position={[0, 0, 0]}>
-          <sphereGeometry args={[0.5, 16, 16]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[-0.4, 0, 0]}>
-          <sphereGeometry args={[0.4, 16, 16]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[0.4, 0, 0]}>
-          <sphereGeometry args={[0.4, 16, 16]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[-0.7, 0.1, 0]}>
-          <sphereGeometry args={[0.25, 16, 16]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[0.7, 0.1, 0]}>
-          <sphereGeometry args={[0.25, 16, 16]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[-0.3, 0.25, -0.05]}>
-          <sphereGeometry args={[0.3, 16, 16]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[0.3, 0.25, 0.05]}>
-          <sphereGeometry args={[0.3, 16, 16]} />
-        </mesh>
-        
-        {/* Trail bubbles pointing down to head */}
-        <mesh material={cloudMaterial} position={[-0.6, -0.5, 0]}>
-          <sphereGeometry args={[0.12, 12, 12]} />
-        </mesh>
-        <mesh material={cloudMaterial} position={[-0.4, -0.8, 0]}>
-          <sphereGeometry args={[0.06, 12, 12]} />
-        </mesh>
-
-        {/* Text inside cloud */}
-        <Text
-          position={[0, 0.05, 0.55]}
-          fontSize={0.16}
-          color="#000000" // Always black because cloud is light blue
-          anchorX="center"
-          anchorY="middle"
-          maxWidth={1.4}
-          textAlign="center"
-        >
-          what do you want...
-        </Text>
-      </group>
 
       {/* Eager Question Marks */}
       <group ref={eagerGroupRef} position={[0, 1.8, 0]}>
