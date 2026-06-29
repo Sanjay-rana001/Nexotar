@@ -28,25 +28,25 @@ const TESTIMONIALS = [
     name: "Aarav Sharma", 
     role: "CTO, Veridian Systems", 
     quote: "Nexotar transformed our legacy infrastructure into a high-performing SaaS engine. Their technical depth is unparalleled in the agency space.",
-    avatar: "/images/avatar-aarav.png"
+    avatar: "/images/avatar-aarav.svg"
   },
   { 
     name: "Priya Patel", 
     role: "Founder, Aura Design", 
     quote: "The attention to detail and design sensibility Nexotar brings is exactly what we needed to launch our luxury platform. Pure excellence.",
-    avatar: "/images/avatar-priya.png"
+    avatar: "/images/avatar-priya.svg"
   },
   { 
     name: "Rohan Desai", 
     role: "Product Lead, NexaCloud", 
     quote: "Speed, reliability, and innovation. They didn't just build our app; they helped us redefine our business strategy.",
-    avatar: "/images/avatar-rohan.png"
+    avatar: "/images/avatar-rohan.svg"
   },
   { 
     name: "Ananya Singh", 
     role: "VP Eng, Northwind", 
     quote: "A rare combination of taste and engineering rigor. Every milestone shipped on time and exceeded the brief.",
-    avatar: "/images/avatar-ananya.png"
+    avatar: "/images/avatar-ananya.svg"
   },
 ];
 
@@ -381,7 +381,6 @@ export default function PortfolioPage() {
               >
                 <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed italic mb-8">"{t.quote}"</p>
                 <div className="flex items-center gap-4">
-                  <Image src={t.avatar} alt={t.name} width={48} height={48} className="w-12 h-12 rounded-full object-cover border border-black/10 dark:border-white/10" />
                   <div>
                     <h4 className="font-bold text-sm">{t.name}</h4>
                     <span className="text-xs text-[var(--color-on-surface-variant)]">{t.role}</span>
