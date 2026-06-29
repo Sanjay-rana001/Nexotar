@@ -9,12 +9,12 @@ import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from 'embla-carousel-react';
 
 const OTHER_WORKS = [
-  { title: "NeoBank Landing Page", type: "FinTech", img: "/images/neobank.jpg" },
-  { title: "FitLife App Website", type: "Health & Fitness", img: "/images/fitlife.jpg" },
-  { title: "Urban Coffee Roasters", type: "E-Commerce", img: "/images/coffee.jpg" },
-  { title: "Creative Agency Portfolio", type: "B2B Services", img: "/images/creative.jpg" },
-  { title: "EcoTech Dashboard", type: "SaaS", img: "/images/ecotech.jpg" },
-  { title: "Luxury Real Estate", type: "Property", img: "/images/luxury.jpg" },
+  { title: "NeoBank Landing Page", type: "FinTech", img: "/images/neobank.jpg", status: "In Progress" },
+  { title: "FitLife App Website", type: "Health & Fitness", img: "/images/fitlife.jpg", status: "Upcoming" },
+  { title: "Urban Coffee Roasters", type: "E-Commerce", img: "/images/coffee.jpg", status: "In Progress" },
+  { title: "Creative Agency Portfolio", type: "B2B Services", img: "/images/creative.jpg", status: "Upcoming" },
+  { title: "EcoTech Dashboard", type: "SaaS", img: "/images/ecotech.jpg", status: "In Progress" },
+  { title: "Luxury Real Estate", type: "Property", img: "/images/luxury.jpg", status: "Upcoming" },
 ];
 
 const PLAYGROUND = [
@@ -325,8 +325,8 @@ export default function PortfolioPage() {
                     <h4 className="font-display font-semibold text-lg">{work.title}</h4>
                     <span className="text-sm text-[var(--color-primary-container)] font-medium">{work.type}</span>
                   </div>
-                  <div className="px-3 py-1 rounded-full border border-black/10 dark:border-white/10 text-[10px] font-bold uppercase tracking-wider text-[var(--color-on-surface-variant)] group-hover:bg-[var(--color-primary-container)] group-hover:text-white group-hover:border-transparent transition-all">
-                    In Progress
+                  <div className="px-3 py-1 rounded-full border border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/5 text-[10px] font-bold uppercase tracking-wider text-[var(--color-primary-container)]">
+                    {work.status}
                   </div>
                 </div>
               </motion.div>
