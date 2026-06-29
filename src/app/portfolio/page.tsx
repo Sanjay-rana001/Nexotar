@@ -302,8 +302,8 @@ export default function PortfolioPage() {
         <div className="py-20 max-w-[1440px] mx-auto px-4 md:px-6 border-t border-black/5 dark:border-white/5">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <h3 className="font-display text-3xl font-bold mb-2">The Archive</h3>
-              <p className="text-[var(--color-on-surface-variant)]">A selection of other projects and one-off builds.</p>
+              <h3 className="font-display text-3xl font-bold mb-2">Upcoming & In Progress</h3>
+              <p className="text-[var(--color-on-surface-variant)]">A sneak peek at what we're currently building in the lab.</p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -324,9 +324,6 @@ export default function PortfolioPage() {
                   <div>
                     <h4 className="font-display font-semibold text-lg">{work.title}</h4>
                     <span className="text-sm text-[var(--color-primary-container)] font-medium">{work.type}</span>
-                  </div>
-                  <div className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center group-hover:bg-[var(--color-primary-container)] group-hover:text-white group-hover:border-transparent transition-all">
-                    <ExternalLink size={16} />
                   </div>
                 </div>
               </motion.div>
