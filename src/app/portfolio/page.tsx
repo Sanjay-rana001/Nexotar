@@ -25,12 +25,41 @@ export default function PortfolioPage() {
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
+  const onScroll = useCallback(() => {
+    if (!emblaApi) return;
+    const nodes = emblaApi.slideNodes();
+    const viewportCenter = window.innerWidth / 2;
+    
+    nodes.forEach((node) => {
+      const rect = node.getBoundingClientRect();
+      const center = rect.left + rect.width / 2;
+      const distance = center - viewportCenter;
+      
+      const normalized = distance / window.innerWidth;
+      
+      const inner = node.firstElementChild as HTMLElement;
+      if (inner) {
+        const rotateY = Math.max(-35, Math.min(35, normalized * -100));
+        const scale = Math.max(0.8, 1 - Math.abs(normalized) * 0.5);
+        const translateZ = Math.abs(normalized) * -200;
+        const opacity = Math.max(0.2, 1 - Math.abs(normalized) * 1.5);
+        
+        inner.style.transform = `scale(${scale}) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+        node.style.opacity = opacity.toString();
+        node.style.zIndex = Math.round((1 - Math.abs(normalized)) * 100).toString();
+      }
+    });
+  }, [emblaApi]);
+
   useEffect(() => {
     if (!emblaApi) return;
     onSelect();
+    onScroll();
     emblaApi.on('select', onSelect);
+    emblaApi.on('scroll', onScroll);
     emblaApi.on('reInit', onSelect);
-  }, [emblaApi, onSelect]);
+    emblaApi.on('reInit', onScroll);
+  }, [emblaApi, onSelect, onScroll]);
 
   // Lock body scroll and pause Lenis when modal is open
   useEffect(() => {
@@ -88,21 +117,19 @@ export default function PortfolioPage() {
         {/* Theater Carousel Section */}
         <div className="relative w-full overflow-hidden pb-12">
            <div className="embla" ref={emblaRef}>
-              <div className="embla__container flex touch-pan-y items-center h-[50vh] min-h-[400px] md:h-[60vh]">
+              <div className="embla__container flex touch-pan-y items-center h-[55vh] min-h-[450px] md:h-[65vh]">
                 {allProjects.map((p, i) => {
                    const isActive = i === selectedIndex;
+                   
                    return (
                       <div 
                         key={p.title} 
-                        className="embla__slide relative flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[50vw] xl:w-[45vw] mx-2 md:mx-4 transition-all duration-700 ease-out" 
-                        style={{ 
-                          transform: isActive ? 'scale(1)' : 'scale(0.85)', 
-                          opacity: isActive ? 1 : 0.3,
-                          zIndex: isActive ? 10 : 0
-                        }}
+                        className="embla__slide relative flex-shrink-0 w-[85vw] md:w-[60vw] lg:w-[50vw] xl:w-[45vw] mx-2 md:mx-4 transition-none" 
+                        style={{ perspective: '1500px' }}
                       >
                           <div 
-                            className={`relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 group transition-all duration-500 ${isActive ? 'cursor-pointer ring-4 ring-[var(--color-primary-container)]/30' : 'cursor-grab'}`} 
+                            className={`relative aspect-[4/3] md:aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 group transition-none ${isActive ? 'cursor-pointer ring-4 ring-[var(--color-primary-container)]/30' : 'cursor-grab'}`} 
+                            style={{ transformStyle: 'preserve-3d' }}
                             onClick={() => {
                                 if (isActive) {
                                   setSelectedProject(p);
@@ -113,9 +140,9 @@ export default function PortfolioPage() {
                           >
                              <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                              
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500" />
+                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-500" />
                              
-                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 transform transition-transform duration-500">
+                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 pb-10 md:pb-12 transform transition-transform duration-500">
                                 <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3 drop-shadow-lg">{p.title}</h2>
                                 <p className="text-white/90 font-medium text-sm md:text-base line-clamp-2 mb-6 drop-shadow-md">{p.hook}</p>
                                 
@@ -128,7 +155,7 @@ export default function PortfolioPage() {
                                 </div>
 
                                 {isActive && (
-                                  <div className="hidden md:inline-flex items-center gap-2 mt-2 px-5 py-2.5 bg-white text-black rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors shadow-xl">
+                                  <div className="hidden md:inline-flex items-center gap-2 mt-4 px-6 py-3 bg-white text-black rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors shadow-xl">
                                     Read Case Study <ExternalLink size={16} />
                                   </div>
                                 )}
@@ -141,7 +168,7 @@ export default function PortfolioPage() {
            </div>
 
            {/* Carousel Controls */}
-           <div className="flex items-center justify-center gap-6 mt-8">
+           <div className="flex items-center justify-center gap-6 mt-12 md:mt-16 relative z-20">
               <button 
                 onClick={scrollPrev} 
                 className="w-12 h-12 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary-container)] hover:text-white transition-all shadow-sm"
