@@ -14,6 +14,7 @@ export function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     websiteType: "",
     budget: "",
   });
@@ -61,7 +62,7 @@ export function ContactForm() {
       }
 
       setIsSuccess(true);
-      setFormData({ name: "", email: "", websiteType: "", budget: "" });
+      setFormData({ name: "", email: "", phone: "", websiteType: "", budget: "" });
     } catch (err) {
       console.error("Error submitting form:", err);
       setError("Something went wrong. Please try again or reach out on WhatsApp.");
@@ -128,20 +129,38 @@ export function ContactForm() {
               />
             </div>
 
-            <div>
-              <label htmlFor="email" className={labelClasses}>
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="sanjay.rana@example.com"
-                className={inputClasses}
-              />
+            <div className="flex gap-4 sm:gap-6">
+              <div className="w-[60%]">
+                <label htmlFor="email" className={labelClasses}>
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="sanjay.rana@example.com"
+                  className={inputClasses}
+                />
+              </div>
+
+              <div className="w-[40%]">
+                <label htmlFor="phone" className={labelClasses}>
+                  Phone Number
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="+91 98765 43210"
+                  className={inputClasses}
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

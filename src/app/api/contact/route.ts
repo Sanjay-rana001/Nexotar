@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { name, email, websiteType, budget, message } = data;
+    const { name, email, phone, websiteType, budget, message } = data;
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -21,6 +21,7 @@ export async function POST(req: Request) {
 
 👤 <b>Name:</b> ${name}
 📧 <b>Email:</b> ${email}
+📱 <b>Phone:</b> ${phone || "Not provided"}
 🌐 <b>Website Type:</b> ${websiteType}
 💰 <b>Budget:</b> ${budget}
 📝 <b>Message:</b>
