@@ -323,18 +323,18 @@ export function HeroGlobe() {
         {/* Dynamic Color Cycle Animations */}
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes colorCycle {
-            0%, 24.99% { border-color: #00f0ff; filter: drop-shadow(0 0 16px rgba(0,240,255,0.8)); }
-            25%, 49.99% { border-color: #ff0055; filter: drop-shadow(0 0 16px rgba(255,0,85,0.8)); }
-            50%, 74.99% { border-color: #7000ff; filter: drop-shadow(0 0 16px rgba(112,0,255,0.8)); }
-            75%, 99.99% { border-color: #ffaa00; filter: drop-shadow(0 0 16px rgba(255,170,0,0.8)); }
-            100% { border-color: #00f0ff; filter: drop-shadow(0 0 16px rgba(0,240,255,0.8)); }
+            0%, 24.99% { border-color: #0070f3; filter: drop-shadow(0 0 14px rgba(0,112,243,0.9)); }
+            25%, 49.99% { border-color: #a855f7; filter: drop-shadow(0 0 14px rgba(168,85,247,0.9)); }
+            50%, 74.99% { border-color: #f43f5e; filter: drop-shadow(0 0 14px rgba(244,63,94,0.9)); }
+            75%, 99.99% { border-color: #00e5ff; filter: drop-shadow(0 0 14px rgba(0,229,255,0.9)); }
+            100% { border-color: #0070f3; filter: drop-shadow(0 0 14px rgba(0,112,243,0.9)); }
           }
           @keyframes colorCycleReverse {
-            0%, 24.99% { border-color: #ffaa00; filter: drop-shadow(0 0 16px rgba(255,170,0,0.8)); }
-            25%, 49.99% { border-color: #7000ff; filter: drop-shadow(0 0 16px rgba(112,0,255,0.8)); }
-            50%, 74.99% { border-color: #ff0055; filter: drop-shadow(0 0 16px rgba(255,0,85,0.8)); }
-            75%, 99.99% { border-color: #00f0ff; filter: drop-shadow(0 0 16px rgba(0,240,255,0.8)); }
-            100% { border-color: #ffaa00; filter: drop-shadow(0 0 16px rgba(255,170,0,0.8)); }
+            0%, 24.99% { border-color: #f43f5e; filter: drop-shadow(0 0 14px rgba(244,63,94,0.9)); }
+            25%, 49.99% { border-color: #00e5ff; filter: drop-shadow(0 0 14px rgba(0,229,255,0.9)); }
+            50%, 74.99% { border-color: #0070f3; filter: drop-shadow(0 0 14px rgba(0,112,243,0.9)); }
+            75%, 99.99% { border-color: #a855f7; filter: drop-shadow(0 0 14px rgba(168,85,247,0.9)); }
+            100% { border-color: #f43f5e; filter: drop-shadow(0 0 14px rgba(244,63,94,0.9)); }
           }
           .ring-1-shape { border-top-color: transparent !important; border-left-color: transparent !important; }
           .ring-2-shape { border-bottom-color: transparent !important; border-right-color: transparent !important; }
@@ -345,6 +345,23 @@ export function HeroGlobe() {
 
         {/* Crisp Sci-Fi CSS Orbits */}
         <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 flex items-center justify-center">
+          
+          {/* Radar Crosshairs & Background Grid (Aligned to Theme) */}
+          <div className="absolute inset-0 pointer-events-none opacity-50">
+            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+            <div className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
+            <div className="absolute inset-0 border border-blue-500/10 rounded-full scale-[1.15]" />
+            <div className="absolute inset-0 border border-blue-500/10 rounded-full scale-[1.3]" />
+          </div>
+
+          {/* Faint Data Rings to fill empty space (Aligned to Theme) */}
+          <div className="absolute inset-2 md:inset-6 pointer-events-none opacity-60">
+            <div className="w-full h-full border-[1px] border-dashed border-blue-400/20 rounded-full animate-[spin_40s_linear_infinite]" />
+          </div>
+          <div className="absolute inset-10 md:inset-20 pointer-events-none opacity-60">
+            <div className="w-full h-full border-[1px] border-dotted border-purple-400/20 rounded-full animate-[spin_30s_linear_infinite_reverse]" />
+          </div>
+
           {/* Ring 1 (Outermost) */}
           <div className="absolute inset-0">
             <div 
@@ -405,11 +422,14 @@ export function HeroGlobe() {
             </div>
           </div>
           
-          {/* Deep Space / Arc Reactor Glowing Core */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(112,0,255,0.15)_0%,rgba(0,240,255,0.05)_35%,transparent_65%)] animate-pulse" style={{ animationDuration: '6s' }} />
-          <div className="absolute w-24 h-24 bg-[#7000ff] rounded-full blur-[40px] opacity-30 animate-pulse mix-blend-screen" style={{ animationDuration: '4s' }} />
-          <div className="absolute w-12 h-12 bg-[#00f0ff] rounded-full blur-[20px] opacity-40 mix-blend-screen animate-pulse" style={{ animationDuration: '3s', animationDelay: '1s' }} />
-          <div className="absolute w-4 h-4 bg-white rounded-full blur-[4px] opacity-80 mix-blend-screen shadow-[0_0_20px_#fff]" />
+          {/* Deep Space Glowing Core (Aligned to Theme) */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.15)_0%,rgba(168,85,247,0.05)_40%,transparent_70%)] animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute w-20 h-20 bg-[var(--color-primary-container)] rounded-full blur-[30px] opacity-30 animate-pulse" style={{ animationDuration: '4s' }} />
+          <div className="absolute w-8 h-8 bg-white rounded-full blur-[15px] opacity-40 animate-pulse" style={{ animationDuration: '3s' }} />
+          
+          {/* Elegant Core Anchor */}
+          <div className="absolute w-12 h-12 md:w-16 md:h-16 border-[1px] border-dashed border-blue-500/30 rounded-full animate-[spin_10s_linear_infinite]" />
+          <div className="absolute w-4 h-4 bg-white rounded-full blur-[4px] opacity-90 shadow-[0_0_20px_#fff]" />
         </div>
       </div>
     );
