@@ -328,28 +328,28 @@ export function HeroGlobe() {
           </div>
           
           {/* Ring 2 */}
-          <div className="absolute inset-3 sm:inset-4 border-[2px] border-purple-500/80 rounded-full animate-[spin_12s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderRightColor: 'transparent' }}>
+          <div className="absolute inset-4 md:inset-8 border-[2px] border-purple-500/80 rounded-full animate-[spin_12s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderRightColor: 'transparent' }}>
             <div className="absolute bottom-4 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_#fff]" />
           </div>
           
           {/* Ring 3 */}
-          <div className="absolute inset-6 sm:inset-8 border-[3px] border-[#00e5ff]/80 rounded-full animate-[spin_10s_linear_infinite]" style={{ borderTopColor: 'transparent', borderRightColor: 'transparent' }}>
+          <div className="absolute inset-8 md:inset-16 border-[3px] border-[#00e5ff]/80 rounded-full animate-[spin_10s_linear_infinite]" style={{ borderTopColor: 'transparent', borderRightColor: 'transparent' }}>
             <div className="absolute top-1/2 -right-1.5 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
           </div>
 
           {/* Ring 4 */}
-          <div className="absolute inset-9 sm:inset-12 border-[2px] border-[var(--color-primary-container)]/70 rounded-full animate-[spin_6s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderLeftColor: 'transparent' }}>
+          <div className="absolute inset-12 md:inset-24 border-[2px] border-[var(--color-primary-container)]/70 rounded-full animate-[spin_6s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderLeftColor: 'transparent' }}>
              <div className="absolute top-2 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_6px_#fff]" />
           </div>
 
           {/* Ring 5 (Innermost) */}
-          <div className="absolute inset-12 sm:inset-16 border-[2px] border-purple-500/90 rounded-full animate-[spin_4s_linear_infinite]" style={{ borderTopColor: 'transparent' }}>
+          <div className="absolute inset-16 md:inset-32 border-[2px] border-purple-500/90 rounded-full animate-[spin_4s_linear_infinite]" style={{ borderTopColor: 'transparent' }}>
             <div className="absolute top-1 right-1/4 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
           </div>
           
           {/* Crisp Glowing Core */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-[var(--color-primary-container)] via-purple-500 to-[#00e5ff] rounded-full blur-[2px] animate-pulse shadow-[0_0_20px_rgba(168,85,247,0.4)]" />
-          <div className="absolute w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full blur-[1px] animate-pulse" />
+          <div className="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-tr from-[var(--color-primary-container)] via-purple-500 to-[#00e5ff] rounded-full blur-[2px] animate-pulse shadow-[0_0_20px_rgba(168,85,247,0.4)]" />
+          <div className="absolute w-6 h-6 md:w-10 md:h-10 bg-white rounded-full blur-[1px] animate-pulse" />
         </div>
       </div>
     );
