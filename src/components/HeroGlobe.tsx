@@ -321,7 +321,7 @@ export function HeroGlobe() {
       <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
         
         {/* Crisp Sci-Fi CSS Orbits */}
-        <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
+        <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 flex items-center justify-center">
           {/* Ring 1 (Outermost) */}
           <div className="absolute inset-0 border-[3px] border-[var(--color-primary-container)]/80 rounded-full animate-[spin_16s_linear_infinite]" style={{ borderTopColor: 'transparent', borderLeftColor: 'transparent' }}>
             <div className="absolute top-4 left-1/4 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_#fff]" />
