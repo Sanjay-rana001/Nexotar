@@ -188,7 +188,7 @@ function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll:
   );
 }
 
-// Minimal Cursor Effect - Just a subtle glow
+// Minimal Cursor Effect - Optimized with box-shadow instead of blur filter
 function MinimalCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -197,13 +197,23 @@ function MinimalCursor() {
   const springY = useSpring(mouseY, { stiffness: 100, damping: 30, mass: 1 });
 
   useEffect(() => {
+    let ticking = false;
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX - 50);
-      mouseY.set(e.clientY - 50);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          mouseX.set(e.clientX - 50);
+          mouseY.set(e.clientY - 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) return;
+    // Disable on touch devices or if user prefers reduced motion for performance
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (isTouchDevice || prefersReducedMotion) return;
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -211,7 +221,7 @@ function MinimalCursor() {
 
   return (
     <>
-      {/* Subtle glow following cursor */}
+      {/* Subtle glow following cursor (Restored original blur style with RAF optimization) */}
       <motion.div
         className="fixed pointer-events-none z-[9999] rounded-full bg-gradient-to-r from-[var(--color-primary-container)]/20 to-purple-500/20 blur-2xl"
         style={{
@@ -338,7 +348,7 @@ export default function Page() {
       
 
       {/* HERO SECTION */}
-      <section id="home" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+      <section id="home" className="relative min-h-[100dvh] flex items-center pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           {!videoError ? (
             <video
@@ -382,7 +392,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
           <div className="flex flex-col justify-center animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full w-fit mb-8">
               <Icon name="developer_mode" className="text-white !text-[16px]" />
@@ -394,11 +404,11 @@ export default function Page() {
             <p className="text-body-lg text-white/90 max-w-lg mb-10 drop-shadow-lg">
               We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-              <a href="https://wa.me/918178546141" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1">
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
+              <a href="https://wa.me/918178546141" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto justify-center inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1">
                 <WhatsAppIcon className="w-5 h-5" /> Let's Chat
               </a>
-              <Link href="/portfolio" className="border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">
+              <Link href="/portfolio" className="w-full sm:w-auto justify-center border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">
                 View Portfolio <Icon name="arrow_forward" className="!text-[18px]" />
               </Link>
             </div>
@@ -440,12 +450,12 @@ export default function Page() {
       {/* WEBSITE TYPES SECTION */}
       <section className="py-24 relative overflow-hidden bg-[var(--color-surface)]">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--color-primary-container)]/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 relative z-10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12 relative z-10">
           <div className="text-center mb-16">
             <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Website Types We Design</h2>
             <p className="text-body-lg text-[var(--color-on-surface-variant)]">Tailored solutions for every business model and industry.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {WEBSITE_TYPES.map((type, i) => (
               <motion.div
                 key={type.title}
@@ -453,14 +463,14 @@ export default function Page() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group p-8 rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 hover:bg-[var(--color-surface-container)] transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden"
+                className="group p-5 md:p-8 rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 hover:bg-[var(--color-surface-container)] transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col"
               >
                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--color-primary-container)]/10 rounded-full blur-2xl group-hover:bg-[var(--color-primary-container)]/20 transition-all duration-500" />
-                <div className="w-12 h-12 rounded-xl bg-[var(--color-primary-container)]/10 flex items-center justify-center mb-6 text-[var(--color-primary-container)] group-hover:scale-110 group-hover:bg-[var(--color-primary-container)] group-hover:text-white transition-all duration-300">
-                  <Icon name={type.icon} className="text-[24px]" />
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--color-primary-container)]/10 flex items-center justify-center mb-4 md:mb-6 text-[var(--color-primary-container)] group-hover:scale-110 group-hover:bg-[var(--color-primary-container)] group-hover:text-white transition-all duration-300">
+                  <Icon name={type.icon} className="text-[20px] md:text-[24px]" />
                 </div>
-                <h3 className="font-display text-xl font-semibold mb-3 text-[var(--color-on-surface)] group-hover:text-[var(--color-primary-container)] transition-colors">{type.title}</h3>
-                <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed">{type.body}</p>
+                <h3 className="font-display text-sm md:text-xl font-semibold mb-2 md:mb-3 text-[var(--color-on-surface)] group-hover:text-[var(--color-primary-container)] transition-colors leading-tight">{type.title}</h3>
+                <p className="text-[var(--color-on-surface-variant)] text-[11px] md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">{type.body}</p>
               </motion.div>
             ))}
           </div>
@@ -468,13 +478,13 @@ export default function Page() {
       </section>
 
       {/* PERFECT FOR MARQUEE */}
-      <section className="py-12 border-b border-black/5 dark:border-white/5 bg-[var(--color-surface-container-lowest)] overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 mb-8 text-center">
-          <p className="text-sm font-bold tracking-widest uppercase text-[var(--color-on-surface-variant)]">Perfectly Tailored For</p>
+      <section className="py-8 md:py-12 border-b border-black/5 dark:border-white/5 bg-[var(--color-surface-container-lowest)] overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12 mb-6 md:mb-8 text-center">
+          <p className="text-xs md:text-sm font-bold tracking-widest uppercase text-[var(--color-on-surface-variant)]">Perfectly Tailored For</p>
         </div>
         <div className="flex overflow-hidden whitespace-nowrap mask-edges">
           <motion.div
-            className="flex gap-6 px-3"
+            className="flex gap-3 md:gap-6 px-3"
             animate={{ x: ["0%", "-50%"] }}
             transition={{ ease: "linear", duration: 30, repeat: Infinity }}
             style={{ width: "fit-content" }}
@@ -483,12 +493,12 @@ export default function Page() {
             {[...PERFECT_FOR, ...PERFECT_FOR, ...PERFECT_FOR, ...PERFECT_FOR].map((item, i) => (
               <div 
                 key={i} 
-                className="flex items-center gap-3 px-6 py-3.5 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/10 shadow-sm hover:border-[var(--color-primary-container)]/50 transition-colors cursor-default"
+                className="flex items-center gap-2 md:gap-3 px-4 py-2 md:px-6 md:py-3.5 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/10 shadow-sm hover:border-[var(--color-primary-container)]/50 transition-colors cursor-default"
               >
-                <div className="w-6 h-6 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center">
-                  <Icon name="check" className="text-[14px] text-[var(--color-primary-container)]" />
+                <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center">
+                  <Icon name="check" className="text-[12px] md:text-[14px] text-[var(--color-primary-container)]" />
                 </div>
-                <span className="font-display font-semibold text-[var(--color-on-surface)]">{item}</span>
+                <span className="font-display font-semibold text-sm md:text-base text-[var(--color-on-surface)]">{item}</span>
               </div>
             ))}
           </motion.div>
@@ -502,12 +512,12 @@ export default function Page() {
       </section>
 
       <section id="services" className="py-24 bg-[var(--color-surface-container-lowest)] relative">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="text-center mb-16">
             <h2 className="font-display-lg text-display-md mb-4">Our Capabilities</h2>
             <p className="text-body-lg text-[var(--color-on-surface-variant)]">Forging cutting-edge solutions across the digital spectrum.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             {SERVICES.map((s, i) => (
               <motion.div 
                 key={s.title}
@@ -516,22 +526,22 @@ export default function Page() {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="glow-border p-10 rounded-xl group"
+                className="glow-border p-5 md:p-10 rounded-xl group flex flex-col justify-between"
               >
                 <div
-                  className="w-12 h-12 rounded-lg flex items-center justify-center mb-8 transition-colors"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center mb-4 md:mb-8 transition-colors"
                   style={{
                     background: s.tone === "primary" ? "rgba(0,112,243,0.10)" : "rgba(124,58,237,0.10)",
                   }}
                 >
                   <Icon
                     name={s.icon}
-                    className=""
+                    className="text-[20px] md:text-[24px]"
                     {...{ style: { color: s.tone === "primary" ? "var(--color-primary-container)" : "var(--color-secondary-fixed-dim)" } as any }}
                   />
                 </div>
-                <h3 className="font-headline-md text-headline-md mb-3">{s.title}</h3>
-                <p className="text-[var(--color-on-surface-variant)] text-body-md">{s.body}</p>
+                <h3 className="font-headline-md text-sm md:text-headline-md mb-2 md:mb-3 leading-tight">{s.title}</h3>
+                <p className="text-[var(--color-on-surface-variant)] text-[11px] md:text-body-md line-clamp-4 md:line-clamp-none">{s.body}</p>
               </motion.div>
             ))}
           </div>
@@ -539,7 +549,7 @@ export default function Page() {
       </section>
 
       <section id="process" className="py-24 relative" ref={processRef}>
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="mb-16 max-w-2xl">
             <h2 className="font-display-lg text-display-md mb-4">Our Method</h2>
             <p className="text-body-lg text-[var(--color-on-surface-variant)]">A proven framework for delivering excellence from concept to production.</p>
@@ -564,7 +574,7 @@ export default function Page() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
         
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 relative z-10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
             <div>
               <h2 className="font-display-lg text-display-md mb-2 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Selected Works</h2>
@@ -584,7 +594,7 @@ export default function Page() {
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
             {initialProjects.map((p, i) => (
               <motion.a 
                 href={p.url}
@@ -595,7 +605,7 @@ export default function Page() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl bg-[var(--color-surface-container)] border border-black/5 dark:border-white/10 hover:border-[var(--color-primary-container)]/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-2xl bg-[var(--color-surface-container)] border border-black/5 dark:border-white/10 hover:border-[var(--color-primary-container)]/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl flex flex-col"
               >
                 <div className="aspect-[4/3] overflow-hidden relative bg-[var(--color-surface-container-low)]">
                   <img 
@@ -605,10 +615,10 @@ export default function Page() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                     <div className="flex flex-wrap gap-1.5">
-                      {p.tags.map((t) => (
-                        <span key={t} className="text-[9px] font-medium tracking-wider uppercase px-2 py-0.5 bg-white/20 backdrop-blur-sm text-white rounded-full border border-white/20 font-display">
+                      {p.tags.slice(0, 2).map((t) => (
+                        <span key={t} className="text-[8px] md:text-[9px] font-medium tracking-wider uppercase px-2 py-0.5 bg-white/20 backdrop-blur-sm text-white rounded-full border border-white/20 font-display">
                           {t}
                         </span>
                       ))}
@@ -616,11 +626,11 @@ export default function Page() {
                   </div>
                 </div>
                 
-                <div className="p-4">
-                  <h3 className="font-display text-base font-semibold tracking-tight group-hover:text-[var(--color-primary-container)] transition-colors line-clamp-1">
+                <div className="p-3 md:p-4 flex-1">
+                  <h3 className="font-display text-sm md:text-base font-semibold tracking-tight group-hover:text-[var(--color-primary-container)] transition-colors line-clamp-1">
                     {p.title}
                   </h3>
-                  <p className="text-[var(--color-on-surface-variant)] text-xs mt-1 line-clamp-2 opacity-80 font-display">
+                  <p className="text-[var(--color-on-surface-variant)] text-[10px] md:text-xs mt-1 line-clamp-2 opacity-80 font-display">
                     {p.overview}
                   </p>
                 </div>
@@ -639,7 +649,7 @@ export default function Page() {
           <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-500/5 rounded-full blur-[150px] pointer-events-none" />
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -735,7 +745,7 @@ export default function Page() {
                 viewport={{ once: true, margin: "-50px" }}
                 className={`
                   will-change-transform
-                  relative rounded-2xl p-8 backdrop-blur-sm flex flex-col h-full
+                  relative rounded-2xl p-6 sm:p-8 backdrop-blur-sm flex flex-col h-full
                   border-2
                   bg-white/40 dark:bg-black/40
                   shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.02)]

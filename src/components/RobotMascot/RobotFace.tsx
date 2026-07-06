@@ -11,8 +11,8 @@ export function RobotFace({ isDark }: { isDark: boolean }) {
   const leftEyeRef = useRef<THREE.Group>(null);
   const rightEyeRef = useRef<THREE.Group>(null);
 
-  const screenMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: "#050505", roughness: 0.1, metalness: 0.8, clearcoat: 1.0
+  const screenMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: "#050505", roughness: 0.1, metalness: 0.8
   }), []);
   
   const eyeMaterial = useMemo(() => new THREE.MeshBasicMaterial({
@@ -149,17 +149,17 @@ export function RobotFace({ isDark }: { isDark: boolean }) {
   return (
     <group position={[0, 0, 0]}>
       {/* Visor - Wider flat surface to prevent clipping */}
-      <RoundedBox args={[0.95, 0.55, 0.15]} radius={0.05} smoothness={4} material={screenMaterial} position={[0, 0, 0.45]} />
+      <RoundedBox args={[0.95, 0.55, 0.15]} radius={0.05} smoothness={2} material={screenMaterial} position={[0, 0, 0.45]} />
       
       {/* Eyes (Perfectly flush against the glass surface) */}
       <group ref={leftEyeRef} position={[-0.25, 0.05, 0.526]} visible={emotion !== 'love'}>
         <mesh material={eyeMaterial}>
-          <RoundedBox args={[0.12, 0.2, 0.001]} radius={0.06} smoothness={4} />
+          <RoundedBox args={[0.12, 0.2, 0.001]} radius={0.06} smoothness={2} />
         </mesh>
       </group>
       <group ref={rightEyeRef} position={[0.25, 0.05, 0.526]} visible={emotion !== 'love'}>
         <mesh material={eyeMaterial}>
-          <RoundedBox args={[0.12, 0.2, 0.001]} radius={0.06} smoothness={4} />
+          <RoundedBox args={[0.12, 0.2, 0.001]} radius={0.06} smoothness={2} />
         </mesh>
       </group>
 

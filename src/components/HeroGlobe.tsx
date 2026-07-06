@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Sphere, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { useTheme } from "next-themes";
+import { useInView } from "framer-motion";
 
 function AnimatedGlobeGroup({ children }: { children: React.ReactNode }) {
   const groupRef = useRef<THREE.Group>(null);
@@ -135,6 +136,9 @@ function ClientLocations({ isDark }: { isDark: boolean }) {
   useEffect(() => {
     let active = true;
     const loadPoints = async () => {
+      // Small delay to prevent freezing during initial 3D load
+      await new Promise(r => setTimeout(r, 1500));
+      if (!active) return;
       try {
         const img = new Image();
         img.crossOrigin = "Anonymous";
@@ -208,9 +212,6 @@ function ClientLocations({ isDark }: { isDark: boolean }) {
     </group>
   );
 }
-
-// Preload the texture for faster initial load
-// Removed useTexture.preload as it causes SSR crashes without dynamic imports.
 
 // ============================================
 // DARK MODE GLOBE
@@ -297,8 +298,16 @@ function LightGlobeR3F() {
 export function HeroGlobe() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
+  const [isLowEnd, setIsLowEnd] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    if (typeof navigator !== 'undefined') {
+      setIsLowEnd(navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false);
+    }
+  }, []);
 
   if (!mounted) {
     return <div className="w-full h-full" />;
@@ -306,8 +315,17 @@ export function HeroGlobe() {
 
   const isDark = resolvedTheme === "dark";
 
+  // Graceful degradation for low end devices
+  if (isLowEnd) {
+    return (
+      <div className="w-full h-full relative flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-primary-container)]/30 to-purple-500/10 blur-3xl rounded-full animate-pulse" />
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full h-full relative flex items-center justify-center cursor-move">
+    <div ref={containerRef} className="w-full h-full relative flex items-center justify-center cursor-move">
       <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-primary-container)]/10 to-transparent blur-3xl -z-10 rounded-full" />
       
       {/* Dynamic Drop Shadow for Light Mode Globe */}
@@ -317,7 +335,12 @@ export function HeroGlobe() {
 
       {/* Single Unified Canvas ensuring no React crashes or WebGL context losses */}
       <div className="w-full h-full absolute inset-0">
-        <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 6.1], fov: 45 }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}>
+        <Canvas 
+          frameloop={isInView ? "always" : "never"} 
+          dpr={[1, 1.5]} 
+          camera={{ position: [0, 0, 6.1], fov: 45 }} 
+          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        >
           <ambientLight intensity={isDark ? 1 : 2} />
           {!isDark && (
             <>

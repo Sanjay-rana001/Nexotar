@@ -83,8 +83,8 @@ html, body {
 @layer utilities {
   .max-w-container-max { max-width: 1280px; }
   .font-display-lg { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; }
-  .text-display-lg { font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.95; }
-  .text-display-md { font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.1; }
+  .text-display-lg { font-size: clamp(2.5rem, 6vw, 5.5rem); line-height: 0.95; letter-spacing: -0.02em; }
+  .text-display-md { font-size: clamp(1.75rem, 4vw, 2.75rem); line-height: 1.05; letter-spacing: -0.01em; }
   .font-headline-md { font-family: var(--font-sans); font-weight: 600; }
   .text-headline-md { font-size: 1.5rem; line-height: 1.2; }
   .text-body-lg { font-size: 1.125rem; line-height: 1.6; }
