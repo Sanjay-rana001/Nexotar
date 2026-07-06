@@ -318,8 +318,29 @@ export function HeroGlobe() {
   // Graceful degradation for low end devices
   if (isLowEnd) {
     return (
-      <div className="w-full h-full relative flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-primary-container)]/30 to-purple-500/10 blur-3xl rounded-full animate-pulse" />
+      <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
+        
+        {/* Crisp Sci-Fi CSS Orbits */}
+        <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
+          {/* Outer Ring */}
+          <div className="absolute inset-0 border-[3px] border-[var(--color-primary-container)]/80 rounded-full animate-[spin_12s_linear_infinite]" style={{ borderTopColor: 'transparent', borderLeftColor: 'transparent' }}>
+            <div className="absolute top-4 left-1/4 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_#fff]" />
+          </div>
+          
+          {/* Middle Ring */}
+          <div className="absolute inset-6 border-[3px] border-purple-500/80 rounded-full animate-[spin_8s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderRightColor: 'transparent' }}>
+            <div className="absolute bottom-4 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+          </div>
+          
+          {/* Inner Ring */}
+          <div className="absolute inset-12 border-[2px] border-[#00e5ff]/90 rounded-full animate-[spin_4s_linear_infinite]" style={{ borderTopColor: 'transparent' }}>
+            <div className="absolute top-1 right-1/4 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+          </div>
+          
+          {/* Crisp Glowing Core */}
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-[var(--color-primary-container)] via-purple-500 to-[#00e5ff] rounded-full blur-[2px] animate-pulse shadow-[0_0_20px_rgba(168,85,247,0.4)]" />
+          <div className="absolute w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full blur-[1px] animate-pulse" />
+        </div>
       </div>
     );
   }
