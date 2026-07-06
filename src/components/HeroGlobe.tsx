@@ -320,36 +320,95 @@ export function HeroGlobe() {
     return (
       <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
         
+        {/* Dynamic Color Cycle Animations */}
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes colorCycle {
+            0%, 24.99% { border-color: #0070f3; filter: drop-shadow(0 0 14px rgba(0,112,243,0.9)); }
+            25%, 49.99% { border-color: #a855f7; filter: drop-shadow(0 0 14px rgba(168,85,247,0.9)); }
+            50%, 74.99% { border-color: #f43f5e; filter: drop-shadow(0 0 14px rgba(244,63,94,0.9)); }
+            75%, 99.99% { border-color: #00e5ff; filter: drop-shadow(0 0 14px rgba(0,229,255,0.9)); }
+            100% { border-color: #0070f3; filter: drop-shadow(0 0 14px rgba(0,112,243,0.9)); }
+          }
+          @keyframes colorCycleReverse {
+            0%, 24.99% { border-color: #f43f5e; filter: drop-shadow(0 0 14px rgba(244,63,94,0.9)); }
+            25%, 49.99% { border-color: #00e5ff; filter: drop-shadow(0 0 14px rgba(0,229,255,0.9)); }
+            50%, 74.99% { border-color: #0070f3; filter: drop-shadow(0 0 14px rgba(0,112,243,0.9)); }
+            75%, 99.99% { border-color: #a855f7; filter: drop-shadow(0 0 14px rgba(168,85,247,0.9)); }
+            100% { border-color: #f43f5e; filter: drop-shadow(0 0 14px rgba(244,63,94,0.9)); }
+          }
+          .ring-1-shape { border-top-color: transparent !important; border-left-color: transparent !important; }
+          .ring-2-shape { border-bottom-color: transparent !important; border-right-color: transparent !important; }
+          .ring-3-shape { border-top-color: transparent !important; border-right-color: transparent !important; }
+          .ring-4-shape { border-bottom-color: transparent !important; border-left-color: transparent !important; }
+          .ring-5-shape { border-top-color: transparent !important; }
+        `}} />
+
         {/* Crisp Sci-Fi CSS Orbits */}
         <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 flex items-center justify-center">
           {/* Ring 1 (Outermost) */}
-          <div className="absolute inset-0 border-[3px] border-[var(--color-primary-container)]/80 rounded-full animate-[spin_16s_linear_infinite]" style={{ borderTopColor: 'transparent', borderLeftColor: 'transparent' }}>
-            <div className="absolute top-4 left-1/4 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_#fff]" />
+          <div className="absolute inset-0">
+            <div 
+              className="w-full h-full border-[5px] rounded-full ring-1-shape" 
+              style={{ animation: 'spin 4s linear infinite, colorCycle 16s linear infinite' }} 
+            />
+            <div className="absolute inset-0 animate-[spin_4s_linear_infinite_reverse]">
+              <div className="absolute inset-0 border-[5px] border-white/90 rounded-full drop-shadow-[0_0_12px_#fff]" style={{ WebkitMaskImage: 'conic-gradient(from 0deg, black 0%, transparent 20%)', maskImage: 'conic-gradient(from 0deg, black 0%, transparent 20%)' }} />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_10px_#fff,0_0_20px_#fff] animate-pulse" style={{ animationDuration: '2s' }} />
+            </div>
           </div>
           
           {/* Ring 2 */}
-          <div className="absolute inset-4 md:inset-8 border-[2px] border-purple-500/80 rounded-full animate-[spin_12s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderRightColor: 'transparent' }}>
-            <div className="absolute bottom-4 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+          <div className="absolute inset-4 md:inset-8">
+            <div 
+              className="w-full h-full border-[4px] rounded-full ring-2-shape" 
+              style={{ animation: 'spin 7s linear infinite reverse, colorCycleReverse 28s linear infinite' }} 
+            />
+            <div className="absolute inset-0 animate-[spin_7s_linear_infinite]">
+              <div className="absolute inset-0 border-[4px] border-white/90 rounded-full drop-shadow-[0_0_12px_#fff]" style={{ WebkitMaskImage: 'conic-gradient(from 0deg, transparent 80%, black 100%)', maskImage: 'conic-gradient(from 0deg, transparent 80%, black 100%)' }} />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_#fff,0_0_20px_#fff] animate-pulse" style={{ animationDuration: '0.8s' }} />
+            </div>
           </div>
           
           {/* Ring 3 */}
-          <div className="absolute inset-8 md:inset-16 border-[3px] border-[#00e5ff]/80 rounded-full animate-[spin_10s_linear_infinite]" style={{ borderTopColor: 'transparent', borderRightColor: 'transparent' }}>
-            <div className="absolute top-1/2 -right-1.5 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+          <div className="absolute inset-8 md:inset-16">
+            <div 
+              className="w-full h-full border-[5px] rounded-full ring-3-shape" 
+              style={{ animation: 'spin 5s linear infinite, colorCycle 20s linear infinite' }} 
+            />
+            <div className="absolute inset-0 animate-[spin_5s_linear_infinite_reverse]">
+              <div className="absolute inset-0 border-[5px] border-white/90 rounded-full drop-shadow-[0_0_12px_#fff]" style={{ WebkitMaskImage: 'conic-gradient(from 0deg, black 0%, transparent 20%)', maskImage: 'conic-gradient(from 0deg, black 0%, transparent 20%)' }} />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white rounded-full shadow-[0_0_10px_#fff,0_0_20px_#fff] animate-pulse" style={{ animationDuration: '1.5s' }} />
+            </div>
           </div>
 
           {/* Ring 4 */}
-          <div className="absolute inset-12 md:inset-24 border-[2px] border-[var(--color-primary-container)]/70 rounded-full animate-[spin_6s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderLeftColor: 'transparent' }}>
-             <div className="absolute top-2 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_6px_#fff]" />
+          <div className="absolute inset-12 md:inset-24">
+            <div 
+              className="w-full h-full border-[4px] rounded-full ring-4-shape" 
+              style={{ animation: 'spin 3s linear infinite reverse, colorCycleReverse 12s linear infinite' }} 
+            />
+            <div className="absolute inset-0 animate-[spin_3s_linear_infinite]">
+              <div className="absolute inset-0 border-[4px] border-white/90 rounded-full drop-shadow-[0_0_12px_#fff]" style={{ WebkitMaskImage: 'conic-gradient(from 0deg, transparent 80%, black 100%)', maskImage: 'conic-gradient(from 0deg, transparent 80%, black 100%)' }} />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_#fff,0_0_20px_#fff] animate-pulse" style={{ animationDuration: '1.2s' }} />
+            </div>
           </div>
 
           {/* Ring 5 (Innermost) */}
-          <div className="absolute inset-16 md:inset-32 border-[2px] border-purple-500/90 rounded-full animate-[spin_4s_linear_infinite]" style={{ borderTopColor: 'transparent' }}>
-            <div className="absolute top-1 right-1/4 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+          <div className="absolute inset-16 md:inset-32">
+            <div 
+              className="w-full h-full border-[4px] rounded-full ring-5-shape" 
+              style={{ animation: 'spin 1s linear infinite, colorCycle 4s linear infinite' }} 
+            />
+            <div className="absolute inset-0 animate-[spin_1s_linear_infinite_reverse]">
+              <div className="absolute inset-0 border-[4px] border-white/90 rounded-full drop-shadow-[0_0_12px_#fff]" style={{ WebkitMaskImage: 'conic-gradient(from 0deg, black 0%, transparent 30%)', maskImage: 'conic-gradient(from 0deg, black 0%, transparent 30%)' }} />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white rounded-full shadow-[0_0_10px_#fff,0_0_20px_#fff] animate-pulse" style={{ animationDuration: '2.5s' }} />
+            </div>
           </div>
           
-          {/* Crisp Glowing Core */}
-          <div className="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-tr from-[var(--color-primary-container)] via-purple-500 to-[#00e5ff] rounded-full blur-[2px] animate-pulse shadow-[0_0_20px_rgba(168,85,247,0.4)]" />
-          <div className="absolute w-6 h-6 md:w-10 md:h-10 bg-white rounded-full blur-[1px] animate-pulse" />
+          {/* Deep Space Glowing Core */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.15)_0%,rgba(168,85,247,0.05)_40%,transparent_70%)] animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute w-16 h-16 bg-[var(--color-primary-container)] rounded-full blur-[30px] opacity-30 animate-pulse" style={{ animationDuration: '3s' }} />
+          <div className="absolute w-8 h-8 bg-white rounded-full blur-[15px] opacity-40" />
         </div>
       </div>
     );
