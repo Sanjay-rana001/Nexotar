@@ -322,18 +322,28 @@ export function HeroGlobe() {
         
         {/* Crisp Sci-Fi CSS Orbits */}
         <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center">
-          {/* Outer Ring */}
-          <div className="absolute inset-0 border-[3px] border-[var(--color-primary-container)]/80 rounded-full animate-[spin_12s_linear_infinite]" style={{ borderTopColor: 'transparent', borderLeftColor: 'transparent' }}>
+          {/* Ring 1 (Outermost) */}
+          <div className="absolute inset-0 border-[3px] border-[var(--color-primary-container)]/80 rounded-full animate-[spin_16s_linear_infinite]" style={{ borderTopColor: 'transparent', borderLeftColor: 'transparent' }}>
             <div className="absolute top-4 left-1/4 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_#fff]" />
           </div>
           
-          {/* Middle Ring */}
-          <div className="absolute inset-6 border-[3px] border-purple-500/80 rounded-full animate-[spin_8s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderRightColor: 'transparent' }}>
+          {/* Ring 2 */}
+          <div className="absolute inset-3 sm:inset-4 border-[2px] border-purple-500/80 rounded-full animate-[spin_12s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderRightColor: 'transparent' }}>
             <div className="absolute bottom-4 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_#fff]" />
           </div>
           
-          {/* Inner Ring */}
-          <div className="absolute inset-12 border-[2px] border-[#00e5ff]/90 rounded-full animate-[spin_4s_linear_infinite]" style={{ borderTopColor: 'transparent' }}>
+          {/* Ring 3 */}
+          <div className="absolute inset-6 sm:inset-8 border-[3px] border-[#00e5ff]/80 rounded-full animate-[spin_10s_linear_infinite]" style={{ borderTopColor: 'transparent', borderRightColor: 'transparent' }}>
+            <div className="absolute top-1/2 -right-1.5 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+          </div>
+
+          {/* Ring 4 */}
+          <div className="absolute inset-9 sm:inset-12 border-[2px] border-[var(--color-primary-container)]/70 rounded-full animate-[spin_6s_linear_infinite_reverse]" style={{ borderBottomColor: 'transparent', borderLeftColor: 'transparent' }}>
+             <div className="absolute top-2 left-4 w-2 h-2 bg-white rounded-full shadow-[0_0_6px_#fff]" />
+          </div>
+
+          {/* Ring 5 (Innermost) */}
+          <div className="absolute inset-12 sm:inset-16 border-[2px] border-purple-500/90 rounded-full animate-[spin_4s_linear_infinite]" style={{ borderTopColor: 'transparent' }}>
             <div className="absolute top-1 right-1/4 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
           </div>
           
