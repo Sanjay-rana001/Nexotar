@@ -35,7 +35,7 @@ export function Footer() {
             />
           </div>
         </div>
-        <div className="text-sm text-[var(--color-on-surface-variant)]">© {new Date().getFullYear()} Nexotar. All rights reserved.</div>
+        <div className="text-sm text-[var(--color-on-surface-variant)]">© 2024 Nexotar. All rights reserved.</div>
         <div className="flex gap-6 text-sm text-[var(--color-on-surface-variant)]">
           <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Privacy</a>
           <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Terms</a>
