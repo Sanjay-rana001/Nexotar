@@ -465,7 +465,6 @@ export function HeroGlobe() {
       {/* Single Unified Canvas ensuring no React crashes or WebGL context losses */}
       <div className="w-full h-full absolute inset-0">
         <Canvas 
-          frameloop={isInView ? "always" : "never"} 
           dpr={[1, 1.5]} 
           camera={{ position: [0, 0, 6.1], fov: 45 }} 
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}

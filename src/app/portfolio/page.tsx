@@ -466,7 +466,7 @@ export default function PortfolioPage() {
                  animate={{ y: 0, opacity: 1, scale: 1 }}
                  exit={{ y: 30, opacity: 0, scale: 0.95 }}
                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                 className="bg-[var(--color-surface)] w-full max-w-6xl max-h-[95vh] h-full lg:h-auto overflow-y-auto rounded-[2rem] shadow-2xl flex flex-col relative"
+                 className="bg-white dark:bg-zinc-950 w-full max-w-6xl max-h-[95vh] h-full lg:h-auto overflow-y-auto rounded-[2rem] shadow-2xl flex flex-col relative"
                  onClick={e => e.stopPropagation()} // Prevent closing when clicking inside modal
               >
                  {/* Floating Close Button */}
@@ -487,7 +487,7 @@ export default function PortfolioPage() {
                       className="object-cover" 
                     />
                     {/* Gradient to blend with background */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-surface)] via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-950 via-black/20 to-transparent" />
                     
                     <div className="absolute bottom-10 left-6 md:left-12 max-w-3xl">
                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white drop-shadow-lg">{selectedProject.title}</h2>
@@ -503,7 +503,7 @@ export default function PortfolioPage() {
                  </div>
 
                  {/* Content Section */}
-                 <div className="p-6 md:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-3 gap-12 bg-[var(--color-surface)] relative shrink-0">
+                 <div className="p-6 md:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-3 gap-12 bg-white dark:bg-zinc-950 relative shrink-0">
                     
                     {/* Left Col: Overview & Tech Stack */}
                     <div className="lg:col-span-1 space-y-10">

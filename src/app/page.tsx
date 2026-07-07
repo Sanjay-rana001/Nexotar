@@ -540,8 +540,8 @@ export default function Page() {
                     {...{ style: { color: s.tone === "primary" ? "var(--color-primary-container)" : "var(--color-secondary-fixed-dim)" } as any }}
                   />
                 </div>
-                <h3 className="font-headline-md text-sm md:text-headline-md mb-2 md:mb-3 leading-tight">{s.title}</h3>
-                <p className="text-[var(--color-on-surface-variant)] text-[11px] md:text-body-md line-clamp-4 md:line-clamp-none">{s.body}</p>
+                <h3 className="font-headline-md text-sm md:text-xl lg:text-2xl font-semibold mb-2 md:mb-3 leading-tight">{s.title}</h3>
+                <p className="text-[var(--color-on-surface-variant)] text-[11px] md:text-sm lg:text-base line-clamp-4 md:line-clamp-none">{s.body}</p>
               </motion.div>
             ))}
           </div>
@@ -608,11 +608,12 @@ export default function Page() {
                 className="group relative overflow-hidden rounded-2xl bg-[var(--color-surface-container)] border border-black/5 dark:border-white/10 hover:border-[var(--color-primary-container)]/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl flex flex-col"
               >
                 <div className="aspect-[4/3] overflow-hidden relative bg-[var(--color-surface-container-low)]">
-                  <img 
+                  <Image 
                     src={p.img} 
-                    alt={p.title} 
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                    alt={p.title}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
