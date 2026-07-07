@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ScrollIconToggle } from "@/components/ScrollIconToggle";
 
 const NAV = [
   { label: "Services", href: "/#services" },
@@ -81,6 +82,7 @@ export function Header() {
         </nav>
         
         <div className="flex items-center gap-2 md:gap-3">
+          <ScrollIconToggle alwaysDarkOnTop={isHomePage} />
           <ThemeToggle alwaysDarkOnTop={isHomePage} />
           <a 
             href="tel:+917703988597" 
