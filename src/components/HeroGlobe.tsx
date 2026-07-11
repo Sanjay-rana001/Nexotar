@@ -38,8 +38,8 @@ function SolidMap({ isDark }: { isDark: boolean }) {
   
   const earthMaterial = useMemo(() => {
     const colorVec = isDark 
-      ? new THREE.Vector4(0.145, 0.388, 0.921, 0.85) // Primary blue
-      : new THREE.Vector4(0.05, 0.05, 0.05, 0.85); // Almost black for light mode
+      ? new THREE.Vector4(0.145, 0.388, 0.921, 0.85) // Primary blue (Dark Mode)
+      : new THREE.Vector4(0.902, 0.761, 0.529, 0.9); // Sand/Soil light color for light mode
       
     return new THREE.ShaderMaterial({
       uniforms: {
@@ -69,7 +69,7 @@ function SolidMap({ isDark }: { isDark: boolean }) {
     });
   }, [earthTexture, isDark]);
 
-  return <Sphere args={[2.0, 64, 64]} material={earthMaterial} />;
+  return <Sphere args={[2.0, 48, 48]} material={earthMaterial} />;
 }
 
 // ============================================
@@ -136,8 +136,8 @@ function ClientLocations({ isDark }: { isDark: boolean }) {
   useEffect(() => {
     let active = true;
     const loadPoints = async () => {
-      // Small delay to prevent freezing during initial 3D load
-      await new Promise(r => setTimeout(r, 1500));
+      // Minimal delay to ensure canvas is ready without a long wait
+      await new Promise(r => setTimeout(r, 100));
       if (!active) return;
       try {
         const img = new Image();
@@ -158,13 +158,12 @@ function ClientLocations({ isDark }: { isDark: boolean }) {
         const imgData = ctx.getImageData(0, 0, img.width, img.height).data;
         
         const pts: {pos: THREE.Vector3, offset: number, scale: number}[] = [];
-        const R = 2.01; 
+        const R = 2.01;
         const MAX_ATTEMPTS = 5000;
         let attempts = 0;
         
-        while (pts.length < 60 && attempts < MAX_ATTEMPTS) {
+        while (pts.length < 80 && attempts < MAX_ATTEMPTS) {
           attempts++;
-          
           const u = Math.random();
           const v = Math.acos(2 * Math.random() - 1) / Math.PI; 
           
@@ -258,12 +257,12 @@ function LightGlobeR3F() {
   return (
     <group>
       <group ref={groupRef}>
-        {/* Matte Inner Core (Soft Blue, no glaring white reflections) */}
+        {/* Inner Core matching sand/soil theme */}
         <Sphere args={[1.96, 64, 64]}>
           <meshStandardMaterial 
-            color="#60a5fa"
+            color="#e6c287"
             transparent
-            opacity={0.8}
+            opacity={0.3}
             roughness={0.7}
             metalness={0.1}
           />
@@ -278,10 +277,10 @@ function LightGlobeR3F() {
         {/* Wireframe Grid aligned and rotating with the globe */}
         <Sphere args={[2.005, 36, 18]}>
           <meshBasicMaterial 
-            color="#000000" 
+            color="#c29b62" 
             wireframe 
             transparent 
-            opacity={0.15} 
+            opacity={0.25} 
             blending={THREE.NormalBlending}
           />
         </Sphere>
@@ -338,17 +337,17 @@ export function HeroGlobe() {
             }
           `}} />
           <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[400px] lg:h-[400px] flex items-center justify-center" style={{ animation: 'color-shift 20s linear infinite' }}>
-            <div className="absolute inset-[-40%] rounded-full blur-[40px] opacity-100" style={{
-              background: `radial-gradient(circle, rgba(${eclipsePrimary}, 0.13) 0%, rgba(${eclipseSecondary}, 0.08) 40%, transparent 70%)`
+            <div className="absolute inset-[-40%] rounded-full opacity-100" style={{
+              background: `radial-gradient(circle, rgba(${eclipsePrimary}, 0.05) 0%, rgba(${eclipseSecondary}, 0.03) 40%, transparent 70%)`
             }} />
-            <div className="absolute inset-[-20%] rounded-full blur-[20px] opacity-100" style={{
-              background: `radial-gradient(circle, rgba(${eclipsePale}, 0.15) 0%, transparent 60%)`
+            <div className="absolute inset-[-20%] rounded-full opacity-100" style={{
+              background: `radial-gradient(circle, rgba(${eclipsePale}, 0.08) 0%, transparent 60%)`
             }} />
             <div className="absolute inset-[4px] rounded-full flex items-center justify-center z-10 bg-black" style={{
               boxShadow: `0 0 4px rgba(${eclipsePrimary}, 0.35), 0 0 20px rgba(${eclipseSecondary}, 0.2), inset 0 0 20px rgba(0,0,0,1)`
             }}>
                <div className="absolute inset-10 rounded-full border-[1px] border-dashed border-white/10 animate-spin" style={{ animationDuration: '20s' }} />
-               <div className={`w-16 h-16 bg-gradient-to-tr ${coreGlowClasses} rounded-full opacity-20 blur-xl animate-pulse`} style={{ animationDuration: '4s' }} />
+               <div className={`w-16 h-16 bg-[radial-gradient(circle,rgba(245,158,11,0.2)_0%,transparent_70%)] rounded-full animate-pulse`} style={{ animationDuration: '4s' }} />
                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full">
                  <svg viewBox="0 0 100 30" className="w-[85%] h-auto" style={{ filter: `drop-shadow(0 0 4px ${ecgDropShadow})` }}>
                    <defs>
@@ -443,10 +442,10 @@ export function HeroGlobe() {
               </div>
             </div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.15)_0%,rgba(168,85,247,0.05)_40%,transparent_70%)] animate-pulse" style={{ animationDuration: '6s' }} />
-            <div className="absolute w-20 h-20 bg-[var(--color-primary-container)] rounded-full blur-[30px] opacity-30 animate-pulse" style={{ animationDuration: '4s' }} />
-            <div className="absolute w-8 h-8 bg-white rounded-full blur-[15px] opacity-40 animate-pulse" style={{ animationDuration: '3s' }} />
+            <div className="absolute w-20 h-20 bg-[radial-gradient(circle,rgba(0,112,243,0.3)_0%,transparent_70%)] rounded-full animate-pulse" style={{ animationDuration: '4s' }} />
+            <div className="absolute w-8 h-8 bg-[radial-gradient(circle,rgba(255,255,255,0.4)_0%,transparent_70%)] rounded-full animate-pulse" style={{ animationDuration: '3s' }} />
             <div className="absolute w-12 h-12 md:w-16 md:h-16 border-[1px] border-dashed border-blue-500/30 rounded-full animate-[spin_10s_linear_infinite]" />
-            <div className="absolute w-4 h-4 bg-white rounded-full blur-[4px] opacity-90 shadow-[0_0_20px_#fff]" />
+            <div className="absolute w-4 h-4 bg-[radial-gradient(circle,rgba(255,255,255,0.9)_0%,transparent_70%)] rounded-full shadow-[0_0_20px_#fff]" />
           </div>
         </div>
       );

@@ -154,26 +154,7 @@ function StepBubble({ s, i, processScroll }: { s: any, i: number, processScroll:
           className={`absolute bottom-0 left-0 w-full bg-gradient-to-t ${gradients[i] || gradients[0]} z-0`}
         >
           <div className="absolute top-0 left-0 w-full h-[2px] bg-white/40" />
-          <motion.div 
-            animate={{ y: [0, -50], opacity: [0, 0.8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.2, ease: "easeIn", delay: 0.1 }}
-            className="absolute -bottom-2 left-[20%] w-1.5 h-1.5 bg-white rounded-full"
-          />
-          <motion.div 
-            animate={{ y: [0, -50], opacity: [0, 0.6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeIn", delay: 0.5 }}
-            className="absolute -bottom-2 left-[50%] w-2 h-2 bg-white rounded-full"
-          />
-          <motion.div 
-            animate={{ y: [0, -40], opacity: [0, 0.9, 0] }}
-            transition={{ repeat: Infinity, duration: 1.4, ease: "easeIn", delay: 0.8 }}
-            className="absolute -bottom-2 left-[75%] w-1 h-1 bg-white rounded-full"
-          />
-          <motion.div 
-            animate={{ y: [0, -60], opacity: [0, 0.5, 0] }}
-            transition={{ repeat: Infinity, duration: 2.2, ease: "easeIn", delay: 0.3 }}
-            className="absolute -bottom-2 left-[35%] w-2.5 h-2.5 bg-white rounded-full"
-          />
+          {/* Particle animations removed for performance */}
         </motion.div>
         <motion.span 
           style={{ color: textColor }}
@@ -221,14 +202,17 @@ function MinimalCursor() {
 
   return (
     <>
-      {/* Subtle glow following cursor (Restored original blur style with RAF optimization) */}
+      {/* Subtle glow following cursor (Optimized with radial gradient instead of blur filter) */}
       <motion.div
-        className="fixed pointer-events-none z-[9999] rounded-full bg-gradient-to-r from-[var(--color-primary-container)]/20 to-purple-500/20 blur-2xl"
+        className="fixed pointer-events-none z-[9999] rounded-full"
         style={{
+          background: 'radial-gradient(circle at center, rgba(124, 58, 237, 0.15) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)',
           x: springX,
           y: springY,
-          width: 100,
-          height: 100,
+          width: 150,
+          height: 150,
+          marginLeft: -25, // Offset adjustment due to increased size
+          marginTop: -25,
         }}
       />
     </>
@@ -449,7 +433,7 @@ export default function Page() {
 
       {/* WEBSITE TYPES SECTION */}
       <section className="py-24 relative overflow-hidden bg-[var(--color-surface)]">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--color-primary-container)]/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.05)_0%,transparent_70%)] rounded-full pointer-events-none" />
         <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12 relative z-10">
           <div className="text-center mb-16">
             <h2 className="font-display-lg text-display-md mb-4 bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">Website Types We Design</h2>
@@ -465,7 +449,7 @@ export default function Page() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="group p-5 md:p-8 rounded-2xl bg-[var(--color-surface-container-low)] border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 hover:bg-[var(--color-surface-container)] transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col"
               >
-                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--color-primary-container)]/10 rounded-full blur-2xl group-hover:bg-[var(--color-primary-container)]/20 transition-all duration-500" />
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.1)_0%,transparent_70%)] rounded-full group-hover:bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.15)_0%,transparent_70%)] transition-all duration-500" />
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--color-primary-container)]/10 flex items-center justify-center mb-4 md:mb-6 text-[var(--color-primary-container)] group-hover:scale-110 group-hover:bg-[var(--color-primary-container)] group-hover:text-white transition-all duration-300">
                   <Icon name={type.icon} className="text-[20px] md:text-[24px]" />
                 </div>
@@ -571,8 +555,8 @@ export default function Page() {
 
       {/* SELECTED WORKS - Updated with website fonts */}
       <section id="projects" className="py-24 bg-[var(--color-surface)] relative overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.05)_0%,transparent_70%)] rounded-full pointer-events-none" />
         
         <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
@@ -646,8 +630,8 @@ export default function Page() {
       {/* PRICING SECTION */}
       <section id="pricing" className="py-24 relative">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/3 w-96 h-96 bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
-          <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-500/5 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute top-0 left-1/3 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.03)_0%,transparent_70%)] rounded-full pointer-events-none" />
+          <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.03)_0%,transparent_70%)] rounded-full pointer-events-none" />
         </div>
 
         <div className="max-w-[1440px] mx-auto px-6 md:px-8 lg:px-12">
