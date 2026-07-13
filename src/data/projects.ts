@@ -30,7 +30,7 @@ export const allProjects: Project[] = [
     technologies: ["React", "Next.js", "Tailwind CSS"],
     results: "Helped users save an average of 15% more monthly by providing clear visibility into their spending patterns.",
     insight: "Financial awareness is the first step to financial freedom. A clean UI makes tracking habits frictionless.",
-    img: "/images/expense-tracker.jpg",
+    img: "/images/neobank.jpg",
     url: "https://expanse-tracker-weld.vercel.app/"
   },
   {
