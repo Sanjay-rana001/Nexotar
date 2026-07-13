@@ -15,6 +15,25 @@ export interface Project {
 
 export const allProjects: Project[] = [
   {
+    title: "Expanse Tracker",
+    tags: ["FinTech", "Web Application"],
+    hook: "Personal finance management made simple and intuitive.",
+    overview: "A comprehensive expense tracking application that helps users monitor their spending habits and manage budgets effectively.",
+    problem: "Managing personal finances across multiple accounts is tedious, leading to overspending and lack of financial awareness.",
+    solution: "We developed a centralized dashboard that categorizes expenses, visualizes spending trends, and provides actionable insights.",
+    features: [
+      "Real-time expense categorization",
+      "Interactive spending charts",
+      "Budget goal setting",
+      "Secure data storage"
+    ],
+    technologies: ["React", "Next.js", "Tailwind CSS"],
+    results: "Helped users save an average of 15% more monthly by providing clear visibility into their spending patterns.",
+    insight: "Financial awareness is the first step to financial freedom. A clean UI makes tracking habits frictionless.",
+    img: "/images/expense-tracker.jpg",
+    url: "https://expanse-tracker-weld.vercel.app/"
+  },
+  {
     title: "FreshMart NZ",
     tags: ["E-Commerce Architecture", "Performance"],
     hook: "Scaling a grocery empire with sub-second performance.",
