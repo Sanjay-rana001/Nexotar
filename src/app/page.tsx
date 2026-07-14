@@ -248,7 +248,7 @@ export default function Page() {
   useEffect(() => {
     setMounted(true);
     
-    // Lighthouse hack: Only load 3D on user interaction, or fallback to 4s.
+    // Lighthouse hack: Only load 3D/visuals on user interaction.
     const load3D = () => {
       setMount3D(true);
       window.removeEventListener('mousemove', load3D);
@@ -256,17 +256,11 @@ export default function Page() {
       window.removeEventListener('touchstart', load3D);
     };
     
-    // Only load 3D on desktop (lg breakpoint and above)
-    const isDesktop = window.innerWidth >= 1024;
-    if (isDesktop) {
-      window.addEventListener('mousemove', load3D, { once: true, passive: true });
-      window.addEventListener('scroll', load3D, { once: true, passive: true });
-      window.addEventListener('touchstart', load3D, { once: true, passive: true });
-    } else {
-      // On mobile/tablet, don't load 3D at all
-      setMount3D(false);
-    }
+    window.addEventListener('mousemove', load3D, { once: true, passive: true });
+    window.addEventListener('scroll', load3D, { once: true, passive: true });
+    window.addEventListener('touchstart', load3D, { once: true, passive: true });
     
+    const isDesktop = window.innerWidth >= 1024;
     if (videoRef.current && isDesktop) {
       if (videoRef.current.readyState >= 2) {
         setIsVideoLoaded(true);
@@ -398,7 +392,7 @@ export default function Page() {
             </div>
           </div>
           
-          <div className="hidden md:flex items-center justify-center lg:justify-end mt-8 lg:mt-0 w-full animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="flex items-center justify-center lg:justify-end mt-8 lg:mt-0 w-full animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="relative w-full max-w-[280px] md:max-w-[380px] lg:max-w-[600px] h-[280px] md:h-[380px] lg:h-[600px]">
               <div className="absolute inset-0 pointer-events-none z-10 hidden lg:block">
                 <div className="absolute top-[5%] left-[10%] opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-float">
