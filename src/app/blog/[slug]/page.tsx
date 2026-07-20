@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${post.title} | Nexotar`,
-    description: post.excerpt,
+    description: post.description,
     openGraph: {
       title: post.title,
-      description: post.excerpt,
+      description: post.description,
       type: 'article',
       publishedTime: post.date,
       authors: ['Nexotar'],
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.excerpt,
+      description: post.description,
       images: [post.image],
     },
   };
