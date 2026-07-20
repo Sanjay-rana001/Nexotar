@@ -70,7 +70,7 @@ export default function BlogPostClient({ post }: Props) {
               </div>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-semibold mb-8 text-white leading-snug md:leading-snug drop-shadow-lg">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-6 md:mb-8 text-white leading-snug md:leading-snug drop-shadow-lg">
               {post.title}
             </h1>
             
@@ -138,7 +138,7 @@ export default function BlogPostClient({ post }: Props) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="prose prose-lg md:prose-xl dark:prose-invert prose-headings:font-display prose-headings:font-semibold prose-a:text-[var(--color-primary-container)] max-w-none text-[var(--color-on-surface)] whitespace-pre-wrap leading-relaxed"
+            className="prose prose-base sm:prose-lg md:prose-xl dark:prose-invert prose-headings:font-display prose-headings:font-semibold prose-a:text-[var(--color-primary-container)] max-w-none text-[var(--color-on-surface)] whitespace-pre-wrap leading-relaxed"
           >
             {post.content}
           </motion.div>

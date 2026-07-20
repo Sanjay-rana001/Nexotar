@@ -23,7 +23,7 @@ export default function BlogIndex() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/5 dark:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/20 rounded-full w-fit mb-8">
               <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-on-surface)]">Insights & News</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-display font-semibold mb-6 tracking-tight text-[var(--color-on-surface)]">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-semibold mb-6 tracking-tight text-[var(--color-on-surface)]">
               Nexotar <span className="text-[var(--color-primary-container)]">Journal</span>
             </h1>
             <p className="text-lg md:text-xl text-[var(--color-on-surface-variant)] max-w-2xl mx-auto">
@@ -43,7 +43,7 @@ export default function BlogIndex() {
         >
           <Link href={`/blog/${featuredPost.slug}`} className="group block relative rounded-3xl overflow-hidden bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 transition-all hover:border-[var(--color-primary-container)]/50">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-              <div className="h-[300px] lg:h-[500px] relative overflow-hidden">
+              <div className="h-[250px] sm:h-[300px] lg:h-[500px] relative overflow-hidden">
                 <img 
                   src={featuredPost.image} 
                   alt={featuredPost.title} 
@@ -53,7 +53,7 @@ export default function BlogIndex() {
                   {featuredPost.category}
                 </div>
               </div>
-              <div className="p-8 lg:p-12 flex flex-col justify-center">
+              <div className="p-5 sm:p-8 lg:p-12 flex flex-col justify-center">
                 <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-on-surface-variant)] mb-6 font-medium">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="w-4 h-4" />
