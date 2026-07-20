@@ -263,10 +263,8 @@ export default function Page() {
 
     // Lighthouse hack: Only load 3D/visuals on user interaction.
     const load3D = () => {
-      // Only mount 3D if it's a high-end device
-      if (isHighEnd) {
-        setMount3D(true);
-      }
+      // Always mount 3D (HeroGlobe) on interaction
+      setMount3D(true);
       window.removeEventListener('mousemove', load3D);
       window.removeEventListener('scroll', load3D);
       window.removeEventListener('touchstart', load3D);
