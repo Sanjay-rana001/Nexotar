@@ -29,9 +29,20 @@ export function ThemeToggle({ alwaysDarkOnTop = false }: { alwaysDarkOnTop?: boo
   // and we haven't scrolled down yet, we MUST force white/glass styling so it's visible.
   const forceWhite = alwaysDarkOnTop && !isScrolled;
 
+  const toggleTheme = () => {
+    const nextTheme = isDark ? "light" : "dark";
+    if (!document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+    document.startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+  };
+
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={toggleTheme}
       className={`w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-sm hover:scale-110 transition-colors relative overflow-hidden border ${
         forceWhite
           ? 'border-white/30 bg-white/10 text-white hover:bg-white/20'

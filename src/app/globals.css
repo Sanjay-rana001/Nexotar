@@ -280,3 +280,27 @@ html, body {
     height: 4px !important;
   }
 }
+
+/* Theme Transition Waterfall Effect */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: waterfall 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 100;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+@keyframes waterfall {
+  from {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
