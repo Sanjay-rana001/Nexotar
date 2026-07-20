@@ -40,14 +40,20 @@ export function ThemeToggle({ alwaysDarkOnTop = false }: { alwaysDarkOnTop?: boo
     });
 
     transition.ready.then(() => {
-      // Use 60 points for a perfectly smooth, rounded curve (removes all pointy edges)
-      const points = 60;
+      const isMobileOrTablet = window.innerWidth < 1024;
+      // Ultra-high 100 points to mathematically guarantee perfectly round curves everywhere
+      const points = 100;
+      
+      // Mobile/Tablet: 2.5 waves (PI*5), very gentle height (1.5)
+      // Desktop: Original 3 waves (PI*6), deep aggressive height (5)
+      const waveCount = isMobileOrTablet ? 5 : 6;
+      const waveHeight = isMobileOrTablet ? 1.5 : 5;
+
       const startWavyBottom = [];
       const endWavyBottom = [];
       for (let i = points; i >= 0; i--) {
         const x = (i / points) * 100;
-        // Exactly 2.5 waves, but reduced height (* 3 instead of * 5) for a very gentle sweep
-        const wave = Math.sin((i / points) * Math.PI * 5) * 3;
+        const wave = Math.sin((i / points) * Math.PI * waveCount) * waveHeight;
         startWavyBottom.push(`${x.toFixed(1)}% ${(-10 + wave).toFixed(1)}%`);
         endWavyBottom.push(`${x.toFixed(1)}% ${(120 + wave).toFixed(1)}%`);
       }
