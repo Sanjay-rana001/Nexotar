@@ -20,7 +20,7 @@ export const blogPosts: BlogPost[] = [
     date: "July 20, 2026",
     author: "Nexotar Engineering",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/blog-1.jpg",
     category: "Engineering",
     tags: ["SaaS", "Architecture", "Cost Analysis"]
   },
@@ -32,7 +32,7 @@ export const blogPosts: BlogPost[] = [
     date: "July 18, 2026",
     author: "Nexotar AI Team",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2065&auto=format&fit=crop",
+    image: "/images/blog-2.jpg",
     category: "Artificial Intelligence",
     tags: ["AI", "Generative UI", "User Experience"]
   },
@@ -44,7 +44,7 @@ export const blogPosts: BlogPost[] = [
     date: "July 15, 2026",
     author: "Nexotar Engineering",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/blog-3.jpg",
     category: "Web Development",
     tags: ["React", "Next.js", "Performance"]
   }
