@@ -281,26 +281,20 @@ html, body {
   }
 }
 
-/* Theme Transition Wave Effect */
+/* Theme Transition Global Overrides */
 ::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+::view-transition-new(root),
+::view-transition-image-pair(root),
+::view-transition-group(root) {
+  animation: none !important;
+  mix-blend-mode: normal !important;
 }
 
-::view-transition-new(root) {
-  animation: wave 1.5s cubic-bezier(0.5, 0, 0.2, 1);
-  z-index: 100;
-}
 ::view-transition-old(root) {
   z-index: 1;
+  opacity: 1 !important;
+  display: block !important;
 }
-
-@keyframes wave {
-  from {
-    clip-path: circle(0% at 90% 10%);
-  }
-  to {
-    clip-path: circle(150% at 90% 10%);
-  }
+::view-transition-new(root) {
+  z-index: 2147483646;
 }

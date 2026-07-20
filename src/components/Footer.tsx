@@ -94,47 +94,7 @@ export function Footer() {
           </div>
 
           <div className="space-y-4">
-            {/* Phone Number */}
-            <a 
-              href="tel:+918178546141" 
-              className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[var(--color-primary-container)]/30 transition-all hover:bg-[var(--color-surface-container)] group"
-            >
-              <div className="w-12 h-12 rounded-full bg-[var(--color-primary-container)]/10 flex items-center justify-center flex-shrink-0">
-                <Phone className="w-5 h-5 text-[var(--color-primary-container)]" />
-              </div>
-              <div className="flex-1 text-left">
-                <p className="text-sm text-[var(--color-on-surface-variant)]">Phone</p>
-                <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[var(--color-primary-container)] transition-colors">
-                  +91 81785 46141
-                </p>
-              </div>
-              <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-
-            {/* WhatsApp Number 1 */}
-            <a 
-              href="https://wa.me/918178546141" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group"
-            >
-              <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center flex-shrink-0">
-                <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
-              </div>
-              <div className="flex-1 text-left">
-                <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp</p>
-                <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
-                  +91 81785 46141
-                </p>
-              </div>
-              <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-
-            {/* WhatsApp Number 2 */}
+            {/* WhatsApp 1 */}
             <a 
               href="https://wa.me/917703988597" 
               target="_blank" 
@@ -145,9 +105,30 @@ export function Footer() {
                 <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
               </div>
               <div className="flex-1 text-left">
-                <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp (Alt)</p>
+                <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp Sanjay Rana</p>
                 <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
                   +91 77039 88597
+                </p>
+              </div>
+              <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            {/* WhatsApp 2 */}
+            <a 
+              href="https://wa.me/918178546141" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center flex-shrink-0">
+                <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
+              </div>
+              <div className="flex-1 text-left">
+                <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp Nikhil Soni</p>
+                <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
+                  +91 81785 46141
                 </p>
               </div>
               <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -383,9 +383,15 @@ export default function Page() {
               We combine world-class engineering with sophisticated AI to build products that define the next generation of the web.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
-              <a href="https://wa.me/918178546141" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto justify-center inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1">
+              <button 
+                onClick={() => {
+                  const modal = document.getElementById('contactModal') as HTMLDialogElement;
+                  if (modal) modal.showModal();
+                }}
+                className="w-full sm:w-auto justify-center inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1"
+              >
                 <WhatsAppIcon className="w-5 h-5" /> Let's Chat
-              </a>
+              </button>
               <Link href="/portfolio" className="w-full sm:w-auto justify-center border border-white/30 backdrop-blur-sm bg-white/10 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2">
                 View Portfolio <Icon name="arrow_forward" className="!text-[18px]" />
               </Link>
@@ -796,10 +802,11 @@ export default function Page() {
                   })}
                 </ul>
 
-                <a
-                  href="https://wa.me/918178546141"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => {
+                    const modal = document.getElementById('contactModal') as HTMLDialogElement;
+                    if (modal) modal.showModal();
+                  }}
                   className={`
                     relative z-10 mt-auto w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all
                     ${plan.buttonVariant === 'solid'
@@ -809,7 +816,7 @@ export default function Page() {
                   `}
                 >
                   {plan.buttonText}
-                </a>
+                </button>
 
                 {(plan.name === "Pro" || plan.name === "Business") && (
                   <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] text-xs font-semibold tracking-wide whitespace-nowrap">
@@ -1084,16 +1091,17 @@ export default function Page() {
             </p>
             
             <div className="flex flex-wrap items-center gap-4">
-              <motion.a 
-                href="https://wa.me/918178546141" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <motion.button 
+                onClick={() => {
+                  const modal = document.getElementById('contactModal') as HTMLDialogElement;
+                  if (modal) modal.showModal();
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-3 bg-[#1a8c4a] text-white font-semibold px-8 py-3.5 rounded-xl shadow-[0_0_30px_rgba(26,140,74,0.2)] hover:shadow-[0_0_50px_rgba(26,140,74,0.4)] transition-shadow hover:bg-[#157a3f]"
               >
                 <WhatsAppIcon className="w-5 h-5" /> Chat on WhatsApp
-              </motion.a>
+              </motion.button>
               
               <span className="text-sm text-[var(--color-on-surface-variant)] font-medium px-2">
                 Usually responds in 5 minutes

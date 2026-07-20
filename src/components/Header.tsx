@@ -85,8 +85,11 @@ export function Header() {
         <div className="flex items-center gap-2 md:gap-3">
           <ScrollIconToggle alwaysDarkOnTop={isHomePage} />
           <ThemeToggle alwaysDarkOnTop={isHomePage} />
-          <a 
-            href="tel:+917703988597" 
+          <button 
+            onClick={() => {
+              const modal = document.getElementById('contactModal') as HTMLDialogElement;
+              if (modal) modal.showModal();
+            }}
             className={`hidden sm:inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg whitespace-nowrap ${
               isScrolled || !isHomePage
                 ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
@@ -94,8 +97,8 @@ export function Header() {
             }`}
           >
             <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" /> 
-            <span>Call now</span>
-          </a>
+            <span>Contact</span>
+          </button>
         </div>
       </div>
     </header>

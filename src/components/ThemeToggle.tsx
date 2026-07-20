@@ -35,8 +35,35 @@ export function ThemeToggle({ alwaysDarkOnTop = false }: { alwaysDarkOnTop?: boo
       setTheme(nextTheme);
       return;
     }
-    document.startViewTransition(() => {
+    const transition = document.startViewTransition(() => {
       setTheme(nextTheme);
+    });
+
+    transition.ready.then(() => {
+      const points = 40;
+      const startWavyBottom = [];
+      const endWavyBottom = [];
+      for (let i = points; i >= 0; i--) {
+        const x = (i / points) * 100;
+        const wave = Math.sin((i / points) * Math.PI * 6) * 5;
+        startWavyBottom.push(`${x.toFixed(1)}% ${(-10 + wave).toFixed(1)}%`);
+        endWavyBottom.push(`${x.toFixed(1)}% ${(120 + wave).toFixed(1)}%`);
+      }
+      const startClip = `polygon(0% 0%, 100% 0%, ${startWavyBottom.join(', ')})`;
+      const endClip = `polygon(0% 0%, 100% 0%, ${endWavyBottom.join(', ')})`;
+
+      document.documentElement.animate(
+        [
+          { clipPath: startClip },
+          { clipPath: endClip }
+        ],
+        { 
+          duration: 1500, 
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)", 
+          pseudoElement: "::view-transition-new(root)", 
+          fill: "forwards" 
+        }
+      );
     });
   };
 
