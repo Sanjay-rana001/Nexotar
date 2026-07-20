@@ -51,13 +51,13 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Contact Modal */}
+      {/* Contact Modal (Calls & WhatsApp) */}
       <dialog 
         id="contactModal" 
-        className="rounded-2xl p-0 backdrop:bg-black/50 backdrop:backdrop-blur-sm max-w-md w-full mx-auto border border-black/10 dark:border-white/10 bg-white dark:bg-black shadow-2xl"
+        className="fixed inset-0 m-0 w-full h-full max-w-none max-h-none bg-transparent backdrop:bg-black/50 backdrop:backdrop-blur-sm"
       >
-        <div className="p-8 relative">
-          {/* Close button */}
+        <div className="flex items-center justify-center min-h-screen p-4">
+          <div className="bg-white dark:bg-black w-full max-w-md p-8 rounded-2xl relative max-h-[85vh] overflow-y-auto shadow-2xl border border-black/10 dark:border-white/10 overscroll-contain">
           <button 
             onClick={() => {
               const modal = document.getElementById('contactModal') as HTMLDialogElement;
@@ -71,77 +71,119 @@ export function Footer() {
           </button>
 
           <div className="text-center mb-8">
-            {/* Light mode logo in modal */}
             <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 dark:hidden block">
-              <img 
-                src="/images/nexotar_logo_dark.png" 
-                alt="Nexotar" 
-                className="w-full h-full object-contain"
-              />
+              <img src="/images/nexotar_logo_dark.png" alt="Nexotar" className="w-full h-full object-contain" />
             </div>
-            {/* Dark mode logo in modal */}
             <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 dark:block hidden">
-              <img 
-                src="/images/nexotar_logo.png" 
-                alt="Nexotar" 
-                className="w-full h-full object-contain"
-              />
+              <img src="/images/nexotar_logo.png" alt="Nexotar" className="w-full h-full object-contain" />
             </div>
-            <h3 className="font-display text-2xl font-semibold text-black dark:text-white transition-colors duration-300">
-              Contact Us
-            </h3>
+            <h3 className="font-display text-2xl font-semibold text-black dark:text-white">Contact Us</h3>
             <p className="text-sm text-[var(--color-on-surface-variant)] mt-1">Reach out to us via phone or WhatsApp</p>
           </div>
 
-          <div className="space-y-4">
-            {/* WhatsApp 1 */}
-            <a 
-              href="https://wa.me/917703988597" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group"
-            >
-              <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center flex-shrink-0">
-                <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
+          <div className="grid grid-cols-2 gap-3">
+            {/* Call Sanjay */}
+            <a href="tel:+917703988597" className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-blue-500/30 transition-all hover:bg-blue-500/5 group">
+              <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                <Phone className="w-4 h-4 text-blue-500" />
               </div>
-              <div className="flex-1 text-left">
-                <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp Sanjay Rana</p>
-                <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
-                  +91 77039 88597
-                </p>
+              <div>
+                <p className="text-xs text-[var(--color-on-surface-variant)]">Call Sanjay</p>
+                <p className="font-semibold text-xs sm:text-sm text-[var(--color-on-surface)] group-hover:text-blue-500 transition-colors mt-0.5">77039 88597</p>
               </div>
-              <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
             </a>
 
-            {/* WhatsApp 2 */}
-            <a 
-              href="https://wa.me/918178546141" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group"
-            >
-              <div className="w-12 h-12 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center flex-shrink-0">
-                <WhatsAppIcon className="w-5 h-5 text-[#1a8c4a]" />
+            {/* Call Nikhil */}
+            <a href="tel:+918178546141" className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-blue-500/30 transition-all hover:bg-blue-500/5 group">
+              <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                <Phone className="w-4 h-4 text-blue-500" />
               </div>
-              <div className="flex-1 text-left">
-                <p className="text-sm text-[var(--color-on-surface-variant)]">WhatsApp Nikhil Soni</p>
-                <p className="font-semibold text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors">
-                  +91 81785 46141
-                </p>
+              <div>
+                <p className="text-xs text-[var(--color-on-surface-variant)]">Call Nikhil</p>
+                <p className="font-semibold text-xs sm:text-sm text-[var(--color-on-surface)] group-hover:text-blue-500 transition-colors mt-0.5">81785 46141</p>
               </div>
-              <svg className="w-5 h-5 text-[var(--color-on-surface-variant)] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
+            </a>
+
+            {/* WhatsApp Sanjay */}
+            <a href="https://wa.me/917703988597" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group">
+              <div className="w-10 h-10 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center">
+                <WhatsAppIcon className="w-4 h-4 text-[#1a8c4a]" />
+              </div>
+              <div>
+                <p className="text-xs text-[var(--color-on-surface-variant)]">Chat Sanjay</p>
+                <p className="font-semibold text-xs sm:text-sm text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors mt-0.5">77039 88597</p>
+              </div>
+            </a>
+
+            {/* WhatsApp Nikhil */}
+            <a href="https://wa.me/918178546141" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group">
+              <div className="w-10 h-10 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center">
+                <WhatsAppIcon className="w-4 h-4 text-[#1a8c4a]" />
+              </div>
+              <div>
+                <p className="text-xs text-[var(--color-on-surface-variant)]">Chat Nikhil</p>
+                <p className="font-semibold text-xs sm:text-sm text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors mt-0.5">81785 46141</p>
+              </div>
             </a>
           </div>
+        </div>
+        </div>
+      </dialog>
 
-          <div className="mt-6 pt-6 border-t border-black/5 dark:border-white/5 text-center">
-            <p className="text-xs text-[var(--color-on-surface-variant)]">
-              We respond within 1 business day
-            </p>
+      {/* WhatsApp Only Modal */}
+      <dialog 
+        id="whatsappModal" 
+        className="fixed inset-0 m-0 w-full h-full max-w-none max-h-none bg-transparent backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+      >
+        <div className="flex items-center justify-center min-h-screen p-4">
+          <div className="bg-white dark:bg-black w-full max-w-md p-8 rounded-2xl relative max-h-[85vh] overflow-y-auto shadow-2xl border border-black/10 dark:border-white/10 overscroll-contain">
+          <button 
+            onClick={() => {
+              const modal = document.getElementById('whatsappModal') as HTMLDialogElement;
+              if (modal) modal.close();
+            }}
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <div className="text-center mb-8">
+            <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 dark:hidden block">
+              <img src="/images/nexotar_logo_dark.png" alt="Nexotar" className="w-full h-full object-contain" />
+            </div>
+            <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 dark:block hidden">
+              <img src="/images/nexotar_logo.png" alt="Nexotar" className="w-full h-full object-contain" />
+            </div>
+            <h3 className="font-display text-2xl font-semibold text-black dark:text-white">Chat With Us</h3>
+            <p className="text-sm text-[var(--color-on-surface-variant)] mt-1">We usually reply within 5 minutes</p>
           </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {/* WhatsApp Sanjay */}
+            <a href="https://wa.me/917703988597" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group">
+              <div className="w-10 h-10 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center">
+                <WhatsAppIcon className="w-4 h-4 text-[#1a8c4a]" />
+              </div>
+              <div>
+                <p className="text-xs text-[var(--color-on-surface-variant)]">Sanjay Rana</p>
+                <p className="font-semibold text-xs sm:text-sm text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors mt-0.5">77039 88597</p>
+              </div>
+            </a>
+
+            {/* WhatsApp Nikhil */}
+            <a href="https://wa.me/918178546141" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-black/5 dark:border-white/5 hover:border-[#1a8c4a]/30 transition-all hover:bg-[#1a8c4a]/5 group">
+              <div className="w-10 h-10 rounded-full bg-[#1a8c4a]/10 flex items-center justify-center">
+                <WhatsAppIcon className="w-4 h-4 text-[#1a8c4a]" />
+              </div>
+              <div>
+                <p className="text-xs text-[var(--color-on-surface-variant)]">Nikhil Soni</p>
+                <p className="font-semibold text-xs sm:text-sm text-[var(--color-on-surface)] group-hover:text-[#1a8c4a] transition-colors mt-0.5">81785 46141</p>
+              </div>
+            </a>
+          </div>
+        </div>
         </div>
       </dialog>
     </footer>

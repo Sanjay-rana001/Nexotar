@@ -385,7 +385,7 @@ export default function Page() {
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
               <button 
                 onClick={() => {
-                  const modal = document.getElementById('contactModal') as HTMLDialogElement;
+                  const modal = document.getElementById('whatsappModal') as HTMLDialogElement;
                   if (modal) modal.showModal();
                 }}
                 className="w-full sm:w-auto justify-center inline-flex items-center gap-2 bg-[#1ebd5a] text-white font-bold px-8 py-4 rounded-xl shadow-xl shadow-black/40 hover:bg-[#179b4a] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-1"
@@ -1093,7 +1093,7 @@ export default function Page() {
             <div className="flex flex-wrap items-center gap-4">
               <motion.button 
                 onClick={() => {
-                  const modal = document.getElementById('contactModal') as HTMLDialogElement;
+                  const modal = document.getElementById('whatsappModal') as HTMLDialogElement;
                   if (modal) modal.showModal();
                 }}
                 whileHover={{ scale: 1.05 }}

@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from 'react';
 import { notFound } from 'next/navigation';
 import { blogPosts } from '@/data/blog';
 import Link from 'next/link';
@@ -7,13 +8,14 @@ import { ArrowLeft, Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 
 import { motion, useScroll, useSpring } from 'framer-motion';
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default function BlogPost({ params }: Props) {
-  const post = blogPosts.find((p) => p.slug === params.slug);
+  const { slug } = use(params);
+  const post = blogPosts.find((p) => p.slug === slug);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -35,10 +37,10 @@ export default function BlogPost({ params }: Props) {
       />
 
       {/* Hero Cover Image Header */}
-      <header className="relative pt-32 pb-24 md:pt-40 md:pb-32 px-4 md:px-8 overflow-hidden">
+      <header className="relative pt-40 pb-24 md:pt-48 md:pb-32 px-4 md:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/50 dark:bg-black/70 mix-blend-multiply z-10" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-[var(--color-surface)] z-10" />
+          <div className="absolute inset-0 bg-black/70 dark:bg-black/80 mix-blend-multiply z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-[var(--color-surface)] z-10" />
           <img 
             src={post.image} 
             alt={post.title}
@@ -70,7 +72,7 @@ export default function BlogPost({ params }: Props) {
               </div>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-display font-semibold mb-6 text-white leading-tight drop-shadow-lg">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-semibold mb-8 text-white leading-snug md:leading-snug drop-shadow-lg">
               {post.title}
             </h1>
             
