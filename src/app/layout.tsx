@@ -26,7 +26,10 @@ export const metadata: Metadata = {
     template: '%s | Nexotar',
   },
   description: 'Nexotar is a digital studio combining world-class engineering and AI to ship products that define the next generation of the web. Web Dev, SaaS, AI integrations.',
-  keywords: ['Web Development', 'SaaS', 'AI Integration', 'Digital Studio', 'Nexotar', 'React', 'Next.js', 'UI/UX Design', 'Software Agency'],
+  keywords: ['Web Development', 'SaaS', 'AI Integration', 'Digital Studio', 'Nexotar', 'React', 'Next.js', 'UI/UX Design', 'Software Agency', 'Custom Web Development', 'AI Software Solutions', 'Digital Transformation', 'Full Stack Development', 'Software Development Company'],
+  alternates: {
+    canonical: '/',
+  },
   authors: [{ name: 'Nexotar' }],
   creator: 'Nexotar',
   openGraph: {
@@ -65,6 +68,30 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${dmSans.variable} ${dmSerif.variable}`}>
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Nexotar",
+              "url": "https://nexotar.com",
+              "logo": "https://nexotar.com/favicon.ico",
+              "description": "Nexotar is a digital studio combining world-class engineering and AI to ship products that define the next generation of the web."
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Nexotar",
+              "url": "https://nexotar.com/"
+            })
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>

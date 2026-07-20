@@ -12,6 +12,7 @@ const NAV = [
   { label: "Process", href: "/#process" },
   { label: "Work", href: "/#projects" },
   { label: "Pricing", href: "/#pricing" },
+  { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/#faq" },
 ];
 
