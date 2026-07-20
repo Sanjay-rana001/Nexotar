@@ -22,28 +22,34 @@ import { Footer } from '@/components/Footer';
 export const metadata: Metadata = {
   metadataBase: new URL('https://nexotar.com'),
   title: {
-    default: 'Nexotar | Building Modern Digital Experiences That Scale',
+    default: 'Nexotar | Premium SaaS, AI & Custom Web Development Agency',
     template: '%s | Nexotar',
   },
-  description: 'Nexotar is a digital studio combining world-class engineering and AI to ship products that define the next generation of the web. Web Dev, SaaS, AI integrations.',
-  keywords: ['Web Development', 'SaaS', 'AI Integration', 'Digital Studio', 'Nexotar', 'React', 'Next.js', 'UI/UX Design', 'Software Agency', 'Custom Web Development', 'AI Software Solutions', 'Digital Transformation', 'Full Stack Development', 'Software Development Company'],
+  description: 'Nexotar is a premium software development agency specializing in scalable SaaS applications, custom AI integrations, and high-performance Next.js web development for modern businesses.',
+  keywords: [
+    'Software Development Agency', 'SaaS Development Company', 'Custom AI Integration',
+    'Next.js Web Development', 'React Developers', 'Full Stack Engineering', 
+    'Web App Development', 'E-commerce Solutions', 'UI/UX Design Agency',
+    'Digital Transformation', 'Tech Startup Developers', 'Enterprise Software',
+    'Nexotar', 'Web Development India'
+  ],
   alternates: {
     canonical: '/',
   },
-  authors: [{ name: 'Nexotar' }],
+  authors: [{ name: 'Nexotar Engineering' }],
   creator: 'Nexotar',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://nexotar.com',
-    title: 'Nexotar | Building Modern Digital Experiences That Scale',
-    description: 'Nexotar is a digital studio combining world-class engineering and AI to ship products that define the next generation of the web.',
+    title: 'Nexotar | Premium SaaS, AI & Custom Web Development',
+    description: 'We build scalable SaaS applications, custom AI integrations, and high-performance websites that drive growth and digital transformation.',
     siteName: 'Nexotar',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nexotar | Building Modern Digital Experiences That Scale',
-    description: 'Nexotar is a digital studio combining world-class engineering and AI to ship products that define the next generation of the web.',
+    title: 'Nexotar | Premium SaaS & Web Development',
+    description: 'We build scalable SaaS applications, custom AI integrations, and high-performance websites.',
     creator: '@nexotar',
   },
   robots: {
@@ -77,7 +83,7 @@ export default function RootLayout({
               "name": "Nexotar",
               "url": "https://nexotar.com",
               "logo": "https://nexotar.com/favicon.ico",
-              "description": "Nexotar is a digital studio combining world-class engineering and AI to ship products that define the next generation of the web."
+              "description": "Nexotar is a premium software development agency specializing in scalable SaaS applications, custom AI integrations, and high-performance Next.js web development for modern businesses."
             })
           }}
         />

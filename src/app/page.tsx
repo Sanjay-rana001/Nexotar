@@ -228,6 +228,7 @@ export default function Page() {
   const [isCursorVisible, setIsCursorVisible] = useState(true);
   const [isBotVisible, setIsBotVisible] = useState(false); // Hidden by default
   const [loadHeavyComponents, setLoadHeavyComponents] = useState(false);
+  const [isHighEndDevice, setIsHighEndDevice] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const processRef = useRef<HTMLElement>(null);
@@ -247,10 +248,17 @@ export default function Page() {
 
   useEffect(() => {
     setMounted(true);
-    
+    // Check hardware for performance scaling
+    const cores = navigator.hardwareConcurrency || 4;
+    const isHighEnd = cores >= 4;
+    setIsHighEndDevice(isHighEnd);
+
     // Lighthouse hack: Only load 3D/visuals on user interaction.
     const load3D = () => {
-      setMount3D(true);
+      // Only mount 3D if it's a high-end device
+      if (isHighEnd) {
+        setMount3D(true);
+      }
       window.removeEventListener('mousemove', load3D);
       window.removeEventListener('scroll', load3D);
       window.removeEventListener('touchstart', load3D);
@@ -319,10 +327,12 @@ export default function Page() {
       
       <div className="fixed inset-0 -z-10 pointer-events-none aurora opacity-60" />
       
-      {/* Bot Container - Only on desktop (lg+) */}
-      <div className="hidden lg:block">
-        {mount3D && <RobotMascot isVisible={isBotVisible} />}
-      </div>
+      {/* Bot Container - Only on high-end desktop (lg+) */}
+      {isHighEndDevice && (
+        <div className="hidden lg:block">
+          {mount3D && <RobotMascot isVisible={isBotVisible} />}
+        </div>
+      )}
       
 
       {/* HERO SECTION */}
@@ -1160,7 +1170,10 @@ export default function Page() {
       {/* Footer is extracted to global layout */}
       <ScrollToTopButton />
       
-      {/* Bot Toggle Button - Only visible on desktop (lg+) */}
-      <BotToggleButton isBotVisible={isBotVisible} onToggle={toggleBot} />    </div>
+      {/* Conditional Bot Toggle Button */}
+      {isHighEndDevice && (
+        <BotToggleButton isBotVisible={isBotVisible} onToggle={toggleBot} />
+      )}
+    </div>
   );
 }

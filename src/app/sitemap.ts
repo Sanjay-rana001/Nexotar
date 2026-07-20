@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
+import { blogPosts } from '@/data/blog'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: 'https://nexotar.com',
       lastModified: new Date(),
@@ -26,5 +27,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.9,
     },
-  ]
+  ];
+
+  const dynamicBlogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `https://nexotar.com/blog/${post.slug}`,
+    lastModified: new Date(post.date), // Using the post's date for lastModified
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...dynamicBlogRoutes];
 }
