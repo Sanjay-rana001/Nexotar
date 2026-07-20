@@ -40,15 +40,14 @@ export function ThemeToggle({ alwaysDarkOnTop = false }: { alwaysDarkOnTop?: boo
     });
 
     transition.ready.then(() => {
-      // Use 25 points instead of 40 to drastically improve mobile GPU performance
-      // while keeping the exact same wavy look as desktop.
-      const points = 25;
+      // Use 60 points for a perfectly smooth, rounded curve (removes all pointy edges)
+      const points = 60;
       const startWavyBottom = [];
       const endWavyBottom = [];
       for (let i = points; i >= 0; i--) {
         const x = (i / points) * 100;
-        // Exactly 2.5 waves across the screen (Math.PI * 5)
-        const wave = Math.sin((i / points) * Math.PI * 5) * 5;
+        // Exactly 2.5 waves, but reduced height (* 3 instead of * 5) for a very gentle sweep
+        const wave = Math.sin((i / points) * Math.PI * 5) * 3;
         startWavyBottom.push(`${x.toFixed(1)}% ${(-10 + wave).toFixed(1)}%`);
         endWavyBottom.push(`${x.toFixed(1)}% ${(120 + wave).toFixed(1)}%`);
       }
