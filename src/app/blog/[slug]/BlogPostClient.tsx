@@ -104,15 +104,30 @@ export default function BlogPostClient({ post }: Props) {
               <Share2 className="w-4 h-4" /> Share Article
             </p>
             <div className="flex gap-2">
-              <button className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-black/10 dark:border-white/10 flex items-center justify-center hover:text-blue-600 hover:border-blue-600 transition-colors">
+              <a 
+                href={`https://twitter.com/intent/tweet?url=https://nexotar.com/blog/${post.slug}&text=Check out this article: ${encodeURIComponent(post.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-black/10 dark:border-white/10 flex items-center justify-center hover:text-blue-600 hover:border-blue-600 transition-colors"
+              >
                 <Twitter className="w-4 h-4" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-black/10 dark:border-white/10 flex items-center justify-center hover:text-blue-800 hover:border-blue-800 transition-colors">
+              </a>
+              <a 
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=https://nexotar.com/blog/${post.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-black/10 dark:border-white/10 flex items-center justify-center hover:text-blue-800 hover:border-blue-800 transition-colors"
+              >
                 <Linkedin className="w-4 h-4" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-black/10 dark:border-white/10 flex items-center justify-center hover:text-blue-700 hover:border-blue-700 transition-colors">
+              </a>
+              <a 
+                href={`https://www.facebook.com/sharer/sharer.php?u=https://nexotar.com/blog/${post.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-black/10 dark:border-white/10 flex items-center justify-center hover:text-blue-700 hover:border-blue-700 transition-colors"
+              >
                 <Facebook className="w-4 h-4" />
-              </button>
+              </a>
             </div>
           </div>
         </aside>
