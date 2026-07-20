@@ -7,8 +7,10 @@ import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 
+import { BlogPost } from '@/data/blog';
+
 interface Props {
-  post: any;
+  post: BlogPost;
 }
 
 export default function BlogPostClient({ post }: Props) {
