@@ -20,8 +20,10 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Only the homepage has a dark globe video at the top
+  // Pages that have a dark full-screen cover at the top (video or dark image)
   const isHomePage = pathname === "/";
+  const isBlogPost = pathname.startsWith("/blog/") && pathname.length > 6;
+  const isDarkHero = isHomePage || isBlogPost;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,17 +47,17 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 md:gap-3 flex-shrink-0">
           {/* Responsive Theme & Scroll Logo */}
           <div className="relative w-12 h-12 md:w-16 md:h-16 lg:w-[72px] lg:h-[72px]">
-            {/* Light Mode: White Logo (visible at top of homepage ONLY) */}
+            {/* Light Mode: White Logo (visible at top of dark hero pages ONLY) */}
             <img 
               src="/images/nexotar_logo.png" 
               alt="Nexotar" 
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled || !isHomePage ? 'opacity-0' : 'opacity-100'}`}
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled || !isDarkHero ? 'opacity-0' : 'opacity-100'}`}
             />
-            {/* Light Mode: Dark Logo (visible when scrolled OR on non-homepage routes) */}
+            {/* Light Mode: Dark Logo (visible when scrolled OR on non-dark-hero routes) */}
             <img 
               src="/images/nexotar_logo_dark.png" 
               alt="Nexotar" 
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled || !isHomePage ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 dark:hidden ${isScrolled || !isDarkHero ? 'opacity-100' : 'opacity-0'}`}
             />
             {/* Dark Mode: Always use White Logo */}
             <img 
@@ -72,9 +74,9 @@ export function Header() {
               key={n.href} 
               href={n.href} 
               className={`text-sm font-medium transition-all duration-300 ${
-                isScrolled || !isHomePage
+                isScrolled || !isDarkHero
                   ? 'text-gray-700 dark:text-white/80 hover:text-black dark:hover:text-white' 
-                  : 'text-white/90 hover:text-white drop-shadow-md' // Always white at top of homepage because video is dark
+                  : 'text-white/90 hover:text-white drop-shadow-md' // Always white at top of dark hero pages
               }`}
             >
               {n.label}
@@ -83,17 +85,17 @@ export function Header() {
         </nav>
         
         <div className="flex items-center gap-2 md:gap-3">
-          <ScrollIconToggle alwaysDarkOnTop={isHomePage} />
-          <ThemeToggle alwaysDarkOnTop={isHomePage} />
+          <ScrollIconToggle alwaysDarkOnTop={isDarkHero} />
+          <ThemeToggle alwaysDarkOnTop={isDarkHero} />
           <button 
             onClick={() => {
               const modal = document.getElementById('contactModal') as HTMLDialogElement;
               if (modal) modal.showModal();
             }}
             className={`hidden sm:inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg whitespace-nowrap ${
-              isScrolled || !isHomePage
+              isScrolled || !isDarkHero
                 ? 'border-[var(--color-primary-container)]/30 bg-[var(--color-primary-container)]/10 text-[var(--color-primary-container)] hover:bg-[var(--color-primary-container)] hover:text-[var(--color-on-primary-container)] border' 
-                : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border' // Always glass/white at top of homepage
+                : 'border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border' // Always glass/white at top of dark hero
             }`}
           >
             <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" /> 
