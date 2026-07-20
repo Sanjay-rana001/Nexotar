@@ -47,8 +47,8 @@ export function ThemeToggle({ alwaysDarkOnTop = false }: { alwaysDarkOnTop?: boo
       const endWavyBottom = [];
       for (let i = points; i >= 0; i--) {
         const x = (i / points) * 100;
-        // Reduced from Math.PI * 6 down to Math.PI * 2 for a single gentle, sweeping wave (less zigzag)
-        const wave = Math.sin((i / points) * Math.PI * 2) * 5;
+        // Exactly 2.5 waves across the screen (Math.PI * 5)
+        const wave = Math.sin((i / points) * Math.PI * 5) * 5;
         startWavyBottom.push(`${x.toFixed(1)}% ${(-10 + wave).toFixed(1)}%`);
         endWavyBottom.push(`${x.toFixed(1)}% ${(120 + wave).toFixed(1)}%`);
       }
