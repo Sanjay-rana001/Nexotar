@@ -82,7 +82,7 @@ export default function BlogPostClient({ post }: Props) {
       </header>
 
       {/* Main Content Layout */}
-      <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col lg:flex-row gap-12 relative z-20 -mt-10">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col lg:flex-row gap-12 relative z-20 pt-8">
         
         {/* Left Sidebar (Author & Share) */}
         <aside className="lg:w-64 flex-shrink-0 lg:sticky lg:top-32 h-fit hidden lg:block">
