@@ -248,9 +248,19 @@ export default function Page() {
 
   useEffect(() => {
     setMounted(true);
-    // Check hardware for performance scaling
+    // Strict hardware check for heavy 3D rendering (Robot)
+    const userAgent = navigator.userAgent || '';
+    // Check for iPhone, iPad, iPod, or M1/M2 iPads acting as MacIntel with touch
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
     const cores = navigator.hardwareConcurrency || 4;
-    const isHighEnd = cores >= 4;
+    const memory = (navigator as any).deviceMemory || 8;
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // High-end: 
+    // 1. If it's an iPhone or iPad, allow it (Apple's chips handle WebGL very well).
+    // 2. Otherwise, must be a Desktop AND have 8+ CPU cores AND have 8GB+ RAM.
+    const isHighEnd = isIOS || (!isMobile && cores >= 8 && memory >= 8);
     setIsHighEndDevice(isHighEnd);
 
     // Lighthouse hack: Only load 3D/visuals on user interaction.
