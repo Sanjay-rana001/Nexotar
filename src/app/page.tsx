@@ -259,8 +259,8 @@ export default function Page() {
     
     // High-end: 
     // 1. If it's an iPhone or iPad, allow it (Apple's chips handle WebGL very well).
-    // 2. Otherwise, must be a Desktop AND have 8+ CPU cores AND have 8GB+ RAM.
-    const isHighEnd = isIOS || (!isMobile && cores >= 8 && memory >= 8);
+    // 2. Otherwise, must be a Desktop AND have at least 4 CPU cores.
+    const isHighEnd = isIOS || (!isMobile && cores >= 4);
     setIsHighEndDevice(isHighEnd);
 
     // Lighthouse hack: Only load 3D/visuals on user interaction.
